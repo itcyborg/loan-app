@@ -44,7 +44,6 @@ class ClientsController extends Controller
             'identification_document' => 'required',
             'identification_number' => 'required',
             'primary_contact' => 'required',
-//            'alternative_contact'=>'required',
             'address' => 'required',
             'nationality' => 'required',
             'date_of_birth' => 'required',
@@ -57,7 +56,6 @@ class ClientsController extends Controller
             'kin_date_of_birth' => 'required',
             'kin_gender' => 'required',
             'kin_primary_contact' => 'required',
-//            'kin_alternative_contact'=>'required',
             'kin_address' => 'required'
         ]);
         $client=$request->all();
@@ -78,8 +76,10 @@ class ClientsController extends Controller
                 'client_id'=>$client->id
             ];
             $kin=NextOfKin::create($kinData);
+            if(!$kin){
+                Clients::delete($client->id);
+            }
         }
-        dd($kin);
     }
 
     /**
