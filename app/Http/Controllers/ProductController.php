@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\LoanApplication;
 use App\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class LoanApplicationController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +14,7 @@ class LoanApplicationController extends Controller
      */
     public function index()
     {
-        return LoanApplication::all();
+        return Product::all();
     }
 
     /**
@@ -38,30 +36,25 @@ class LoanApplicationController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'client_id'=>'required',
-            'amount_applied'=>'required',
-            'amount_approved'=>'required',
-            'total_interest'=>'required',
-            'charges'=>'required',
-            'duration'=>'required',
-            'purpose'=>'required',
-            'repayment_frequency'=>'required',
-            'product_id'=>'required'
+            'name'=>'required',
+            'code'=>'required',
+            'min_amount'=>'required',
+            'max_amount'=>'required',
+            'rate'=>'required',
+            'min_duration'=>'required',
+            'max_duration'=>'required',
+            'security'=>'required'
         ]);
-
-        $data=$request->all()->toArray();
-        $data['user_id']=Auth::id();
-        $data['rate']=Product::find($request->product_id)->rate;
-        return LoanApplication::create($data);
+        return Product::create($request->all());
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\LoanApplication  $loanApplication
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(LoanApplication $loanApplication)
+    public function show(Product $product)
     {
         //
     }
@@ -69,10 +62,10 @@ class LoanApplicationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\LoanApplication  $loanApplication
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(LoanApplication $loanApplication)
+    public function edit(Product $product)
     {
         //
     }
@@ -81,10 +74,10 @@ class LoanApplicationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\LoanApplication  $loanApplication
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, LoanApplication $loanApplication)
+    public function update(Request $request, Product $product)
     {
         //
     }
@@ -92,10 +85,10 @@ class LoanApplicationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\LoanApplication  $loanApplication
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(LoanApplication $loanApplication)
+    public function destroy(Product $product)
     {
         //
     }
