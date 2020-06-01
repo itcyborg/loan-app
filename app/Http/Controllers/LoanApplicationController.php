@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\LoanApplication;
 use App\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -82,11 +83,37 @@ class LoanApplicationController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\LoanApplication  $loanApplication
-     * @return \Illuminate\Http\Response
+     * @return bool|\Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
     public function update(Request $request, LoanApplication $loanApplication)
     {
-        //
+        if(!$loanApplication){
+            return response()->json(['message'=>'Loan application not found'],404);
+        }
+        if($request->action === 'update'){
+            if($loanApplication){
+                return $loanApplication->update($request->all());
+            }
+        }
+        // todo enforce roles checking
+        if($request->action === 'approve'){
+            $loanApplication->status='APPROVED';
+            $loanApplication->amount_approved=$request->amount_approved;
+            $calcResults=self::calc($loanApplication->duration,$loanApplication->amount_approved,$loanApplication->rate);
+            $loanApplication->total_interest=$calcResults->interest;
+            $loanApplication->approval_date=Carbon::now();
+            $loanApplication->save();
+        }
+        if($request->action === 'disburse'){
+            $loanApplication->satus='DISBURSED';
+            $loanApplication->disbursement_date=Carbon::now();
+            $loanApplication->due_date=Carbon::now()->addMonths($loanApplication->duration);
+            $loanApplication->save();
+        }
+        if ($request->action === 'reject'){
+            $loanApplication->satus='REJECTED';
+            $loanApplication->save();
+        }
     }
 
     /**
@@ -98,5 +125,17 @@ class LoanApplicationController extends Controller
     public function destroy(LoanApplication $loanApplication)
     {
         //
+    }
+
+    private static function calc($term, $principle, $rate)
+    {
+        $daysInYear = 365;
+        $amount = 0;
+        $interest = 0;
+        $frequency = 12;
+        // formula to calculate amount: [P(1+(r/n))^(nt)]
+        $amount = $principle * pow(1 + ($rate / $frequency), ($term));
+        $interest = $amount - $principle;
+        return json_encode(['amount' => $amount, 'interest' => $interest]);
     }
 }
