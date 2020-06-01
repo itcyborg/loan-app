@@ -6,6 +6,8 @@ use App\Clients;
 use App\NextOfKin;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class ClientsController extends Controller
 {
@@ -16,13 +18,15 @@ class ClientsController extends Controller
      */
     public function index()
     {
-        return Clients::all();
+        return Cache::remember('clients',300,function(){
+            return DB::table('clients')->get();
+        });
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function create()
     {
@@ -32,8 +36,9 @@ class ClientsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function store(Request $request)
     {
@@ -80,13 +85,14 @@ class ClientsController extends Controller
                 Clients::delete($client->id);
             }
         }
+        return $client;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Clients  $clients
-     * @return \Illuminate\Http\Response
+     * @param \App\Clients $clients
+     * @return void
      */
     public function show(Clients $clients)
     {
@@ -96,8 +102,8 @@ class ClientsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Clients  $clients
-     * @return \Illuminate\Http\Response
+     * @param \App\Clients $clients
+     * @return void
      */
     public function edit(Clients $clients)
     {
@@ -107,20 +113,19 @@ class ClientsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Clients  $clients
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return array
      */
-    public function update(Request $request, Clients $clients)
+    public function update(Request $request)
     {
-        //
+        return $request->all();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Clients  $clients
-     * @return \Illuminate\Http\Response
+     * @param \App\Clients $clients
+     * @return void
      */
     public function destroy(Clients $clients)
     {

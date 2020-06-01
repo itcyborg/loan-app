@@ -14,5 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 Route::resources([
     'client'=>'ClientsController',
-    'next-of-kin'=>'NextOfKinController'
+    'next-of-kin'=>'NextOfKinController',
+    'products'=>'ProductController',
+    'loan-applications'=>'LoanApplicationController',
+    'collateral'=>'CollateralsController'
 ]);
