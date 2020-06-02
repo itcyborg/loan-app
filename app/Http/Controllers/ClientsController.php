@@ -129,6 +129,6 @@ class ClientsController extends Controller
      */
     public function destroy(Clients $clients)
     {
-        //
+        // 
     }
 }
