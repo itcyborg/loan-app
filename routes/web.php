@@ -15,8 +15,10 @@
 */
 
 Route::get('/',function (){
-    return view('welcome');
+    return view('auth.login');
 });
+Auth::routes();
+Route::get('home','HomeController@index');
 Route::resources([
     'client'=>'ClientsController',
     'next-of-kin'=>'NextOfKinController',
