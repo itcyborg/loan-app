@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\PermissionDataTable;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
 
 class PermissionsController extends Controller
 {
@@ -35,7 +36,11 @@ class PermissionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'name'=>'required'
+        ]);
+        $permission=Permission::create(['name'=>$request->name]);
+        return redirect()->back();
     }
 
     /**
