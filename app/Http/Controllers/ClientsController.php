@@ -3,24 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Clients;
+use App\DataTables\ClientsDataTable;
 use App\NextOfKin;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
 
 class ClientsController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param \App\DataTables\ClientsDataTable $dataTable
      * @return \App\Clients[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
      */
-    public function index()
+    public function index(ClientsDataTable $dataTable)
     {
-        return Cache::remember('clients',300,function(){
-            return DB::table('clients')->get();
+        $clients= Cache::remember('clients',300,function(){
+            return Clients::all();
         });
+        if (request()->ajax()) {
+            return DataTables::of($clients)
+                ->editColumn('created_at',function (Clients $clients){
+                    return \Illuminate\Support\Carbon::parse($clients->created_at)->toFormattedDateString();
+                })
+                ->editColumn('updated_at',function (Clients $clients){
+                    return Carbon::parse($clients->updated_at)->toFormattedDateString();
+                })
+                ->editColumn('date_of_birth',function (Clients $clients){
+                    return Carbon::parse($clients->date_of_birth)->toFormattedDateString();
+                })->toJson();
+        }
+
+        return $dataTable->render('superadministrator.clients');
     }
 
     /**
@@ -129,6 +145,6 @@ class ClientsController extends Controller
      */
     public function destroy(Clients $clients)
     {
-        // 
+        //
     }
 }

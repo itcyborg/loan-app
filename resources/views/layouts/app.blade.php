@@ -16,8 +16,10 @@
         @include('layouts.content')
     @show
 </div>
-<div class="container">
-    @yield('content')
-</div>
+<script src="{{asset('assets/js/core/jquery.min.js')}}"></script>
+<script src="{{asset('assets/js/core/popper.min.js')}}"></script>
+<script src="{{asset('assets/js/core/bootstrap-material-design.min.js')}}"></script>
+<script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+@yield('scripts')
 </body>
 </html>
