@@ -20,7 +20,7 @@ class ClientsController extends Controller
      */
     public function index(ClientsDataTable $dataTable)
     {
-        $clients= Cache::remember('clients',300,function(){
+        $clients= Cache::remember('clients',600,function(){
             return Clients::all();
         });
         if (request()->ajax()) {

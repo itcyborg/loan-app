@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\LoanApplicationDataTable;
 use App\LoanApplication;
 use App\Product;
 use Carbon\Carbon;
@@ -15,9 +16,9 @@ class LoanApplicationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(LoanApplicationDataTable $dataTable)
     {
-        return LoanApplication::all();
+        return $dataTable->render('superadministrator.loan_applications');
     }
 
     /**
