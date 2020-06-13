@@ -28,7 +28,7 @@
         <p>Products</p>
     </a>
 </li>
-<li class="nav-item {{ Request::is('clients*') ? 'active' : '' }}">
+<li class="nav-item {{ Request::is('client*') ? 'active' : '' }}">
     <a class="nav-link" href="{{route('client.index')}}">
         <i class="material-icons">people_alt</i>
         <p>Clients</p>
