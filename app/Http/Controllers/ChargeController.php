@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\ProductDataTable;
-use App\Product;
+use App\Charge;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class ChargeController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(ProductDataTable $dataTable)
+    public function index()
     {
-        return $dataTable->render('superadministrator.products');
+        //
     }
 
     /**
@@ -36,27 +35,16 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'name'=>'required',
-            'code'=>'required|unique:products,code',
-            'min_amount'=>'required',
-            'max_amount'=>'required',
-            'rate'=>'required',
-            'min_duration'=>'required',
-            'max_duration'=>'required',
-            'security'=>'required'
-        ]);
-        Product::create($request->all());
-        return redirect()->route('products.index');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Product  $product
+     * @param  \App\Charge  $charge
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(Charge $charge)
     {
         //
     }
@@ -64,10 +52,10 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Product  $product
+     * @param  \App\Charge  $charge
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit(Charge $charge)
     {
         //
     }
@@ -76,10 +64,10 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product  $product
+     * @param  \App\Charge  $charge
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, Charge $charge)
     {
         //
     }
@@ -87,10 +75,10 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Product  $product
+     * @param  \App\Charge  $charge
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Charge $charge)
     {
         //
     }

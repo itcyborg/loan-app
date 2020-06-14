@@ -49,6 +49,12 @@
                                             {!! Form::number('max_duration',null,['class'=>'form-control','placeholder'=>'Max Duration']) !!}
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {!! Form::label('security','Security') !!}
+                                            {!! Form::text('security',null,['class'=>'form-control','placeholder'=>'Security']) !!}
+                                        </div>
+                                    </div>
                                     {!! Form::submit('Add',['class'=>'btn btn-primary']) !!}
                                     {!! Form::close() !!}
                                 </div>

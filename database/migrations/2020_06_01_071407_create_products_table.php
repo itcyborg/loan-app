@@ -23,7 +23,6 @@ class CreateProductsTable extends Migration
             $table->unsignedInteger('min_duration');
             $table->unsignedInteger('max_duration');
             $table->unsignedDouble('security');
-            $table->longText('charges')->nullable();
             $table->enum('status',['ACTIVE','INACTIVE'])->default('INACTIVE');
             $table->timestamps();
         });
