@@ -19,6 +19,7 @@
 <script src="{{asset('assets/js/core/jquery.min.js')}}"></script>
 <script src="{{asset('assets/js/core/popper.min.js')}}"></script>
 <script src="{{asset('assets/js/core/bootstrap-material-design.min.js')}}"></script>
+@notifyJs
 <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 @yield('scripts')

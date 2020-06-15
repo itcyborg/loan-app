@@ -3,6 +3,7 @@
     <div class="content">
         <div class="container-fluid">
             <!-- your content here -->
+            @include('notify::messages')
             @yield('content')
         </div>
     </div>

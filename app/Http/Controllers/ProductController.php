@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\ProductDataTable;
 use App\Product;
 use Illuminate\Http\Request;
+use TheSeer\Tokenizer\Exception;
 
 class ProductController extends Controller
 {
@@ -46,7 +47,13 @@ class ProductController extends Controller
             'max_duration'=>'required',
             'security'=>'required'
         ]);
-        Product::create($request->all());
+        try{
+            Product::create($request->all());
+            notify()->success('The product was successfully added.');
+        }catch (Exception $e){
+            notify()->error('An error occurred adding a product.');
+        }
+
         return redirect()->route('products.index');
     }
 
