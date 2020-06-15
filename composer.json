@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "laravelcollective/html": "^6.1",
+        "mckenziearts/laravel-notify": "^1.1",
         "owen-it/laravel-auditing": "^10.0",
         "spatie/laravel-permission": "^3.13",
         "yajra/laravel-datatables": "^1.5"
