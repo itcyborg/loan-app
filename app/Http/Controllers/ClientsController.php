@@ -70,13 +70,15 @@ class ClientsController extends Controller
             'date_of_birth' => 'required',
         ]);
         $client=$request->all();
-        $client['date_of_birth']=Carbon::parse($request->date_of_birth)->toDateString();
-        try{
-            Clients::create($client);
-        }catch (\Throwable $e){
 
+        try{
+            $client['date_of_birth']=Carbon::parse($request->date_of_birth)->toDateString();
+            Clients::create($client);
+            notify()->success('Client successfully added');
+        }catch (\Throwable $e){
+            notify()->error('An error occurred adding the client');
         }
-        return $client;
+        return redirect()->route('client.index');
     }
 
     /**
