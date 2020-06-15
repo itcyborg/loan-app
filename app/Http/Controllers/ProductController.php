@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\DataTables\ProductDataTable;
 use App\Product;
 use Illuminate\Http\Request;
-use TheSeer\Tokenizer\Exception;
 
 class ProductController extends Controller
 {
@@ -50,7 +49,7 @@ class ProductController extends Controller
         try{
             Product::create($request->all());
             notify()->success('The product was successfully added.');
-        }catch (Exception $e){
+        }catch (\Throwable $e){
             notify()->error('An error occurred adding a product.');
         }
 
