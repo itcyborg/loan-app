@@ -15,6 +15,10 @@ class CreateChargesTable extends Migration
     {
         Schema::create('charges', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->double('amount');
+            $table->enum('type',['FIXED','PERCENTAGE']);
+            $table->unsignedBigInteger('product_id');
             $table->timestamps();
         });
     }

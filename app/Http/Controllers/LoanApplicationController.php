@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Charge;
+use App\Clients;
 use App\DataTables\LoanApplicationDataTable;
 use App\LoanApplication;
 use App\Product;
@@ -28,33 +30,39 @@ class LoanApplicationController extends Controller
      */
     public function create()
     {
-        //
+        return view('superadministrator.loan_applications_create',['clients'=>Clients::all(),'products'=>Product::all()]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $this->validate($request,[
             'client_id'=>'required',
             'amount_applied'=>'required',
-            'amount_approved'=>'required',
-            'total_interest'=>'required',
-            'charges'=>'required',
             'duration'=>'required',
             'purpose'=>'required',
             'repayment_frequency'=>'required',
             'product_id'=>'required'
         ]);
 
-        $data=$request->all()->toArray();
+        $data=$request->all();
         $data['user_id']=Auth::id();
         $data['rate']=Product::find($request->product_id)->rate;
-        return LoanApplication::create($data);
+        $data['charges']=json_encode(Charge::where('product_id',$request->product_id)->get());
+        $data['total_interest']=json_decode(self::calc($request->duration,$request->amount_applied,$data['rate']))->interest;
+        try{
+            LoanApplication::create($data);
+            notify()->success('Client details saved');
+            return redirect()->route('next-of-kin.create');
+        }catch (\Throwable $e){
+            notify()->error('An error occurred');
+            return redirect()->route('loan-applications.create');
+        }
     }
 
     /**
@@ -134,6 +142,7 @@ class LoanApplicationController extends Controller
         $amount = 0;
         $interest = 0;
         $frequency = 12;
+        $rate=$rate/100;
         // formula to calculate amount: [P(1+(r/n))^(nt)]
         $amount = $principle * pow(1 + ($rate / $frequency), ($term));
         $interest = $amount - $principle;

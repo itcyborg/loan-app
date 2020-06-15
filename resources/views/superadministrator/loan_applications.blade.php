@@ -3,6 +3,17 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
+                <div class="card-body">
+                    <a href="{{route('loan-applications.create')}}" class="btn btn-primary">
+                        New Loan Application
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
                 <div class="card-header card-header-primary">
                     <div class="card-title">Loan Applications</div>
                 </div>

@@ -20,12 +20,12 @@ class ClientsController extends Controller
      */
     public function index(ClientsDataTable $dataTable)
     {
-        $clients= Cache::remember('clients',60,function(){
+        $clients= Cache::remember('clients',150,function(){
             return Clients::all();
         });
         if (request()->ajax()) {
             return DataTables::of($clients)
-                ->editColumn('created_at',function (Clients $clients){
+                ->editColumn('created_at', function (Clients $clients){
                     return \Illuminate\Support\Carbon::parse($clients->created_at)->toFormattedDateString();
                 })
                 ->editColumn('updated_at',function (Clients $clients){
