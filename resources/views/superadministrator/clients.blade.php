@@ -14,7 +14,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="form">
-                                    {!! Form::open(['route'=>'products.store']) !!}
+                                    {!! Form::open(['route'=>'client.store']) !!}
                                     <div class="row">
                                         <div class="form-group col-md-4">
                                             {!! Form::text('name',null,['class'=>'form-control','placeholder'=>'Client Full Name']) !!}
