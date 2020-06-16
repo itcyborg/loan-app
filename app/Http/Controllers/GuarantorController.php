@@ -20,22 +20,36 @@ class GuarantorController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        return view('superadministrator.guarantor_create',['application_id'=>$request->application_id]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'name'=>'required',
+            'application_id'=>'required',
+            'identification_number'=>'required',
+            'identification_document'=>'required',
+            'contact'=>'required'
+        ]);
+        try {
+            $guarantor=Guarantor::create($request->all());
+            notify()->success('Guarantor added successfully');
+            return redirect()->route('loan-applications.index');
+        }catch (\Throwable $e){
+            notify()->error('An error occurred adding guarantor.');
+            return redirect()->back();
+        }
     }
 
     /**
