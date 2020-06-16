@@ -46,7 +46,7 @@ class CollateralsController extends Controller
         try {
             $collateral=Collaterals::create($request->all());
             notify()->success('Collateral has been successfully added.');
-            return redirect()->route('guarantor.create');
+            return redirect()->route('guarantor.create',['application_id'=>$request->application_id]);
         }catch (\Throwable $e){
             notify()->error('An error occurred');
             return redirect()->route('collateral.create');
