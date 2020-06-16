@@ -14,6 +14,7 @@ class CollateralsController extends Controller
      */
     public function index()
     {
+
         return Collaterals::all();
     }
 
@@ -22,9 +23,11 @@ class CollateralsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request,$id)
     {
         //
+        dump($id);
+        dd($request->all());
     }
 
     /**

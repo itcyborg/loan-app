@@ -16,6 +16,7 @@ class CreateNextOfkinsTable extends Migration
         Schema::create('next_ofkins', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('client_id');
+            $table->unsignedBigInteger('loan_applications_id');
             $table->string('name');
             $table->string('email')->unique()->nullable();
             $table->enum('gender',['MALE','FEMALE']);

@@ -19,6 +19,7 @@ class NextOfKin extends Model
         'gender',
         'primary_contact',
         'alternative_contact',
-        'address'
+        'address',
+        'loan_applications_id'
     ];
 }

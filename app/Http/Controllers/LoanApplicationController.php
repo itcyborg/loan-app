@@ -56,9 +56,9 @@ class LoanApplicationController extends Controller
         $data['charges']=json_encode(Charge::where('product_id',$request->product_id)->get());
         $data['total_interest']=json_decode(self::calc($request->duration,$request->amount_applied,$data['rate']))->interest;
         try{
-            LoanApplication::create($data);
+            $loan=LoanApplication::create($data);
             notify()->success('Client details saved');
-            return redirect()->route('next-of-kin.create');
+            return redirect()->route('next-of-kin.create',['application_id'=>$loan->id,'client_id'=>$request->client_id]);
         }catch (\Throwable $e){
             notify()->error('An error occurred');
             return redirect()->route('loan-applications.create');
@@ -68,8 +68,8 @@ class LoanApplicationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\LoanApplication  $loanApplication
-     * @return \Illuminate\Http\Response
+     * @param \App\LoanApplication $loanApplication
+     * @return void
      */
     public function show(LoanApplication $loanApplication)
     {

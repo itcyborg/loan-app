@@ -20,11 +20,12 @@ class NextOfKinController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+        return view('superadministrator.next_of_kin',['application_id'=>$request->application_id,'client_id'=>$request->client_id]);
     }
 
     /**
@@ -35,7 +36,26 @@ class NextOfKinController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'client_id'=>'required',
+            'loan_applications_id'=>'required',
+            'identification_number'=>'required',
+            'identification_document'=>'required',
+            'primary_contact'=>'required',
+            'email'=>'required',
+            'gender'=>'required',
+            'name'=>'required',
+            'address'=>'required',
+            'nationality'=>'required',
+            'relation'=>'required'
+        ]);
+        try {
+            $nextofkin=NextOfkin::create($request->all());
+            dd($nextofkin);
+        }catch (\Throwable $e){
+            dd($e);
+        }
+//        dd($request->all());
     }
 
     /**
