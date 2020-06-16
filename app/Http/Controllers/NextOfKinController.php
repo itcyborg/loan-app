@@ -32,7 +32,7 @@ class NextOfKinController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -51,11 +51,12 @@ class NextOfKinController extends Controller
         ]);
         try {
             $nextofkin=NextOfkin::create($request->all());
-            dd($nextofkin);
+            notify()->success('Next of Kin successfully added.');
+            return redirect()->route('collateral.create',['application_id'=>$request->loan_applications_id]);
         }catch (\Throwable $e){
-            dd($e);
+            notify()->error('An error occurred adding Next of Kin. '.$e->getMessage());
+            return redirect()->route('next-of-kin.create');
         }
-//        dd($request->all());
     }
 
     /**

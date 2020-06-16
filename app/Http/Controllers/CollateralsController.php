@@ -21,20 +21,18 @@ class CollateralsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
-    public function create(Request $request,$id)
+    public function create(Request $request)
     {
-        //
-        dump($id);
-        dd($request->all());
+        return view('superadministrator.collateral_create',['application_id'=>$request->application_id]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse|void
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
@@ -43,10 +41,16 @@ class CollateralsController extends Controller
             'application_id'=>'required',
             'type'=>'required',
             'details'=>'required',
-            'value'=>'required|number'
+            'value'=>'required|numeric'
         ]);
-
-        return Collaterals::create($request->all());
+        try {
+            $collateral=Collaterals::create($request->all());
+            notify()->success('Collateral has been successfully added.');
+            return redirect()->route('guarantor.create');
+        }catch (\Throwable $e){
+            notify()->error('An error occurred');
+            return redirect()->route('collateral.create');
+        }
     }
 
     /**
