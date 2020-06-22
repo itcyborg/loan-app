@@ -9,7 +9,7 @@
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport'/>
     <!-- Extra details for Live View on GitHub Pages -->
     <!-- Canonical SEO -->
-    <link rel="canonical" href="https://www.creative-tim.com/product/material-dashboard-pro"/>
+{{--    <link rel="canonical" href="https://www.creative-tim.com/product/material-dashboard-pro"/>--}}
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"/>
@@ -34,12 +34,6 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav">
-                <li class="nav-item ">
-                    <a href="{{url(route('register'))}}" class="nav-link">
-                        <i class="material-icons">person_add</i>
-                        Register
-                    </a>
-                </li>
                 <li class="nav-item  active">
                     <a href="{{url(route('login'))}}" class="nav-link">
                         <i class="material-icons">fingerprint</i>
@@ -75,11 +69,11 @@
 </div>
 <!--   Core JS Files   -->
 <script src="{{asset('assets/js/core/jquery.min.js')}}"></script>
-<script src="{{asset('assets/js/core/popper.min.js')}}"></script>
-<script src="{{asset('assets/js/core/bootstrap-material-design.min.js')}}"></script>
-<script src="{{asset('assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
+{{--<script src="{{asset('assets/js/core/popper.min.js')}}"></script>--}}
+{{--<script src="{{asset('assets/js/core/bootstrap-material-design.min.js')}}"></script>--}}
+{{--<script src="{{asset('assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>--}}
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-<script src="{{asset('assets/js/material-dashboard.min.js')}}" type="text/javascript"></script>
+{{--<script src="{{asset('assets/js/material-dashboard.min.js')}}" type="text/javascript"></script>--}}
 </body>
 
 </html>
