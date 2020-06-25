@@ -3,19 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\UsersDataTable;
+use App\Notifications\UserCreated;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
+use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param \App\DataTables\UsersDataTable $dataTable
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function index(UsersDataTable $dataTable)
     {
-        return $dataTable->render('superadministrator.users');
+        return $dataTable->render('superadministrator.users',['roles'=>Role::all()]);
     }
 
     /**
@@ -32,11 +38,33 @@ class UsersController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'name'=>'required',
+            'email'=>'required|email:rfc',
+            'role'=>'required'
+        ]);
+        try {
+            $random = str_shuffle('abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890!$%^&!$%^&');
+            $password = substr($random, 0, 10);
+            $data=[
+                'name'=>$request->name,
+                'email'=>$request->email,
+                'password'=>Hash::make($password)
+            ];
+            $user=User::create($data);
+            $user->assignRole($request->role);
+            $mail=$data;
+            $mail['password_raw']=$password;
+            $mail=json_decode(json_encode($mail));
+            Notification::route('mail',$data['email'])->notify(new UserCreated($mail));
+            return redirect()->route('users.index');
+        }catch (\Throwable $e){
+            return $e->getMessage();
+        }
     }
 
     /**

@@ -24,7 +24,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        Auth::user()->assignRole('superadministrator');
         return view('welcome');
     }
 }
