@@ -56,6 +56,9 @@ class UsersController extends Controller
                 'password'=>Hash::make($password)
             ];
             $user=User::create($data);
+            $user->removeRole('superadministrator');
+            $user->removeRole('administrator');
+            $user->removeRole('user');
             $user->assignRole($request->role);
             $mail=$data;
             $mail['password_raw']=$password;
