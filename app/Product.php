@@ -23,4 +23,9 @@ class Product extends Model implements Auditable
     protected $casts=[
         'charges'=>'json'
     ];
+
+    public function charges()
+    {
+        return $this->hasMany(Charge::class,'product_id','id');
+    }
 }

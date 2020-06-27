@@ -20,7 +20,6 @@ class CreateLoanApplicationsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->enum('status',['PENDING','APPROVED','DISBURSED','REJECTED','SETTLED'])->default('PENDING');
             $table->unsignedDouble('rate');
-            $table->longText('charges');
             $table->unsignedDouble('amount_applied');
             $table->unsignedDouble('amount_approved');
             $table->unsignedDouble('total_interest');

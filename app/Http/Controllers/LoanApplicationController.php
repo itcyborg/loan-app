@@ -69,11 +69,12 @@ class LoanApplicationController extends Controller
      * Display the specified resource.
      *
      * @param \App\LoanApplication $loanApplication
-     * @return void
+     * @return \Illuminate\Http\JsonResponse|void
      */
-    public function show(LoanApplication $loanApplication)
+    public function show($id)
     {
-        //
+        $loanApplication=LoanApplication::with(['product','client','user','repayments','collaterals','guarantors','nextofkins','charges'])->find($id);
+        return response()->json($loanApplication);
     }
 
     /**

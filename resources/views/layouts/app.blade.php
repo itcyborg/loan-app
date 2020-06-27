@@ -17,6 +17,7 @@
     @show
 </div>
 <script src="{{asset('assets/js/core/jquery.min.js')}}"></script>
+<script src="{{asset('assets/js/helpers.js')}}" defer async></script>
 <script src="{{asset('assets/js/core/popper.min.js')}}"></script>
 <script src="{{asset('assets/js/core/bootstrap-material-design.min.js')}}"></script>
 @notifyJs

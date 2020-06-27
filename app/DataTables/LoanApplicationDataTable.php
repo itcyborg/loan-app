@@ -21,7 +21,8 @@ class LoanApplicationDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'loanapplication.action');
+            ->addColumn('action', 'actions.loanapplication_action')
+            ->rawColumns(['action']);
     }
 
     /**

@@ -13,7 +13,6 @@ class LoanApplication extends Model implements Auditable
         'amount_applied',
         'amount_approved',
         'total_interest',
-        'charges',
         'status',
         'rate',
         'duration',
@@ -26,7 +25,43 @@ class LoanApplication extends Model implements Auditable
         'disbursement_date'
     ];
 
-    protected $casts=[
-        'charges'=>'json'
-    ];
+    public function product()
+    {
+        return $this->hasOne(Product::class,'id','product_id');
+    }
+
+    public function client()
+    {
+        return $this->hasOne(Clients::class,'id','client_id');
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class,'id','user_id');
+    }
+
+    public function repayments()
+    {
+        return $this->hasMany(Repayment::class,'loan_application_id','id');
+    }
+
+    public function collaterals()
+    {
+        return $this->hasMany(Collaterals::class,'application_id','id');
+    }
+
+    public function nextofkins()
+    {
+        return $this->hasMany(NextOfKin::class,'loan_applications_id','id');
+    }
+
+    public function guarantors()
+    {
+        return $this->hasMany(Guarantor::class,'application_id','id');
+    }
+
+    public function charges()
+    {
+        return $this->hasManyThrough(Charge::class,Product::class,'id','product_id','product_id','id');
+    }
 }
