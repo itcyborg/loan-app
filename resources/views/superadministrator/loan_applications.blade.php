@@ -29,3 +29,4 @@
 @section('scripts')
     {{$dataTable->scripts()}}
 @endsection
+@include('modals.view_loan_application')

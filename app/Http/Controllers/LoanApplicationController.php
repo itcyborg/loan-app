@@ -16,6 +16,7 @@ class LoanApplicationController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param \App\DataTables\LoanApplicationDataTable $dataTable
      * @return \Illuminate\Http\Response
      */
     public function index(LoanApplicationDataTable $dataTable)
