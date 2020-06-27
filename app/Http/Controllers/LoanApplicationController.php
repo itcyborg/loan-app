@@ -10,6 +10,7 @@ use App\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class LoanApplicationController extends Controller
 {
@@ -115,14 +116,14 @@ class LoanApplicationController extends Controller
             $loanApplication->approval_date=Carbon::now();
             $loanApplication->save();
         }
-        if($request->action === 'disburse'){
-            $loanApplication->satus='DISBURSED';
+        if($request->action == 'disburse'){
+            $loanApplication->status='DISBURSED';
             $loanApplication->disbursement_date=Carbon::now();
             $loanApplication->due_date=Carbon::now()->addMonths($loanApplication->duration);
             $loanApplication->save();
         }
         if ($request->action === 'reject'){
-            $loanApplication->satus='REJECTED';
+            $loanApplication->status='REJECTED';
             $loanApplication->save();
         }
     }
@@ -149,5 +150,40 @@ class LoanApplicationController extends Controller
         $amount = $principle * pow(1 + ($rate / $frequency), ($term));
         $interest = $amount - $principle;
         return json_encode(['amount' => $amount, 'interest' => $interest]);
+    }
+
+    public function actions(Request $request)
+    {
+        $this->validate($request,[
+            'id'=>'required',
+            'action'=>'required'
+        ]);
+        $loan_application=LoanApplication::find($request->id);
+        if($request->action=='approve'){
+            $validator=Validator::make($request->all(),[
+                'approved_amount'=>'required'
+            ]);
+            if($loan_application->amount_applied>=$request->approved_amount){
+            }else{
+                return response()->json('The approved amount cannot be more than the applied amount.',422);
+            }
+            $loan_application->amount_approved=$request->approved_amount;
+            $loan_application->approval_date=Carbon::now();
+            $loan_application->status='APPROVED';
+            $loan_application->due_date=Carbon::now()->addMonths($loan_application->duration+1);
+            $loan_application->save();
+            return response()->json('Approval successful',201);
+        }
+        if($request->action=='reject'){
+            $loan_application->status='REJECTED';
+            $loan_application->save();
+        }
+
+        if($request->action == 'disburse'){
+            $loan_application->status='DISBURSED';
+            $loan_application->disbursement_date=Carbon::now();
+            $loan_application->save();
+            return response()->json('Disbursement successful',201);
+        }
     }
 }

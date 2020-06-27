@@ -1,3 +1,6 @@
+let current_loan_application=null;
+let current_loan_amount=null;
+
 function RestCalls(Myurl, error, f) {
     $.ajax({
         url: Myurl,
@@ -13,12 +16,31 @@ function RestCalls(Myurl, error, f) {
     })
 }
 
+function postJson(endpointUri, payload) {
+    $.ajax({
+        url: endpointUri,
+        type: "POST",
+        data: JSON.stringify(payload),
+        contentType: "application/json;",
+        headers: {
+            "Accept": "application/json;",
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (data) {
+            onSuccess(data);
+        },
+        error: function (data) {
+            onError(data);
+        }
+    });
+}
+
 function onError(error) {
     console.log("Error "+error);
 }
 
 function onSuccess(msg) {
-    console.log("Success "+ msg);
+    alert(msg);
 }
 
 function loadLoanApplications(url){
@@ -26,6 +48,8 @@ function loadLoanApplications(url){
 }
 
 function loadLoanApplicationModal(loanData) {
+    current_loan_application=loanData.id;
+    current_loan_amount=loanData.amount_applied;
     $('.client_name').text(loanData.client.name);
     $('#loan_application_id').html(loanData.id);
     $('#loan_application_id').text(loanData.id);
@@ -68,6 +92,11 @@ function loadLoanApplicationModal(loanData) {
         $('#btn_approve').hide();
         $('#btn_reject').hide();
     }
+    if(loanData.status==='DISBURSED'){
+        $('#btn_disburse').hide();
+        $('#btn_approve').hide();
+        $('#btn_reject').hide();
+    }
     $('.view_loan_application').modal('show');
 }
 
@@ -106,4 +135,23 @@ function generateChargesTableData(charges_data){
         data+="<tr><td>"+v.id+"</td><td>"+v.name+"</td><td>"+v.amount+"</td><td>"+v.type+"</td></tr>"
     })
     return data;
+}
+
+function loanAction(endpoint,action) {
+    if(current_loan_application==null){
+        alert('An error occurred trying to select the current loan application.');
+    }
+    let payload={
+        'id':current_loan_application,
+        'action':action
+    }
+    if(action=='approve'){
+        let approved_amount = prompt("Please enter approved loan amount:", current_loan_amount);
+        payload={
+            'id':current_loan_application,
+            'action':action,
+            'approved_amount':approved_amount
+        }
+    }
+    postJson(endpoint,payload);
 }

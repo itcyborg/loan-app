@@ -35,5 +35,6 @@
             'collateral' => 'CollateralsController',
             'guarantor' => 'GuarantorController'
         ]);
+        Route::post('loan-applications/actions','LoanApplicationController@actions')->name('loan-applications.action');
     });
 
