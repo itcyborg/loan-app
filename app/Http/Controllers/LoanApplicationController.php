@@ -136,7 +136,13 @@ class LoanApplicationController extends Controller
      */
     public function destroy(LoanApplication $loanApplication)
     {
-        //
+        try {
+            $loanApplication->delete();
+            notify()->success('Loan application has been successfully deleted.');
+        }catch (\Throwable $e){
+            notify()->error('An error occurred trying to delete the loan application.');
+        }
+        return redirect()->back();
     }
 
     private static function calc($term, $principle, $rate)
@@ -177,6 +183,7 @@ class LoanApplicationController extends Controller
         if($request->action=='reject'){
             $loan_application->status='REJECTED';
             $loan_application->save();
+            return response()->json('Application has been successfully marked as rejected.',201);
         }
 
         if($request->action == 'disburse'){
