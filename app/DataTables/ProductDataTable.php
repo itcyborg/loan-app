@@ -81,7 +81,6 @@ class ProductDataTable extends DataTable
             Column::make('min_duration'),
             Column::make('max_duration'),
             Column::make('security'),
-            Column::make('charges'),
             Column::make('status'),
             Column::make('created_at'),
             Column::make('updated_at'),
