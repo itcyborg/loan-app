@@ -1,11 +1,14 @@
 @extends('layouts.app')
+@section('title')
+    New Loan Application
+@endsection
 @section('content')
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
                     <a href="{{route('loan-applications.create')}}" class="btn btn-primary">
-                        New Loan Application
+                        Loan Applications
                     </a>
                 </div>
             </div>

@@ -2,7 +2,7 @@
 <div class='btn-group'>
     <a href="#" onclick='loadLoanApplications("{{ route('loan-applications.show', $id) }}")' class='btn btn-default btn-sm fa fa-eye'>
     </a>
-    <a href="#{{ route('loan-applications.edit', $id) }}" class='btn btn-default btn-sm fa fa-edit'>
+    <a href="{{ route('loan-applications.edit', $id) }}" class='btn btn-default btn-sm fa fa-edit'>
     </a>
     {!! Form::button('',[
         'type' => 'submit',

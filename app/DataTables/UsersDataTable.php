@@ -22,6 +22,7 @@ class UsersDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->addColumn('action', 'actions.user_action')
             ->editColumn('created_at',function (User $user){
                 return Carbon::parse($user->created_at)->toFormattedDateString();
             })
@@ -80,11 +81,11 @@ class UsersDataTable extends DataTable
             Column::make('role'),
             Column::make('created_at'),
             Column::make('updated_at'),
-//            Column::computed('action')
-//                ->exportable(false)
-//                ->printable(false)
-//                ->width(60)
-//                ->addClass('text-center'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
         ];
     }
 
