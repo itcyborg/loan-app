@@ -21,8 +21,8 @@ class CreateLoanApplicationsTable extends Migration
             $table->enum('status',['PENDING','APPROVED','DISBURSED','REJECTED','SETTLED'])->default('PENDING');
             $table->unsignedDouble('rate');
             $table->unsignedDouble('amount_applied');
-            $table->unsignedDouble('amount_approved');
-            $table->unsignedDouble('total_interest');
+            $table->unsignedDouble('amount_approved')->nullable();
+            $table->unsignedDouble('total_interest')->default(0);
             $table->unsignedInteger('duration');
             $table->timestamp('due_date')->nullable();
             $table->timestamp('approval_date')->nullable();
