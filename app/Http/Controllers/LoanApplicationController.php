@@ -62,7 +62,7 @@ class LoanApplicationController extends Controller
             notify()->success('Client details saved');
             return redirect()->route('next-of-kin.create',['application_id'=>$loan->id,'client_id'=>$request->client_id]);
         }catch (\Throwable $e){
-            notify()->error('An error occurred');
+            notify()->error('An error occurred.'.$e->getMessage());
             return redirect()->route('loan-applications.create');
         }
     }
