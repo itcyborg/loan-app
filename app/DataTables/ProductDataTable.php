@@ -28,7 +28,7 @@ class ProductDataTable extends DataTable
             })
             ->addColumn('action', 'actions.product_action');
     }
-we
+
     /**
      * Get query source of dataTable.
      *
