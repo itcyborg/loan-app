@@ -26,9 +26,9 @@ class ProductDataTable extends DataTable
             ->editColumn('updated_at',function (Product $product){
                 return Carbon::parse($product->updated_at)->toFormattedDateString();
             })
-            ->addColumn('action', 'product.action');
+            ->addColumn('action', 'actions.product_action');
     }
-
+we
     /**
      * Get query source of dataTable.
      *
