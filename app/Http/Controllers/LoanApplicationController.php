@@ -54,10 +54,15 @@ class LoanApplicationController extends Controller
 
         $data=$request->all();
         $data['user_id']=Auth::id();
-        $data['rate']=Product::find($request->product_id)->rate;
+        $product=Product::find($request->product_id);
+        $data['rate']=$product->rate;
         $data['charges']=json_encode(Charge::where('product_id',$request->product_id)->get());
         $data['total_interest']=json_decode(self::calc($request->duration,$request->amount_applied,$data['rate']))->interest;
         try{
+            if($request->amount_applied>$product->max_amount || $request->amount_applied < $product->min_amount){
+                notify()->warning('The amount applied is out of product range. You can apply for '.$product->min_amount.' to '.$product->max_amount);
+                return redirect()->back();
+            }
             $loan=LoanApplication::create($data);
             notify()->success('Client details saved');
             return redirect()->route('next-of-kin.create',['application_id'=>$loan->id,'client_id'=>$request->client_id]);
