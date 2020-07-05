@@ -169,11 +169,20 @@ class LoanApplicationController extends Controller
             'id'=>'required',
             'action'=>'required'
         ]);
-        $loan_application=LoanApplication::find($request->id);
+        $loan_application=LoanApplication::with(['collaterals','nextofkins','guarantors'])->find($request->id);
         if($request->action=='approve'){
             $validator=Validator::make($request->all(),[
                 'approved_amount'=>'required'
             ]);
+            if($loan_application->collaterals->count()<1){
+                return response()->json(['message'=>'The loan application does not have a collateral on file.'],419);
+            }
+            if($loan_application->nextofkins->count()<1){
+                return response()->json(['message'=>'The loan application does not have a next-of-kin on file.'],419);
+            }
+            if($loan_application->guarantors->count()<1){
+                return response()->json(['message'=>'The loan application does not have a guarantor on file.'],419);
+            }
             if($loan_application->amount_applied>=$request->approved_amount){
             }else{
                 return response()->json('The approved amount cannot be more than the applied amount.',422);

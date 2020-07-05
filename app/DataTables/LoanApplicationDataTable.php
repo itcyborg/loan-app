@@ -34,7 +34,9 @@ class LoanApplicationDataTable extends DataTable
             ->editColumn('updated_at',function (LoanApplication $loanApplication){
                 return Carbon::parse($loanApplication->updated_at)->toFormattedDateString();
             })
-            ->rawColumns(['action']);
+            ->rawColumns(['action'])->order(function($query){
+                $query->orderBy('id','asc');
+            });
     }
 
     /**

@@ -36,7 +36,8 @@ function postJson(endpointUri, payload) {
 }
 
 function onError(error) {
-    console.log("Error "+error);
+    alert(error.responseJSON.message)
+    console.log(error);
 }
 
 function onSuccess(msg) {
