@@ -25,7 +25,8 @@
                 'users' => 'UsersController',
                 'products' => 'ProductController',
                 'roles' => 'RolesController',
-                'permissions' => 'PermissionsController'
+                'permissions' => 'PermissionsController',
+                'charges'=>'ChargeController'
             ]);
         });
         Route::resources([

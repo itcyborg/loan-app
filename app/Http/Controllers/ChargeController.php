@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Charge;
+use App\DataTables\ChargeDatatable;
+use App\Product;
 use Illuminate\Http\Request;
 
 class ChargeController extends Controller
@@ -10,11 +12,12 @@ class ChargeController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param \App\DataTables\ChargeDatatable $chargeDatatable
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ChargeDatatable $chargeDatatable)
     {
-        //
+        return $chargeDatatable->render('superadministrator.charges',['products'=>Product::all()]);
     }
 
     /**
@@ -31,11 +34,24 @@ class ChargeController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'name'=>'required',
+            'amount'=>'numeric',
+            'type'=>'required',
+            'product_id'=>'required'
+        ]);
+        try {
+            Charge::create($request->all());
+            notify()->success('Charge has been successfully created.');
+            return redirect()->back();
+        }catch (\Throwable $e){
+            notify()->error('Charge operation failed. Error: '.$e->getMessage());
+            return redirect()->back();
+        }
     }
 
     /**
@@ -76,10 +92,17 @@ class ChargeController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Charge  $charge
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function destroy(Charge $charge)
     {
-        //
+        try {
+            $charge->delete();
+            notify()->success('The charge has been successfully deleted.');
+            return redirect()->back();
+        }catch (\Throwable $e){
+            notify()->error('The charge failed to be deleted. Error: '.$e->getMessage());
+            return redirect()->back();
+        }
     }
 }

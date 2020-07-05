@@ -2,14 +2,14 @@
 
 namespace App\DataTables;
 
-use App\Clients;
-use App\LoanApplication;
-use Illuminate\Support\Carbon;
+use App\Charge;
+use App\Product;
+use Carbon\Carbon;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class LoanApplicationDataTable extends DataTable
+class ChargeDatatable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -21,29 +21,19 @@ class LoanApplicationDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'actions.loanapplication_action')
-            ->editColumn('client_id',function (LoanApplication $loanApplication){
-                return $loanApplication->client->name;
+            ->editColumn('product_id',function (Charge $charge){
+                return $charge->product->name;
             })
-            ->editColumn('product_id',function (LoanApplication $loanApplication){
-                return $loanApplication->product->name;
-            })
-            ->editColumn('created_at',function (LoanApplication $loanApplication){
-                return Carbon::parse($loanApplication->created_at)->toFormattedDateString();
-            })
-            ->editColumn('updated_at',function (LoanApplication $loanApplication){
-                return Carbon::parse($loanApplication->updated_at)->toFormattedDateString();
-            })
-            ->rawColumns(['action']);
+            ->addColumn('action', 'actions.charges_action');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\LoanApplication $model
+     * @param Charge $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(LoanApplication $model)
+    public function query(Charge $model)
     {
         return $model->newQuery();
     }
@@ -56,7 +46,7 @@ class LoanApplicationDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('loanapplication-table')
+                    ->setTableId('chargedatatable-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
@@ -79,17 +69,12 @@ class LoanApplicationDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('client_id'),
+            Column::make('name'),
             Column::make('product_id'),
-            Column::make('rate'),
-            Column::make('duration'),
-            Column::make('amount_applied'),
-            Column::make('amount_approved'),
-            Column::make('total_interest'),
-            Column::make('approval_date'),
-            Column::make('disbursement_date'),
-            Column::make('due_date'),
+            Column::make('amount'),
+            Column::make('type'),
             Column::make('created_at'),
+            Column::make('updated_at'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
@@ -105,6 +90,6 @@ class LoanApplicationDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'LoanApplication_' . date('YmdHis');
+        return 'Charge_' . date('YmdHis');
     }
 }
