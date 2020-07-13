@@ -101,7 +101,7 @@ class UsersController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
@@ -112,8 +112,9 @@ class UsersController extends Controller
         $user->assignRole($request->role);
 
         if($user->save()){
-//            return response()->json('msg'=>)
+            return response()->json('User has been successfully updated',200);
         }
+        return response()->json('User update failed',401);
     }
 
     /**
@@ -130,7 +131,8 @@ class UsersController extends Controller
     public function actions(Request $request)
     {
         $this->validate($request,[
-            'id'=>'required',
+            '
+}id'=>'required',
             'action'=>'required'
         ]);
         $user=User::findOrFail($request->id);

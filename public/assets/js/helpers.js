@@ -57,7 +57,7 @@ function onSuccess(msg) {
 }
 
 function loadLoanApplications(url){
-    console.log(RestCalls(url,onError,loadLoanApplicationModal));
+    RestCalls(url,onError,loadLoanApplicationModal);
 }
 
 function loadLoanApplicationModal(loanData) {
@@ -184,7 +184,6 @@ function loadUserModal(data) {
         options+='<option value="'+v.id+'">'+v.name+'</option>';
     });
     $('#role').html(options).attr('readonly',true);
-    console.log(data.user.roles[0].id);
     $('#role').val(data.user.roles[0].id);
     if(is_edit){
         $('#edit').show();
