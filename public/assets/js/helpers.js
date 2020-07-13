@@ -1,5 +1,9 @@
 let current_loan_application=null;
 let current_loan_amount=null;
+let edit_endpoint=null;
+let is_edit=false;
+let user=null;
+let resetEndPoint=window.location.protocol+'//'+window.location.hostname+'/users/actions';
 
 function RestCalls(Myurl, error, f) {
     $.ajax({
@@ -16,7 +20,7 @@ function RestCalls(Myurl, error, f) {
     })
 }
 
-function postJson(endpointUri, payload) {
+function postJson(endpointUri, payload,success=null,error=null) {
     $.ajax({
         url: endpointUri,
         type: "POST",
@@ -27,10 +31,18 @@ function postJson(endpointUri, payload) {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function (data) {
-            onSuccess(data);
+            if(success){
+                success(data)
+            }else {
+                onSuccess(data);
+            }
         },
         error: function (data) {
-            onError(data);
+            if(error){
+                error(data);
+            }else{
+                onError(data);
+            }
         }
     });
 }
@@ -155,4 +167,48 @@ function loanAction(endpoint,action) {
         }
     }
     postJson(endpoint,payload);
+}
+
+function loadUser(uri,edit=false,endpoint=null) {
+    edit_endpoint=endpoint;
+    is_edit=edit;
+   RestCalls(uri,onError,loadUserModal);
+}
+function loadUserModal(data) {
+    user=data.user.id;
+    $('#edit').hide();
+    $('#name').val(data.user.name).attr('readonly',true);
+    $('#email').val(data.user.email).attr('readonly',true);
+    let options='';
+    $.each(data.roles,function(k,v){
+        options+='<option value="'+v.id+'">'+v.name+'</option>';
+    });
+    $('#role').html(options).attr('readonly',true);
+    console.log(data.user.roles[0].id);
+    $('#role').val(data.user.roles[0].id);
+    if(is_edit){
+        $('#edit').show();
+        $('#name,#email,#role').attr('readonly',false);
+    }
+    $('.view_user').modal('show');
+}
+function updateUser(uri){
+    postJson(uri+'/'+user,{
+        'name':$('#name').val(),
+        'email':$('#email').val(),
+        'role':$('#role').val(),
+        '_method':'PUT'
+    });
+}
+
+function resetPassword() {
+    if(confirm('Are you sure?')){
+        //reset account password
+        postJson(resetEndPoint,{
+            'id':user,
+            'action':'reset_password'
+        },function(data){
+            alert(data.message)
+        });
+    }
 }

@@ -38,4 +38,5 @@
         ]);
         Route::post('loan-applications/actions','LoanApplicationController@actions')->name('loan-applications.action');
     });
+    Route::post('users/actions','UsersController@actions')->name('users.actions');
 

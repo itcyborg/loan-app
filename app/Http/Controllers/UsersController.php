@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\UsersDataTable;
 use App\Notifications\UserCreated;
 use App\User;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -13,6 +14,7 @@ use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
+    use SendsPasswordResetEmails;
     /**
      * Display a listing of the resource.
      *
@@ -74,11 +76,13 @@ class UsersController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $user=User::with('roles')->find($id);
+        $roles=Role::all();
+        return response()->json(['user'=>$user,'roles'=>$roles]);
     }
 
     /**
@@ -101,7 +105,15 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user=User::findOrFail($id);
+        $role=$user->roles[0]->name;
+        $user->update($request->all());
+        $user->removeRole($role);
+        $user->assignRole($request->role);
+
+        if($user->save()){
+//            return response()->json('msg'=>)
+        }
     }
 
     /**
@@ -112,6 +124,22 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return User::findOrFail($id)->destroy();
+    }
+
+    public function actions(Request $request)
+    {
+        $this->validate($request,[
+            'id'=>'required',
+            'action'=>'required'
+        ]);
+        $user=User::findOrFail($request->id);
+        if($user){
+            if($request->action==='reset_password'){
+                $request->request->add(['email'=>$user->email]);
+                $response=$this->sendResetLinkEmail($request);
+                return $response;
+            }
+        }
     }
 }

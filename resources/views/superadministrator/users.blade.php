@@ -57,3 +57,4 @@
 @section('scripts')
     {{$dataTable->scripts()}}
 @endsection
+@include('modals.edit_user')

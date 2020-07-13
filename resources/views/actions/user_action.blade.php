@@ -1,8 +1,8 @@
 {!! Form::open(['route' => ['users.destroy', $id], 'method' => 'delete']) !!}
 <div class='btn-group'>
-    <a href="#" onclick='loadLoanApplications("{{ route('users.show', $id) }}")' class='btn btn-default btn-sm fa fa-eye'>
+    <a href="#" onclick='loadUser("{{ route('users.show', $id) }}")' class='btn btn-default btn-sm fa fa-eye'>
     </a>
-    <a href="{{ route('users.edit', $id) }}" class='btn btn-default btn-sm fa fa-edit'>
+    <a href="#" onclick='loadUser(" {{ route('users.show', $id) }}",true,"{{route('users.edit',$id)}}")' class='btn btn-default btn-sm fa fa-edit'>
     </a>
     {!! Form::button('',[
         'type' => 'submit',
