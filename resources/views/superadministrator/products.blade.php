@@ -83,6 +83,7 @@
         </div>
     </div>
 @endsection
+@include('modals.edit_product')
 @section('scripts')
     {{$dataTable->scripts()}}
 @endsection

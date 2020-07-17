@@ -217,9 +217,11 @@
             </div>
 
             <div class="modal-footer">
-                <button class="btn btn-success" id="btn_approve" onclick='loanAction("{{route('loan-applications.action')}}","approve")'><i class="fa fa-check"></i> Approve </button>
+                @role('superadminstrator')
+                    <button class="btn btn-success" id="btn_approve" onclick='loanAction("{{route('loan-applications.action')}}","approve")'><i class="fa fa-check"></i> Approve </button>
                 <button class="btn btn-primary" id="btn_disburse" onclick='loanAction("{{route('loan-applications.action')}}","disburse")'><i class="fa fa-check"></i> Disburse </button>
                 <button class=" btn btn-danger" id="btn_reject" onclick='loanAction("{{route('loan-applications.action')}}","reject")'><i class="flaticon-cancel"></i> Reject </button>
+                @endrole
             </div>
         </div>
     </div>

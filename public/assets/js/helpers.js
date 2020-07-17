@@ -199,7 +199,9 @@ function updateUser(uri){
         '_method':'PUT'
     });
 }
+function loadProduct(uri){
 
+}
 function resetPassword() {
     if(confirm('Are you sure?')){
         //reset account password
