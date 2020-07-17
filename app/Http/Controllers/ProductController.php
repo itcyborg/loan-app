@@ -87,7 +87,10 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        if($product->update($request->all())){
+            return response()->json('Product update successful',200);
+        }
+        return response()->json('Product update failed',401);
     }
 
     /**
@@ -98,11 +101,17 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return response()->json('Product deleted');
     }
 
     public function activate(Request $request)
     {
-        return $request->all();
+        $product=Product::findOrFail($request->id);
+        $product->status='ACTIVE';
+        if($product->save()){
+            return response()->json('Product successfully activated');
+        }
+        return response()->json('Product activation failed');
     }
 }
