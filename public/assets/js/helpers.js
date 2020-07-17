@@ -218,6 +218,13 @@ function loadProductModal(data) {
     $('.view_product #security').val(data.security).attr('readonly',true);
     $('.view_product #status').val(data.status).attr('readonly',true);
     $('.view_product #rate').val(data.rate).attr('readonly',true);
+    if(data.status=='ACTIVE'){
+        $('#deactivate').show();
+        $('#activate').hide();
+    }else{
+        $('#deactivate').hide();
+        $('#activate').show();
+    }
     if(is_edit){
         $('#edit').show();
         $('.view_product #name,.view_product #code,.view_product #min_duration,.view_product #min_amount,.view_product #max_duration,.view_product #max_amount,.view_product #status,.view_product #rate,.view_product #security').attr('readonly',false);
@@ -226,11 +233,25 @@ function loadProductModal(data) {
 }
 
 function updateProduct(endpoint) {
-
+    let payload={
+        'id':product,
+        'name':$('.view_product #name').val(),
+        'code':$('.view_product #code').val(),
+        'min_amount':$('.view_product #min_amount').val(),
+        'max_amount':$('.view_product #max_amount').val(),
+        'min_duration':$('.view_product #min_duration').val(),
+        'max_duration':$('.view_product #max_duration').val(),
+        'security':$('.view_product #security').val(),
+        'rate':$('.view_product #rate').val()
+    }
+    postJson(endpoint,payload,function(data){
+        alert(data)
+        console.log(data)
+    },onError)
 }
 
-function activateProduct(endpoint) {
-    postJson(endpoint,{'id':product,'action':'activate'},alert(message),alert(message));
+function activateProduct(endpoint,action) {
+    postJson(endpoint,{'id':product,'action':action},onSuccess,onError);
 }
 function resetPassword() {
     if(confirm('Are you sure?')){

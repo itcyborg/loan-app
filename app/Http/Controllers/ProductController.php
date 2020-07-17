@@ -83,7 +83,7 @@ class ProductController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
     public function update(Request $request, Product $product)
     {
@@ -108,9 +108,16 @@ class ProductController extends Controller
     public function activate(Request $request)
     {
         $product=Product::findOrFail($request->id);
-        $product->status='ACTIVE';
+        $slug='';
+        if($request->action=='activate') {
+            $product->status = 'ACTIVE';
+            $slug='activated';
+        }else{
+            $product->status = 'INACTIVE';
+            $slug='deactivated';
+        }
         if($product->save()){
-            return response()->json('Product successfully activated');
+            return response()->json('Product successfully '.$slug);
         }
         return response()->json('Product activation failed');
     }
