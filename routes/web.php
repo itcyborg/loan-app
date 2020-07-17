@@ -28,6 +28,7 @@
                 'permissions' => 'PermissionsController',
                 'charges'=>'ChargeController'
             ]);
+            Route::post('products/activate','ProductController@activate');
         });
         Route::resources([
             'client' => 'ClientsController',

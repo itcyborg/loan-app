@@ -3,6 +3,7 @@ let current_loan_amount=null;
 let edit_endpoint=null;
 let is_edit=false;
 let user=null;
+let product=null;
 let resetEndPoint=window.location.protocol+'//'+window.location.hostname+'/users/actions';
 
 function RestCalls(Myurl, error, f) {
@@ -199,8 +200,37 @@ function updateUser(uri){
         '_method':'PUT'
     });
 }
-function loadProduct(uri){
+function loadProduct(uri,edit=false,endpoint=null){
+    edit_endpoint=endpoint;
+    is_edit=edit;
+    RestCalls(uri,onError,loadProductModal);
+}
 
+function loadProductModal(data) {
+    product=data.id;
+    $('#edit').hide();
+    $('.view_product #name').val(data.name).attr('readonly',true);
+    $('.view_product #code').val(data.code).attr('readonly',true);
+    $('.view_product #min_amount').val(data.min_amount).attr('readonly',true);
+    $('.view_product #max_amount').val(data.max_amount).attr('readonly',true);
+    $('.view_product #min_duration').val(data.min_duration).attr('readonly',true);
+    $('.view_product #max_duration').val(data.max_duration).attr('readonly',true);
+    $('.view_product #security').val(data.security).attr('readonly',true);
+    $('.view_product #status').val(data.status).attr('readonly',true);
+    $('.view_product #rate').val(data.rate).attr('readonly',true);
+    if(is_edit){
+        $('#edit').show();
+        $('.view_product #name,.view_product #code,.view_product #min_duration,.view_product #min_amount,.view_product #max_duration,.view_product #max_amount,.view_product #status,.view_product #rate,.view_product #security').attr('readonly',false);
+    }
+    $('.view_product').modal('show');
+}
+
+function updateProduct(endpoint) {
+
+}
+
+function activateProduct(endpoint) {
+    postJson(endpoint,{'id':product,'action':'activate'},alert(message),alert(message));
 }
 function resetPassword() {
     if(confirm('Are you sure?')){

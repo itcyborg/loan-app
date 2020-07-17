@@ -1,35 +1,61 @@
-<div class="modal fade view_user" tabindex="-1" role="dialog" aria-labelledby="ViewUser" aria-hidden="true">
+<div class="modal fade view_product" tabindex="-1" role="dialog" aria-labelledby="ViewProduct" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title">User Details</h4>
+                        <h4 class="card-title">Product Details</h4>
                     </div>
                     <div class="card-body">
-                        <div class="row">
+                        <div class="row mb-3">
                             <div class="col-4">
                                 <label for="name">Name</label>
                                 <input type="text" name="name" class="form-control" id="name">
                             </div>
                             <div class="col-4">
-                                <label for="email">Email</label>
-                                <input type="email" name="email" class="form-control" id="email">
+                                <label for="code">Code</label>
+                                <input type="text" name="code" class="form-control" id="code">
                             </div>
                             <div class="col-4">
-                                <label for="role">Role</label>
-                                <select name="role" id="role" class="form-control">
-                                    <option value="" disabled selected hidden>Select a role</option>
-                                </select>
+                                <label for="security">Security</label>
+                                <input type="text" name="security" id="security" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-3">
+                                <label for="min_amount">Min Amount</label>
+                                <input type="text" name="min_amount" class="form-control" id="min_amount">
+                            </div>
+                            <div class="col-3">
+                                <label for="max_amount">Max Amount</label>
+                                <input type="text" name="max_amount" class="form-control" id="max_amount">
+                            </div>
+                            <div class="col-3">
+                                <label for="min_duration">Min Duration</label>
+                                <input type="text" name="min_duration" id="min_duration" class="form-control">
+                            </div>
+                            <div class="col-3">
+                                <label for="max_duration">Max Duration</label>
+                                <input type="text" name="max_duration" id="max_duration" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-4">
+                                <label for="rate">Rate</label>
+                                <input type="text" name="rate" class="form-control" id="rate">
+                            </div>
+                            <div class="col-4">
+                                <label for="status">Status</label>
+                                <input type="text" name="status" class="form-control" id="status">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer w-100">
-                <button class="btn btn-warning pull-right" onclick="resetPassword()"><i class="fa fa-refresh"></i> Password</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button class="btn btn-primary" id="edit" onclick="updateUser('{{url('users')}}')">Save and Exit</button>
+                <button type="button" class="btn btn-success" onclick="activateProduct('{{url('products/activate')}}')">Activate</button>
+                <button class="btn btn-primary" id="edit" onclick="updateProduct('{{url('products')}}')">Save and Exit</button>
             </div>
         </div>
     </div>

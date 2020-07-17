@@ -64,7 +64,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return $product;
     }
 
     /**
@@ -99,5 +99,10 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    public function activate(Request $request)
+    {
+        return $request->all();
     }
 }
