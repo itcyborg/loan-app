@@ -35,7 +35,8 @@
             'next-of-kin' => 'NextOfKinController',
             'loan-applications' => 'LoanApplicationController',
             'collateral' => 'CollateralsController',
-            'guarantor' => 'GuarantorController'
+            'guarantor' => 'GuarantorController',
+            'repayment'=>'RepaymentController'
         ]);
         Route::post('loan-applications/actions','LoanApplicationController@actions')->name('loan-applications.action');
     });

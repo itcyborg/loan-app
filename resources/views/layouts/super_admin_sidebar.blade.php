@@ -46,3 +46,9 @@
         <p>Loan Applications</p>
     </a>
 </li>
+<li class="nav-item {{ Request::is('repayment*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{route('repayment.index')}}">
+        <i class="material-icons">attach_money</i>
+        <p>Repayments</p>
+    </a>
+</li>

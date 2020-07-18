@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\RepaymentDataTable;
+use App\LoanApplication;
 use App\Repayment;
 use Illuminate\Http\Request;
 
@@ -12,9 +14,16 @@ class RepaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(RepaymentDataTable $repaymentDataTable)
     {
-        //
+        $applications=LoanApplication::with(['client'])->where('status','=','DISBURSED')->get();
+        $clients=[];
+        foreach ($applications as $application) {
+            if(!in_array($application->client_id,$clients)){
+                $clients[]=$application->client_id;
+            }
+        }
+        return $repaymentDataTable->render('superadministrator.repayments',['clients'=>$clients]);
     }
 
     /**
