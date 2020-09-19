@@ -12,20 +12,25 @@
                     </button>
                     <div class="collapse p-1" id="addRole">
                         <div class="form p-3 ">
-                                    {!! Form::open(['route'=>'repayment.store']) !!}
-                                    <div class="row">
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-6">
-                                            {!! Form::text('name',null,['class'=>'form-control','placeholder'=>'Charge Name']) !!}
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            {!! Form::text('amount',null,['class'=>'form-control','placeholder'=>'Amount']) !!}
-                                        </div>
-                                    </div>
-                                    {!! Form::submit('Add',['class'=>'btn btn-primary']) !!}
-                                    {!! Form::close() !!}
+                            {!! Form::open(['route'=>'repayment.store']) !!}
+                            <div class="row">
                             </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    {!! Form::text('client',null,['class'=>'form-control','placeholder'=>'Client Name']) !!}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    {!! Form::select('application',[],null,['class'=>'form-control','placeholder'=>'Select Application']) !!}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    {!! Form::number('amount',null,['class'=>'form-control','placeholder'=>'Amount']) !!}
+                                </div>
+                            </div>
+                            {!! Form::submit('Add Payment',['class'=>'btn btn-primary']) !!}
+                            {!! Form::close() !!}
+                        </div>
                     </div>
                 </div>
             </div>

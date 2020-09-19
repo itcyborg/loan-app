@@ -131,8 +131,7 @@ class UsersController extends Controller
     public function actions(Request $request)
     {
         $this->validate($request,[
-            '
-}id'=>'required',
+            'id'=>'required',
             'action'=>'required'
         ]);
         $user=User::findOrFail($request->id);
