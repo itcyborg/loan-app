@@ -18,6 +18,9 @@
     Route::get('/', function () {
         return view('auth.login');
     });
+    Route::get('loan',function(){
+        return view('applications.create');
+    });
     Route::get('home', 'HomeController@index')->name('home');
     Route::group(['middleware' => 'auth'], function () {
         Route::group(['middleware' => 'role:superadministrator'], function () {
