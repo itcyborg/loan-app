@@ -6,8 +6,6 @@ use App\Product;
 use Carbon\Carbon;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class ProductDataTable extends DataTable
@@ -28,7 +26,7 @@ class ProductDataTable extends DataTable
             ->editColumn('updated_at',function (Product $product){
                 return Carbon::parse($product->updated_at)->toFormattedDateString();
             })
-            ->addColumn('action', 'product.action');
+            ->addColumn('action', 'actions.product_action');
     }
 
     /**
@@ -81,7 +79,6 @@ class ProductDataTable extends DataTable
             Column::make('min_duration'),
             Column::make('max_duration'),
             Column::make('security'),
-            Column::make('charges'),
             Column::make('status'),
             Column::make('created_at'),
             Column::make('updated_at'),

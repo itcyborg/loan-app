@@ -18,6 +18,9 @@
     Route::get('/', function () {
         return view('auth.login');
     });
+    Route::get('loan',function(){
+        return view('applications.create');
+    });
     Route::get('home', 'HomeController@index')->name('home');
     Route::group(['middleware' => 'auth'], function () {
         Route::group(['middleware' => 'role:superadministrator'], function () {
@@ -25,16 +28,20 @@
                 'users' => 'UsersController',
                 'products' => 'ProductController',
                 'roles' => 'RolesController',
-                'permissions' => 'PermissionsController'
+                'permissions' => 'PermissionsController',
+                'charges'=>'ChargeController'
             ]);
+            Route::post('products/activate','ProductController@activate');
         });
         Route::resources([
             'client' => 'ClientsController',
             'next-of-kin' => 'NextOfKinController',
             'loan-applications' => 'LoanApplicationController',
             'collateral' => 'CollateralsController',
-            'guarantor' => 'GuarantorController'
+            'guarantor' => 'GuarantorController',
+            'repayment'=>'RepaymentController'
         ]);
         Route::post('loan-applications/actions','LoanApplicationController@actions')->name('loan-applications.action');
     });
+    Route::post('users/actions','UsersController@actions')->name('users.actions');
 

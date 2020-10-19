@@ -5,6 +5,13 @@
       <sourceFolder url="file://$MODULE_DIR$/app" isTestSource="false" packagePrefix="App\" />
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="Tests\" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/00" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/93" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/9f" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/a8" />
+      <excludeFolder url="file://$MODULE_DIR$/storage/framework/cache/data/f0" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/asm89/stack-cors" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/brick/math" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/clue/stream-filter" />
@@ -56,7 +63,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/phar-io/version" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/php-http/client-common" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/php-http/discovery" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/php-http/guzzle6-adapter" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/php-http/httplug" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/php-http/message" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/php-http/message-factory" />
@@ -151,5 +157,6 @@
     <orderEntry type="library" name="jquery.dataTables" level="application" />
     <orderEntry type="library" name="sweetalert" level="application" />
     <orderEntry type="library" name="sweetalert2" level="application" />
+    <orderEntry type="library" name="font-awesome" level="application" />
   </component>
 </module>

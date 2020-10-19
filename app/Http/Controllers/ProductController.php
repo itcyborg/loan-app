@@ -64,7 +64,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return $product;
     }
 
     /**
@@ -83,11 +83,14 @@ class ProductController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
     public function update(Request $request, Product $product)
     {
-        //
+        if($product->update($request->all())){
+            return response()->json('Product update successful',200);
+        }
+        return response()->json('Product update failed',401);
     }
 
     /**
@@ -98,6 +101,24 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return response()->json('Product deleted');
+    }
+
+    public function activate(Request $request)
+    {
+        $product=Product::findOrFail($request->id);
+        $slug='';
+        if($request->action=='activate') {
+            $product->status = 'ACTIVE';
+            $slug='activated';
+        }else{
+            $product->status = 'INACTIVE';
+            $slug='deactivated';
+        }
+        if($product->save()){
+            return response()->json('Product successfully '.$slug);
+        }
+        return response()->json('Product activation failed');
     }
 }

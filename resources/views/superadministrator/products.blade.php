@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('title')
+    Products
+@endsection
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -80,6 +83,7 @@
         </div>
     </div>
 @endsection
+@include('modals.edit_product')
 @section('scripts')
     {{$dataTable->scripts()}}
 @endsection

@@ -54,15 +54,20 @@ class LoanApplicationController extends Controller
 
         $data=$request->all();
         $data['user_id']=Auth::id();
-        $data['rate']=Product::find($request->product_id)->rate;
+        $product=Product::find($request->product_id);
+        $data['rate']=$product->rate;
         $data['charges']=json_encode(Charge::where('product_id',$request->product_id)->get());
         $data['total_interest']=json_decode(self::calc($request->duration,$request->amount_applied,$data['rate']))->interest;
         try{
+            if($request->amount_applied>$product->max_amount || $request->amount_applied < $product->min_amount){
+                notify()->warning('The amount applied is out of product range. You can apply for '.$product->min_amount.' to '.$product->max_amount);
+                return redirect()->back();
+            }
             $loan=LoanApplication::create($data);
             notify()->success('Client details saved');
             return redirect()->route('next-of-kin.create',['application_id'=>$loan->id,'client_id'=>$request->client_id]);
         }catch (\Throwable $e){
-            notify()->error('An error occurred');
+            notify()->error('An error occurred.'.$e->getMessage());
             return redirect()->route('loan-applications.create');
         }
     }
@@ -164,11 +169,20 @@ class LoanApplicationController extends Controller
             'id'=>'required',
             'action'=>'required'
         ]);
-        $loan_application=LoanApplication::find($request->id);
+        $loan_application=LoanApplication::with(['collaterals','nextofkins','guarantors'])->find($request->id);
         if($request->action=='approve'){
             $validator=Validator::make($request->all(),[
                 'approved_amount'=>'required'
             ]);
+            if($loan_application->collaterals->count()<1){
+                return response()->json(['message'=>'The loan application does not have a collateral on file.'],419);
+            }
+            if($loan_application->nextofkins->count()<1){
+                return response()->json(['message'=>'The loan application does not have a next-of-kin on file.'],419);
+            }
+            if($loan_application->guarantors->count()<1){
+                return response()->json(['message'=>'The loan application does not have a guarantor on file.'],419);
+            }
             if($loan_application->amount_applied>=$request->approved_amount){
             }else{
                 return response()->json('The approved amount cannot be more than the applied amount.',422);

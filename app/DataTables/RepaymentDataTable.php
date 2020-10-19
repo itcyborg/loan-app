@@ -2,15 +2,15 @@
 
 namespace App\DataTables;
 
-use App\User;
-use Illuminate\Support\Carbon;
+use App\LoanApplication;
+use App\Repayment;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class UsersDataTable extends DataTable
+class RepaymentDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -22,25 +22,20 @@ class UsersDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'actions.user_action')
-            ->editColumn('created_at',function (User $user){
-                return Carbon::parse($user->created_at)->toFormattedDateString();
+//            ->addColumn('action', 'repaymentdatatable.action')
+            ->editColumn('client_id',function (Repayment $repayment){
+                return $repayment->client->name;
             })
-            ->editColumn('updated_at',function (User $user){
-                return Carbon::parse($user->updated_at)->toFormattedDateString();
-            })
-            ->addColumn('role', function (User $user){
-                return json_decode($user->roles)[0]->name;
-            });
+            ;
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\User $model
+     * @param \App\Repayment $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(User $model)
+    public function query(Repayment $model)
     {
         return $model->newQuery();
     }
@@ -53,7 +48,7 @@ class UsersDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('users-table')->addClass('table-stripped')
+                    ->setTableId('repaymentdatatable-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
@@ -76,16 +71,16 @@ class UsersDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('name'),
-            Column::make('email'),
-            Column::make('role'),
+            Column::make('client_id')->title('Client'),
+            Column::make('loan_application_id'),
+            Column::make('amount'),
             Column::make('created_at'),
             Column::make('updated_at'),
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
+//            Column::computed('action')
+//                ->exportable(false)
+//                ->printable(false)
+//                ->width(60)
+//                ->addClass('text-center'),
         ];
     }
 
@@ -96,6 +91,6 @@ class UsersDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Users_' . date('YmdHis');
+        return 'Repayment_' . date('YmdHis');
     }
 }

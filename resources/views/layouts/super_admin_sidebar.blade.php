@@ -28,6 +28,12 @@
         <p>Products</p>
     </a>
 </li>
+<li class="nav-item {{ Request::is('charges*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{route('charges.index')}}">
+        <i class="material-icons">money</i>
+        <p>Charges</p>
+    </a>
+</li>
 <li class="nav-item {{ Request::is('client*') ? 'active' : '' }}">
     <a class="nav-link" href="{{route('client.index')}}">
         <i class="material-icons">people_alt</i>
@@ -38,5 +44,11 @@
     <a class="nav-link" href="{{route('loan-applications.index')}}">
         <i class="material-icons">assignment</i>
         <p>Loan Applications</p>
+    </a>
+</li>
+<li class="nav-item {{ Request::is('repayment*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{route('repayment.index')}}">
+        <i class="material-icons">attach_money</i>
+        <p>Repayments</p>
     </a>
 </li>

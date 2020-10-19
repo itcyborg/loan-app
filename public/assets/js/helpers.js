@@ -1,5 +1,10 @@
 let current_loan_application=null;
 let current_loan_amount=null;
+let edit_endpoint=null;
+let is_edit=false;
+let user=null;
+let product=null;
+let resetEndPoint=window.location.protocol+'//'+window.location.hostname+'/users/actions';
 
 function RestCalls(Myurl, error, f) {
     $.ajax({
@@ -16,7 +21,7 @@ function RestCalls(Myurl, error, f) {
     })
 }
 
-function postJson(endpointUri, payload) {
+function postJson(endpointUri, payload,success=null,error=null) {
     $.ajax({
         url: endpointUri,
         type: "POST",
@@ -27,16 +32,25 @@ function postJson(endpointUri, payload) {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function (data) {
-            onSuccess(data);
+            if(success){
+                success(data)
+            }else {
+                onSuccess(data);
+            }
         },
         error: function (data) {
-            onError(data);
+            if(error){
+                error(data);
+            }else{
+                onError(data);
+            }
         }
     });
 }
 
 function onError(error) {
-    console.log("Error "+error);
+    alert(error.responseJSON.message)
+    console.log(error);
 }
 
 function onSuccess(msg) {
@@ -44,7 +58,7 @@ function onSuccess(msg) {
 }
 
 function loadLoanApplications(url){
-    console.log(RestCalls(url,onError,loadLoanApplicationModal));
+    RestCalls(url,onError,loadLoanApplicationModal);
 }
 
 function loadLoanApplicationModal(loanData) {
@@ -154,4 +168,99 @@ function loanAction(endpoint,action) {
         }
     }
     postJson(endpoint,payload);
+}
+
+function loadUser(uri,edit=false,endpoint=null) {
+    edit_endpoint=endpoint;
+    is_edit=edit;
+   RestCalls(uri,onError,loadUserModal);
+}
+function loadUserModal(data) {
+    user=data.user.id;
+    $('#edit').hide();
+    $('#name').val(data.user.name).attr('readonly',true);
+    $('#email').val(data.user.email).attr('readonly',true);
+    let options='';
+    $.each(data.roles,function(k,v){
+        options+='<option value="'+v.id+'">'+v.name+'</option>';
+    });
+    $('#role').html(options).attr('readonly',true);
+    $('#role').val(data.user.roles[0].id);
+    if(is_edit){
+        $('#edit').show();
+        $('#name,#email,#role').attr('readonly',false);
+    }
+    $('.view_user').modal('show');
+}
+function updateUser(uri){
+    postJson(uri+'/'+user,{
+        'name':$('#name').val(),
+        'email':$('#email').val(),
+        'role':$('#role').val(),
+        '_method':'PUT'
+    });
+}
+function loadProduct(uri,edit=false,endpoint=null){
+    edit_endpoint=endpoint;
+    is_edit=edit;
+    RestCalls(uri,onError,loadProductModal);
+}
+
+function loadProductModal(data) {
+    product=data.id;
+    $('#edit').hide();
+    $('.view_product #name').val(data.name).attr('readonly',true);
+    $('.view_product #code').val(data.code).attr('readonly',true);
+    $('.view_product #min_amount').val(data.min_amount).attr('readonly',true);
+    $('.view_product #max_amount').val(data.max_amount).attr('readonly',true);
+    $('.view_product #min_duration').val(data.min_duration).attr('readonly',true);
+    $('.view_product #max_duration').val(data.max_duration).attr('readonly',true);
+    $('.view_product #security').val(data.security).attr('readonly',true);
+    $('.view_product #status').val(data.status).attr('readonly',true);
+    $('.view_product #rate').val(data.rate).attr('readonly',true);
+    if(data.status=='ACTIVE'){
+        $('#deactivate').show();
+        $('#activate').hide();
+    }else{
+        $('#deactivate').hide();
+        $('#activate').show();
+    }
+    if(is_edit){
+        $('#edit').show();
+        $('.view_product #name,.view_product #code,.view_product #min_duration,.view_product #min_amount,.view_product #max_duration,.view_product #max_amount,.view_product #status,.view_product #rate,.view_product #security').attr('readonly',false);
+    }
+    $('.view_product').modal('show');
+}
+
+function updateProduct(endpoint) {
+    let payload={
+        'id':product,
+        'name':$('.view_product #name').val(),
+        'code':$('.view_product #code').val(),
+        'min_amount':$('.view_product #min_amount').val(),
+        'max_amount':$('.view_product #max_amount').val(),
+        'min_duration':$('.view_product #min_duration').val(),
+        'max_duration':$('.view_product #max_duration').val(),
+        'security':$('.view_product #security').val(),
+        'rate':$('.view_product #rate').val()
+    }
+    postJson(endpoint,payload,function(data){
+        alert(data)
+        console.log(data)
+    },onError)
+}
+
+function activateProduct(endpoint,action) {
+    postJson(endpoint,{'id':product,'action':action},onSuccess,onError);
+}
+function resetPassword() {
+    if(confirm('Are you sure?')){
+        //reset account password
+        postJson(resetEndPoint,{
+            'id':user,
+            'action':'reset_password'
+        },function(data){
+            alert(data.message)
+        });
+    }
 }

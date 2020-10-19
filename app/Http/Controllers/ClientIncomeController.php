@@ -2,28 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\RepaymentDataTable;
-use App\LoanApplication;
-use App\Repayment;
+use App\ClientIncome;
 use Illuminate\Http\Request;
 
-class RepaymentController extends Controller
+class ClientIncomeController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(RepaymentDataTable $repaymentDataTable)
+    public function index()
     {
-        $applications=LoanApplication::with(['client'])->where('status','=','DISBURSED')->get();
-        $clients=[];
-        foreach ($applications as $application) {
-            if(!in_array($application->client_id,$clients)){
-                $clients[]=$application->client_id;
-            }
-        }
-        return $repaymentDataTable->render('superadministrator.repayments',['clients'=>$clients]);
+        //
     }
 
     /**
@@ -50,10 +41,10 @@ class RepaymentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Repayment  $repayment
+     * @param  \App\ClientIncome  $clientIncome
      * @return \Illuminate\Http\Response
      */
-    public function show(Repayment $repayment)
+    public function show(ClientIncome $clientIncome)
     {
         //
     }
@@ -61,10 +52,10 @@ class RepaymentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Repayment  $repayment
+     * @param  \App\ClientIncome  $clientIncome
      * @return \Illuminate\Http\Response
      */
-    public function edit(Repayment $repayment)
+    public function edit(ClientIncome $clientIncome)
     {
         //
     }
@@ -73,10 +64,10 @@ class RepaymentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Repayment  $repayment
+     * @param  \App\ClientIncome  $clientIncome
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Repayment $repayment)
+    public function update(Request $request, ClientIncome $clientIncome)
     {
         //
     }
@@ -84,10 +75,10 @@ class RepaymentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Repayment  $repayment
+     * @param  \App\ClientIncome  $clientIncome
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Repayment $repayment)
+    public function destroy(ClientIncome $clientIncome)
     {
         //
     }

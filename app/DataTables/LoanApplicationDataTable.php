@@ -2,11 +2,11 @@
 
 namespace App\DataTables;
 
+use App\Clients;
 use App\LoanApplication;
+use Illuminate\Support\Carbon;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class LoanApplicationDataTable extends DataTable
@@ -22,7 +22,21 @@ class LoanApplicationDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', 'actions.loanapplication_action')
-            ->rawColumns(['action']);
+            ->editColumn('client_id',function (LoanApplication $loanApplication){
+                return $loanApplication->client->name;
+            })
+            ->editColumn('product_id',function (LoanApplication $loanApplication){
+                return $loanApplication->product->name;
+            })
+            ->editColumn('created_at',function (LoanApplication $loanApplication){
+                return Carbon::parse($loanApplication->created_at)->toFormattedDateString();
+            })
+            ->editColumn('updated_at',function (LoanApplication $loanApplication){
+                return Carbon::parse($loanApplication->updated_at)->toFormattedDateString();
+            })
+            ->rawColumns(['action'])->order(function($query){
+                $query->orderBy('id','asc');
+            });
     }
 
     /**
@@ -78,7 +92,6 @@ class LoanApplicationDataTable extends DataTable
             Column::make('disbursement_date'),
             Column::make('due_date'),
             Column::make('created_at'),
-            Column::make('updated_at'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

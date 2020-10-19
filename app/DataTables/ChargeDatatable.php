@@ -2,15 +2,14 @@
 
 namespace App\DataTables;
 
-use App\User;
-use Illuminate\Support\Carbon;
+use App\Charge;
+use App\Product;
+use Carbon\Carbon;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class UsersDataTable extends DataTable
+class ChargeDatatable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -22,25 +21,19 @@ class UsersDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'actions.user_action')
-            ->editColumn('created_at',function (User $user){
-                return Carbon::parse($user->created_at)->toFormattedDateString();
+            ->editColumn('product_id',function (Charge $charge){
+                return $charge->product->name;
             })
-            ->editColumn('updated_at',function (User $user){
-                return Carbon::parse($user->updated_at)->toFormattedDateString();
-            })
-            ->addColumn('role', function (User $user){
-                return json_decode($user->roles)[0]->name;
-            });
+            ->addColumn('action', 'actions.charges_action');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\User $model
+     * @param Charge $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(User $model)
+    public function query(Charge $model)
     {
         return $model->newQuery();
     }
@@ -53,7 +46,7 @@ class UsersDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('users-table')->addClass('table-stripped')
+                    ->setTableId('chargedatatable-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
@@ -77,8 +70,9 @@ class UsersDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('name'),
-            Column::make('email'),
-            Column::make('role'),
+            Column::make('product_id'),
+            Column::make('amount'),
+            Column::make('type'),
             Column::make('created_at'),
             Column::make('updated_at'),
             Column::computed('action')
@@ -96,6 +90,6 @@ class UsersDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Users_' . date('YmdHis');
+        return 'Charge_' . date('YmdHis');
     }
 }
