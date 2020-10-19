@@ -19,7 +19,10 @@
         return view('auth.login');
     });
     Route::get('loan',function(){
-        return view('applications.create');
+        $clients=\App\Clients::all();
+        $products=\App\Product::all();
+        $data=['clients'=>$clients,'products'=>$products];
+        return view('applications.create',$data);
     });
     Route::get('home', 'HomeController@index')->name('home');
     Route::group(['middleware' => 'auth'], function () {
@@ -44,4 +47,6 @@
         Route::post('loan-applications/actions','LoanApplicationController@actions')->name('loan-applications.action');
     });
     Route::post('users/actions','UsersController@actions')->name('users.actions');
+    Route::post('clientinfo','ClientsController@info');
+    Route::post('productinfo','ProductController@info');
 

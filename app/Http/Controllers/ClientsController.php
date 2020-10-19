@@ -124,4 +124,10 @@ class ClientsController extends Controller
     {
         //
     }
+
+    public function info(Request  $request)
+    {
+        $this->validate($request,['id'=>'required']);
+        return Clients::findOrFail($request->id)->toJson();
+    }
 }

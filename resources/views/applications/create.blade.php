@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <form action="#" method="post">
+                <form action="#" method="post" id="loan_application_form">
                     {{-- Applicant's details--}}
                     <div class="card">
                         <div class="card-header card-header-primary">
@@ -29,6 +29,9 @@
                                         <label for="client_name">Client Name</label>
                                         <select name="client_name" id="client_name" class="form-control">
                                             <option value="">Select Client</option>
+                                            @foreach($clients as $client)
+                                                <option value="{{$client->id}}" data-content="{{$client->identification_number}}">{{$client->name}} ({{$client->identification_number}})</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -94,6 +97,9 @@
                                                 <label for="product_name">Product Name</label>
                                                 <select name="product_name" id="product_name" class="form-control">
                                                     <option value="">Select Product</option>
+                                                    @foreach($products as $product)
+                                                        <option value="{{$product->id}}" data-content="{{$product->code}}">{{$product->name}} ({{$product->code}})</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -105,7 +111,7 @@
                                         </div>
                                         <div class="col-4">
                                             <div class="form-group">
-                                                <label for="product_rate">Product Rate</label>
+                                                <label for="product_rate">Product Rate (%)</label>
                                                 <input type="text" name="product_rate" id="product_rate" class="form-control">
                                             </div>
                                         </div>
@@ -116,16 +122,24 @@
                                 <div class="card-header card-header-info">Loan Details</div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <div class="form-group">
                                                 <label for="application_amount">Application Amount</label>
                                                 <input type="text" name="application_amount" id="application_amount" class="form-control">
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <div class="form-group">
                                                 <label for="application_duration">Duration in Months</label>
                                                 <input type="number" id="application_duration" name="application_duration" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="loan_officer">Loan Officer</label>
+                                                <select name="loan_officer" id="loan_officer" class="form-control">
+                                                    <option value="">Select Loan Officer</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -243,4 +257,9 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script src="{{asset('assets/js/app.js')}}"></script>
 @endsection

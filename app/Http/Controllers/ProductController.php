@@ -121,4 +121,10 @@ class ProductController extends Controller
         }
         return response()->json('Product activation failed');
     }
+
+    public function info(Request  $request)
+    {
+        $this->validate($request,['id'=>'required']);
+        return Product::findOrFail($request->id)->toJson();
+    }
 }
