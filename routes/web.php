@@ -1,5 +1,6 @@
 <?php
 
+    use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Facades\Route;
 
@@ -21,7 +22,8 @@
     Route::get('loan',function(){
         $clients=\App\Clients::all();
         $products=\App\Product::all();
-        $data=['clients'=>$clients,'products'=>$products];
+        $officers=\App\User::role('administrator')->get();
+        $data=['clients'=>$clients,'products'=>$products,'officers'=>$officers];
         return view('applications.create',$data);
     });
     Route::get('home', 'HomeController@index')->name('home');
@@ -50,3 +52,7 @@
     Route::post('clientinfo','ClientsController@info');
     Route::post('productinfo','ProductController@info');
 
+    //to remove
+    Route::post('loan',function(Request $request){
+        dd($request->all());
+    });

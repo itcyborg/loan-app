@@ -139,6 +139,9 @@
                                                 <label for="loan_officer">Loan Officer</label>
                                                 <select name="loan_officer" id="loan_officer" class="form-control">
                                                     <option value="">Select Loan Officer</option>
+                                                    @foreach($officers as $officer)
+                                                        <option value="{{$officer->id}}">{{$officer->name}} ({{$officer->email}})</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -156,7 +159,7 @@
                         <div class="card-header card-header-primary">Next of Kin</div>
                         <div class="card-body">
                             <div class="table-responsive w-100">
-                                <table class="table table-sm table-striped">
+                                <table class="table table-sm table-striped" ID="NOK_TABLE">
                                     <thead>
                                         <th>Name</th>
                                         <th>Email</th>
@@ -170,31 +173,36 @@
                                         <th>Address</th>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td><input type="text" class="form-control-sm"></td>
-                                            <td><input type="email" name="next_of_kin_email" id="next_of_kin_email" class="form-control-sm"></td>
-                                            <td class="col-2">
-                                                <select name="next_of_kin_gender" id="next_of_kin_gender" class="form-control">
-                                                    <option value="">Select Gender</option>
-                                                </select>
-                                            </td>
-                                            <td class="col-2">
-                                                <select name="next_of_kin_document" id="next_of_kin_document" class="form-control">
-                                                    <option value="">Select Identification Document</option>
-                                                </select>
-                                            </td>
-                                            <td><input type="text" class="form-control-sm"></td>
-                                            <td><input type="text" class="form-control-sm"></td>
-                                            <td><input type="text" class="form-control-sm"></td>
-                                            <td><input type="text" class="form-control-sm"></td>
-                                            <td><input type="date" name="" id="" class="form-control-sm"></td>
-                                            <td><textarea name="" id="" cols="30" rows="1"></textarea></td>
-                                        </tr>
+                                    <tr>
+                                        <td><input type="text" class="form-control-sm" name="next_of_kin_name" id="next_of_kin_name"></td>
+                                        <td><input type="email" name="next_of_kin_email" id="next_of_kin_email" class="form-control-sm"></td>
+                                        <td class="col-2">
+                                            <select name="next_of_kin_gender" id="next_of_kin_gender" class="form-control">
+                                                <option value="">Select Gender</option>
+                                                <option value="MALE">MALE</option>
+                                                <option value="FEMALE">FEMALE</option>
+                                            </select>
+                                        </td>
+                                        <td class="col-2">
+                                            <select name="next_of_kin_document" id="next_of_kin_document" class="form-control">
+                                                <option value="">Select Identification Document</option>
+                                                <option value="NATIONAL_ID">NATIONAL ID</option>
+                                                <option value="PASSPORT">PASSPORT</option>
+                                                <option value="MILITARY_ID">MILITARY ID</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" class="form-control-sm" name="next_of_kin_document_number" id="next_of_kin_document_number"></td>
+                                        <td><input type="text" class="form-control-sm" name="next_of_kin_nationality" id="next_of_kin_nationality"></td>
+                                        <td><input type="text" class="form-control-sm" name="next_of_kin_contact" id="next_of_kin_contact"></td>
+                                        <td><input type="text" class="form-control-sm" name="next_of_kin_relation" id="next_of_kin_relation"></td>
+                                        <td><input type="date" name="next_of_kin_date_of_birth" id="next_of_kin_date_of_birth" class="form-control-sm"></td>
+                                        <td><textarea name="next_of_kin_address" id="next_of_kin_address" cols="30" rows="1"></textarea></td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <div class="w-100 p-3 float-right">
-                                <button class="btn btn-success float-right">Add</button>
+                                <button class="btn btn-success float-right" type="button" onclick="addNextOfKinRow()">Add</button>
                             </div>
                         </div>
                     </div>
@@ -203,7 +211,7 @@
                         <div class="card-header card-header-primary">Collaterals</div>
                         <div class="card-body">
                             <div class="table-responsive w-100">
-                                <table class="table table-sm table-striped">
+                                <table class="table table-sm table-striped" id="collateral_table">
                                     <thead>
                                     <th>Type</th>
                                     <th>Details</th>
@@ -211,14 +219,14 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td><input type="text" class="w-100"></td>
-                                        <td><textarea name="" id="" class="w-100" rows="1"></textarea></td>
-                                        <td><input type="text" class="w-100"></td>
+                                        <td><input type="text" class="w-100" name="collateral_type" id="collateral_type"></td>
+                                        <td><textarea name="collateral_details" id="collateral_details" class="w-100" rows="1"></textarea></td>
+                                        <td><input type="text" class="w-100" name="collateral_value" id="collateral_value"></td>
                                     </tr>
                                     </tbody>
                                 </table>
                                 <div class="w-100 p-3 float-right">
-                                    <button class="btn btn-success float-right">Add</button>
+                                    <button class="btn btn-success float-right" onclick="addCollateralRow()" type="button">Add</button>
                                 </div>
                             </div>
                         </div>
@@ -228,7 +236,7 @@
                         <div class="card-header card-header-primary">Guarantors</div>
                         <div class="card-body">
                             <div class="table-responsive w-100">
-                                <table class="table table-sm table-striped">
+                                <table class="table table-sm table-striped" id="guarantors_table">
                                     <thead>
                                     <th>Name</th>
                                     <th>Identification Document</th>
@@ -237,15 +245,22 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td><input type="text" class="w-100"></td>
-                                        <td><textarea name="" id="" class="w-100" rows="1"></textarea></td>
-                                        <td><input type="text" class="w-100"></td>
-                                        <td><input type="text" class="w-100"></td>
+                                        <td><input type="text" class="w-100" name="guarantor_name" id="guarantor_name"></td>
+                                        <td>
+                                            <select name="guarantor_id_document" id="guarantor_id_document" class="w-100">
+                                                <option value="">Select Identification Document</option>
+                                                <option value="NATIONAL_ID">NATIONAL ID</option>
+                                                <option value="PASSPORT">PASSPORT</option>
+                                                <option value="MILITARY_ID">MILITARY ID</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" class="w-100" id="guarantor_id_number" name="guarantor_id_number"></td>
+                                        <td><input type="text" class="w-100" name="guarantor_contact" id="guarantor_contact"></td>
                                     </tr>
                                     </tbody>
                                 </table>
                                 <div class="w-100 p-3 float-right col-12">
-                                    <button class="btn btn-success float-right">Add</button>
+                                    <button class="btn btn-success float-right" type="button" onclick="addGuarantorRow()">Add</button>
                                 </div>
                             </div>
                         </div>
