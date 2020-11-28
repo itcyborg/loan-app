@@ -22,7 +22,8 @@ class LoanApplication extends Model implements Auditable
         'repayment_frequency',
         'product_id',
         'approval_date',
-        'disbursement_date'
+        'disbursement_date',
+        'officer_id'
     ];
 
     public function product()

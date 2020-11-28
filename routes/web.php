@@ -34,14 +34,14 @@
                 'products' => 'ProductController',
                 'roles' => 'RolesController',
                 'permissions' => 'PermissionsController',
-                'charges'=>'ChargeController'
+                'charges'=>'ChargeController',
+                'reports'=>'ReportController'
             ]);
             Route::post('products/activate','ProductController@activate');
         });
         Route::resources([
             'client' => 'ClientsController',
             'next-of-kin' => 'NextOfKinController',
-            'loan-applications' => 'LoanApplicationController',
             'collateral' => 'CollateralsController',
             'guarantor' => 'GuarantorController',
             'repayment'=>'RepaymentController'
@@ -52,6 +52,9 @@
     Route::post('clientinfo','ClientsController@info');
     Route::post('productinfo','ProductController@info');
 
+    Route::resources([
+        'loan-applications' => 'LoanApplicationController',
+    ]);
     //to remove
     Route::post('loan',function(Request $request){
         dd($request->all());

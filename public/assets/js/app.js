@@ -67,7 +67,9 @@ function submitApplication(){
     let loanDetails={
         amount:$('#application_amount').val(),
         duration:$('#application_duration').val(),
-        officer:officer
+        officer:officer,
+        purpose:$('#application_purpose').val(),
+        frequency:$('#application_repayment_frequency').val()
     }
     // get next of kins
     $('#NOK_TABLE tbody').find('tr').each(function(k,v){

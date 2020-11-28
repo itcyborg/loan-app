@@ -122,19 +122,19 @@
                                 <div class="card-header card-header-info">Loan Details</div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-4">
+                                        <div class="col-3">
                                             <div class="form-group">
                                                 <label for="application_amount">Application Amount</label>
                                                 <input type="text" name="application_amount" id="application_amount" class="form-control">
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-3">
                                             <div class="form-group">
                                                 <label for="application_duration">Duration in Months</label>
                                                 <input type="number" id="application_duration" name="application_duration" class="form-control">
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-3">
                                             <div class="form-group">
                                                 <label for="loan_officer">Loan Officer</label>
                                                 <select name="loan_officer" id="loan_officer" class="form-control">
@@ -144,6 +144,24 @@
                                                     @endforeach
                                                 </select>
                                             </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label for="application_repayment_frequency">Repayment Frequency</label>
+                                                <select name="application_repayment_frequency" id="application_repayment_frequency" class="form-control">
+                                                    <option value="">Select Repayment Frequency</option>
+                                                    <option value="daily">Daily</option>
+                                                    <option value="weekly">Weekly</option>
+                                                    <option value="monthly">Monthly</option>
+                                                    <option value="yearly">Yearly</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="form-group">
+                                            <label for="application_purpose">Purpose</label>
+                                            <textarea name="application_purpose" id="application_purpose" cols="30" rows="3" class="form-control"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -197,6 +215,7 @@
                                         <td><input type="text" class="form-control-sm" name="next_of_kin_relation" id="next_of_kin_relation"></td>
                                         <td><input type="date" name="next_of_kin_date_of_birth" id="next_of_kin_date_of_birth" class="form-control-sm"></td>
                                         <td><textarea name="next_of_kin_address" id="next_of_kin_address" cols="30" rows="1"></textarea></td>
+                                        <td><a href="#" class="fa fa-trash text-danger"></a></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -222,6 +241,7 @@
                                         <td><input type="text" class="w-100" name="collateral_type" id="collateral_type"></td>
                                         <td><textarea name="collateral_details" id="collateral_details" class="w-100" rows="1"></textarea></td>
                                         <td><input type="text" class="w-100" name="collateral_value" id="collateral_value"></td>
+                                        <td><a href="#" class="fa fa-trash text-danger"></a></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -247,7 +267,7 @@
                                     <tr>
                                         <td><input type="text" class="w-100" name="guarantor_name" id="guarantor_name"></td>
                                         <td>
-                                            <select name="guarantor_id_document" id="guarantor_id_document" class="w-100">
+                                            <select name="guarantor_id_document" id="guarantor_id_document" class="w-100 form-control">
                                                 <option value="">Select Identification Document</option>
                                                 <option value="NATIONAL_ID">NATIONAL ID</option>
                                                 <option value="PASSPORT">PASSPORT</option>
@@ -256,6 +276,7 @@
                                         </td>
                                         <td><input type="text" class="w-100" id="guarantor_id_number" name="guarantor_id_number"></td>
                                         <td><input type="text" class="w-100" name="guarantor_contact" id="guarantor_contact"></td>
+                                        <td><a href="#" class="fa fa-trash text-danger"></a></td>
                                     </tr>
                                     </tbody>
                                 </table>

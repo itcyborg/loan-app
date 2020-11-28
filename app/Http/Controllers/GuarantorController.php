@@ -10,7 +10,7 @@ class GuarantorController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function index()
     {
@@ -55,8 +55,8 @@ class GuarantorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Guarantor  $guarantor
-     * @return \Illuminate\Http\Response
+     * @param \App\Guarantor $guarantor
+     * @return void
      */
     public function show(Guarantor $guarantor)
     {
@@ -66,8 +66,8 @@ class GuarantorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Guarantor  $guarantor
-     * @return \Illuminate\Http\Response
+     * @param \App\Guarantor $guarantor
+     * @return void
      */
     public function edit(Guarantor $guarantor)
     {
@@ -77,9 +77,9 @@ class GuarantorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Guarantor  $guarantor
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Guarantor           $guarantor
+     * @return void
      */
     public function update(Request $request, Guarantor $guarantor)
     {
@@ -89,8 +89,8 @@ class GuarantorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Guarantor  $guarantor
-     * @return \Illuminate\Http\Response
+     * @param \App\Guarantor $guarantor
+     * @return void
      */
     public function destroy(Guarantor $guarantor)
     {

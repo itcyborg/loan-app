@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Charge;
 use App\Clients;
+use App\Collaterals;
 use App\DataTables\LoanApplicationDataTable;
+use App\Guarantor;
 use App\LoanApplication;
+use App\NextOfKin;
 use App\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -28,42 +31,98 @@ class LoanApplicationController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function create()
     {
-        return view('superadministrator.loan_applications_create',['clients'=>Clients::all(),'products'=>Product::all()]);
+
+        $officers=\App\User::role('administrator')->get();
+        return view('applications.create',['clients'=>Clients::all(),'products'=>Product::all(),'officers'=>$officers]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|string
      */
     public function store(Request $request)
     {
+//        dd($request->all());
         $this->validate($request,[
-            'client_id'=>'required',
-            'amount_applied'=>'required',
-            'duration'=>'required',
-            'purpose'=>'required',
-            'repayment_frequency'=>'required',
-            'product_id'=>'required'
+            'client'=>'required',
+            'loanDetails.amount'=>'required',
+            'loanDetails.duration'=>'required',
+            'loanDetails.officer'=>'required',
+            'loanDetails.purpose'=>'required',
+            'loanDetails.frequency'=>'required',
+            'product'=>'required'
         ]);
 
         $data=$request->all();
-        $data['user_id']=Auth::id();
-        $product=Product::find($request->product_id);
+//        $data['user_id']=Auth::id();
+        $data['user_id']=1;
+        $product=Product::find($request->product);
+        $data['client_id']=$request->client;
         $data['rate']=$product->rate;
-        $data['charges']=json_encode(Charge::where('product_id',$request->product_id)->get());
-        $data['total_interest']=json_decode(self::calc($request->duration,$request->amount_applied,$data['rate']))->interest;
+        $data['product_id']=$request->product;
+        $data['amount_applied']=$request->loanDetails['amount'];
+        $data['duration']=$request->loanDetails['duration'];
+        $data['officer_id']=$request->loanDetails['officer'];
+        $data['charges']=json_encode(Charge::where('product_id',$request->product)->get());
+        $data['total_interest']=json_decode(self::calc($request->loanDetails['duration'],$request->loanDetails['amount'],$data['rate']))->interest;
         try{
-            if($request->amount_applied>$product->max_amount || $request->amount_applied < $product->min_amount){
+            if($request->loanDetails['amount']>$product->max_amount || $request->loanDetails['amount'] < $product->min_amount){
                 notify()->warning('The amount applied is out of product range. You can apply for '.$product->min_amount.' to '.$product->max_amount);
                 return redirect()->back();
             }
             $loan=LoanApplication::create($data);
+            if($request->ajax()){
+                if($loan){
+                    // create next-of-kin
+                    foreach ($request->next_of_kin as $kin){
+                        $kin=json_decode(\GuzzleHttp\json_encode($kin));
+                        $data=[
+                            'client_id'=>$request->client,
+                            'loan_applications_id'=>$loan->id,
+                            'identification_number'=>$kin->next_of_kin_document_number,
+                            'identification_document'=>$kin->next_of_kin_document,
+                            'primary_contact'=>$kin->next_of_kin_contact,
+                            'email'=>$kin->next_of_kin_email,
+                            'gender'=>$kin->next_of_kin_gender,
+                            'name'=>$kin->next_of_kin_name,
+                            'address'=>$kin->next_of_kin_address,
+                            'nationality'=>$kin->next_of_kin_nationality,
+                            'relation'=>$kin->next_of_kin_relation
+                        ];
+                        $next_of_kin=NextOfKin::create($data);
+                    }
+                    // create collateral
+                    foreach ($request->collaterals as $collateral) {
+                        $collateral=json_decode(json_encode($collateral));
+                        $data=[
+                            'application_id'=>$loan->id,
+                            'type'=>$collateral->collateral_type,
+                            'details'=>$collateral->collateral_details,
+                            'value'=>$collateral->collateral_value
+                        ];
+                        $col=Collaterals::create($data);
+                    }
+                    // create guarantor
+                    foreach ($request->guarantors as $guarantor) {
+                        $rawData=json_decode(json_encode($guarantor));
+                        $data=[
+                            'name'=>$rawData->guarantor_name,
+                            'application_id'=>$loan->id,
+                            'identification_number'=>$rawData->guarantor_id_number,
+                            'identification_document'=>$rawData->guarantor_id_document,
+                            'contact'=>$rawData->guarantor_contact
+                        ];
+                        $gtr=Guarantor::create($data);
+                    }
+                }
+                return 'Loan application saved successfully';
+            }
             notify()->success('Client details saved');
             return redirect()->route('next-of-kin.create',['application_id'=>$loan->id,'client_id'=>$request->client_id]);
         }catch (\Throwable $e){

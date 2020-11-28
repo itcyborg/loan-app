@@ -52,3 +52,10 @@
         <p>Repayments</p>
     </a>
 </li>
+<li class="nav-item {{ Request::is('reports*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{route('reports.index')}}">
+        <i class="material-icons">attach_money</i>
+        <p>Reports</p>
+    </a>
+</li>
+
