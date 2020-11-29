@@ -200,9 +200,15 @@ function submitApplication(){
     }
 
     postJson(paths.loan_application,payload,function(data){
-        console.log(data)
+        data=JSON.parse(data);
+        if(data.status=='success'){
+            alert(data.message)
+        }
     },function (data){
-        console.log(data)
+        data=JSON.parse(data);
+        if(data.status=='error'){
+            alert(data.message)
+        }
     })
 }
 

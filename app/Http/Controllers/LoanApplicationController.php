@@ -48,7 +48,6 @@ class LoanApplicationController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->all());
         $this->validate($request,[
             'client'=>'required',
             'loanDetails.amount'=>'required',
@@ -60,8 +59,8 @@ class LoanApplicationController extends Controller
         ]);
 
         $data=$request->all();
-//        $data['user_id']=Auth::id();
-        $data['user_id']=1;
+        $data['user_id']=Auth::id();
+//        $data['user_id']=1;
         $product=Product::find($request->product);
         $data['client_id']=$request->client;
         $data['rate']=$product->rate;
@@ -121,11 +120,14 @@ class LoanApplicationController extends Controller
                         $gtr=Guarantor::create($data);
                     }
                 }
-                return 'Loan application saved successfully';
+                return response()->json(['status'=>'success','message'=>'Loan application saved successfully'],200);
             }
             notify()->success('Client details saved');
             return redirect()->route('next-of-kin.create',['application_id'=>$loan->id,'client_id'=>$request->client_id]);
         }catch (\Throwable $e){
+            if($request->ajax()){
+                return response()->json(['status'=>'error','message'=>$e->getMessage()],500);
+            }
             notify()->error('An error occurred.'.$e->getMessage());
             return redirect()->route('loan-applications.create');
         }
