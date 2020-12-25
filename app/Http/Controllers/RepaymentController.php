@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Clients;
 use App\DataTables\RepaymentDataTable;
 use App\LoanApplication;
 use App\Repayment;
@@ -23,7 +24,8 @@ class RepaymentController extends Controller
                 $clients[]=$application->client_id;
             }
         }
-        return $repaymentDataTable->render('superadministrator.repayments',['clients'=>$clients]);
+        $newClients=Clients::whereIn('id',$clients)->get();
+        return $repaymentDataTable->render('superadministrator.repayments',['clients'=>$newClients]);
     }
 
     /**
@@ -90,5 +92,14 @@ class RepaymentController extends Controller
     public function destroy(Repayment $repayment)
     {
         //
+    }
+
+    public function listApplications(Request $request)
+    {
+        $this->validate($request,[
+            'client'=>'required'
+        ]);
+        $applications=LoanApplication::where('client_id',$request->client)->where('status','DISBURSED')->get();
+        return $applications;
     }
 }

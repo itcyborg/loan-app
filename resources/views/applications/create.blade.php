@@ -262,6 +262,7 @@
                                     <th>Identification Document</th>
                                     <th>Identification Number</th>
                                     <th>Contact</th>
+                                    <th>Location</th>
                                     </thead>
                                     <tbody>
                                     <tr>
@@ -276,6 +277,7 @@
                                         </td>
                                         <td><input type="text" class="w-100" id="guarantor_id_number" name="guarantor_id_number"></td>
                                         <td><input type="text" class="w-100" name="guarantor_contact" id="guarantor_contact"></td>
+                                        <td><input type="text" class="w-100" name="guarantor_location" id="guarantor_location"></td>
                                         <td><a href="#" class="fa fa-trash text-danger"></a></td>
                                     </tr>
                                     </tbody>

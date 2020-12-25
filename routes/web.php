@@ -19,6 +19,7 @@
     Route::get('/', function () {
         return view('auth.login');
     });
+    Route::get('reports/user','ReportController@getAgentReports');
     Route::get('loan',function(){
         $clients=\App\Clients::all();
         $products=\App\Product::all();
@@ -29,6 +30,8 @@
     Route::get('home', 'HomeController@index')->name('home');
     Route::group(['middleware' => 'auth'], function () {
         Route::group(['middleware' => 'role:superadministrator'], function () {
+            Route::get('reports/data','ReportController@getData');
+//            Route::get('reports/user','ReportController@getAgentReports');
             Route::resources([
                 'users' => 'UsersController',
                 'products' => 'ProductController',
@@ -47,6 +50,7 @@
             'repayment'=>'RepaymentController'
         ]);
         Route::post('loan-applications/actions','LoanApplicationController@actions')->name('loan-applications.action');
+        Route::post('client-applications','RepaymentController@listApplications');
     });
     Route::post('users/actions','UsersController@actions')->name('users.actions');
     Route::post('clientinfo','ClientsController@info');

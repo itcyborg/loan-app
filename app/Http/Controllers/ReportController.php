@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\LoanApplication;
 use App\Report;
 use Illuminate\Http\Request;
 
@@ -10,11 +11,11 @@ class ReportController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function index()
     {
-        //
+        return view('reports.reports');
     }
 
     /**
@@ -81,5 +82,44 @@ class ReportController extends Controller
     public function destroy(Report $report)
     {
         //
+    }
+
+    public function getData(Request $request)
+    {
+        $disbursements=LoanApplication::with('product')
+            ->groupBy('product_id')
+            ->where('status','DISBURSED')
+            ->selectRaw('sum(amount_approved) as amount_approved_sum,sum(amount_applied) as amount_applied_sum,product_id')
+            ->get();
+        $principals=LoanApplication::with('product')
+            ->groupBy('product_id')
+            ->where('status','APPROVED')
+            ->orWhere('status','DISBURSED')
+            ->selectRaw('sum(amount_approved) as amount_approved_sum,sum(amount_applied) as amount_applied_sum,product_id')
+            ->get();
+        $interest=LoanApplication::with('product')
+            ->groupBy('product_id')
+            ->where('status','APPROVED')
+            ->orWhere('status','DISBURSED')
+            ->selectRaw('sum(total_interest) as total_interest,product_id')
+            ->get();
+        return ['disbursement'=>$disbursements,'principals'=>$principals,'interest'=>$interest];
+    }
+
+    public function getAgentReports(Request $request)
+    {
+//        $this->validate($request,[
+//           'agent_id'=>'required',
+//        ]);
+
+        /**
+         * Steps
+         * 1. get the summary of each agent
+         * 2. get the details of each agent
+         */
+
+        // step 1
+        $interest=LoanApplication::with(['product','user','officer'])->get();
+        return $interest;
     }
 }

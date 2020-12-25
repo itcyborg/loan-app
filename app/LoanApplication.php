@@ -41,6 +41,11 @@ class LoanApplication extends Model implements Auditable
         return $this->hasOne(User::class,'id','user_id');
     }
 
+    public function officer()
+    {
+        return $this->hasOne(User::class,'id','officer_id');
+    }
+
     public function repayments()
     {
         return $this->hasMany(Repayment::class,'loan_application_id','id');

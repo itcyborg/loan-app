@@ -5,6 +5,9 @@ let is_edit=false;
 let user=null;
 let product=null;
 let resetEndPoint=window.location.protocol+'//'+window.location.hostname+'/users/actions';
+let reports=window.location.protocol+'//'+window.location.hostname+'/reports/data';
+let agentReports=window.location.protocol+'//'+window.location.hostname+'/reports/user';
+let reportsDatatable;
 
 function RestCalls(Myurl, error, f) {
     $.ajax({
@@ -263,4 +266,69 @@ function resetPassword() {
             alert(data.message)
         });
     }
+}
+
+function loadReports(){
+    RestCalls(reports,function(data){},function (data){
+        let disbursement=data.disbursement;
+        let interest=data.interest;
+        let principals=data.principals;
+
+        let dis_rows='';
+        let principals_rows='';
+        let interest_rows='';
+        $.each(disbursement,function(k,v){
+            dis_rows+='' +
+                '<tr>' +
+                    '<td>'+(++k)+'</td>' +
+                    '<td>'+v.product.name+'</td>' +
+                    '<td>'+v.amount_applied_sum+'</td>' +
+                    '<td>'+v.amount_approved_sum+'</td>' +
+                '</tr>';
+        });
+        $('#tbl_disbursement tbody').html(dis_rows);
+        $.each(interest,function(k,v){
+            interest_rows+='' +
+                '<tr>' +
+                    '<td>'+(++k)+'</td>' +
+                    '<td>'+v.product.name+'</td>' +
+                    '<td>'+v.total_interest+'</td>' +
+                '</tr>';
+        });
+        $('#tbl_interest tbody').html(interest_rows);
+        $.each(principals,function(k,v){
+            principals_rows+='' +
+                '<tr>' +
+                '<td>'+(++k)+'</td>' +
+                '<td>'+v.product.name+'</td>' +
+                '<td>'+v.amount_applied_sum+'</td>' +
+                '<td>'+v.amount_approved_sum+'</td>' +
+                '</tr>';
+        });
+        $('#tbl_principal tbody').html(principals_rows);
+    });
+}
+
+function loadAgentReport(){
+    RestCalls(agentReports,function(data){},function(data){
+        let rows='';
+        $.each(data,function(key,datum){
+            rows+='<tr>' +
+                '<td>'+(++key)+'</td>' +
+                '<td>'+datum.product.name+'</td>' +
+                '<td>'+datum.user.name+'</td>' +
+                '<td>'+datum.officer+'</td>' +
+                '<td>'+datum.id+'</td>' +
+                '<td>'+datum.amount_applied+'</td>' +
+                '<td>'+datum.amount_approved+'</td>' +
+                '<td>'+datum.total_interest+'</td>' +
+                '<td>'+datum.status+'</td>' +
+                '</tr>';
+        });
+        $('#tbl_reports_all tbody').html(rows);
+        reportsDatatable=$('#tbl_reports_all').DataTable({
+            responsive: true,
+            width: '100%',
+        });
+    });
 }
