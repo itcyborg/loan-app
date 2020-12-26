@@ -143,7 +143,7 @@
                 loadReports();
                 loadAgentReport();
             },100);
-            $('#status').on('change',function(){
+            $('#status,#product_name,#agent,#loan_officer').on('change',function(){
                 reportsDatatable.draw();
             });
         });
@@ -159,6 +159,57 @@
                     return true;
                 }
                 if(status.indexOf(d) !== -1){
+                    return true;
+                }
+                return false;
+            }
+        );
+        $.fn.dataTable.ext.search.push(
+            function( settings, data, dataIndex ) {
+                if (settings.nTable.id != "tbl_reports_all") return true;
+                if($('#product_name').val()==""){
+                    return true;
+                }
+                product=$('#product_name').val();
+                d=data[1];
+                if(product==null){
+                    return true;
+                }
+                if(product.indexOf(d) !== -1){
+                    return true;
+                }
+                return false;
+            }
+        );
+        $.fn.dataTable.ext.search.push(
+            function( settings, data, dataIndex ) {
+                if (settings.nTable.id != "tbl_reports_all") return true;
+                if($('#agent').val()==""){
+                    return true;
+                }
+                agent=$('#agent').val();
+                d=data[2];
+                if(agent==null){
+                    return true;
+                }
+                if(agent.indexOf(d) !== -1){
+                    return true;
+                }
+                return false;
+            }
+        );
+        $.fn.dataTable.ext.search.push(
+            function( settings, data, dataIndex ) {
+                if (settings.nTable.id != "tbl_reports_all") return true;
+                if($('#loan_officer').val()==""){
+                    return true;
+                }
+                loan_officer=$('#loan_officer').val();
+                d=data[3];
+                if(loan_officer==null){
+                    return true;
+                }
+                if(loan_officer.indexOf(d) !== -1){
                     return true;
                 }
                 return false;

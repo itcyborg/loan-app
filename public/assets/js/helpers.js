@@ -311,7 +311,12 @@ function loadReports(){
 
 function loadAgentReport(){
     RestCalls(agentReports,function(data){},function(data){
+        data=JSON.parse(data);
+        let loan_officers=data.loan_officers;
+        let products=data.products;
+        let agents=data.agents;
         let rows='';
+        data=data.reports;
         $.each(data,function(key,datum){
             rows+='<tr>' +
                 '<td>'+(++key)+'</td>' +
@@ -330,5 +335,20 @@ function loadAgentReport(){
             responsive: true,
             width: '100%',
         });
+        let products_row='<option value="">All</option>';
+        let agents_row='<option value="">All</option>';
+        let loan_officers_row='<option value="">All</option>';
+        $.each(products,function(k,v){
+            products_row+='<option value="'+v.name+'">'+v.name+'</option>';
+        });
+        $.each(agents,function(k,v){
+            agents_row+='<option value="'+v.name+'">'+v.name+'</option>';
+        });
+        $.each(loan_officers,function(k,v){
+            loan_officers_row+='<option value="'+v.name+'">'+v.name+'</option>';
+        });
+        $('#product_name').html(products_row);
+        $('#agent').html(agents_row);
+        $('#loan_officer').html(loan_officers_row);
     });
 }

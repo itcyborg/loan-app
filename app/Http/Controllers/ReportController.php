@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\LoanApplication;
+use App\Product;
 use App\Report;
+use App\User;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -120,6 +122,8 @@ class ReportController extends Controller
 
         // step 1
         $interest=LoanApplication::with(['product','user','officer'])->get();
-        return $interest;
+        $agents=User::all();
+        $products=Product::all();
+        return json_encode(['reports'=>$interest,'products'=>$products,'agents'=>$agents,'loan_officers'=>$agents]);
     }
 }
