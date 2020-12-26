@@ -318,11 +318,15 @@ function loadAgentReport(){
         let rows='';
         data=data.reports;
         $.each(data,function(key,datum){
+            let officer=datum.officer;
+            if(typeof datum.officer == 'object' && datum.officer!==null){
+                officer=datum.officer.name;
+            }
             rows+='<tr>' +
                 '<td>'+(++key)+'</td>' +
                 '<td>'+datum.product.name+'</td>' +
                 '<td>'+datum.user.name+'</td>' +
-                '<td>'+datum.officer+'</td>' +
+                '<td>'+officer+'</td>' +
                 '<td>'+datum.id+'</td>' +
                 '<td>'+datum.amount_applied+'</td>' +
                 '<td>'+datum.amount_approved+'</td>' +
@@ -334,6 +338,10 @@ function loadAgentReport(){
         reportsDatatable=$('#tbl_reports_all').DataTable({
             responsive: true,
             width: '100%',
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
         });
         let products_row='<option value="">All</option>';
         let agents_row='<option value="">All</option>';

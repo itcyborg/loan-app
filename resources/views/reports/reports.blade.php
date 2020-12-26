@@ -55,7 +55,7 @@
                                             <div class="col-3">
                                                 <label for="status">Status</label>
                                                 <select name="status" id="status" class="form-control">
-                                                    <option value="">Select Status</option>
+                                                    <option value="">ALL</option>
                                                     <option value="PENDING">PENDING</option>
                                                     <option value="DISBURSED">DISBURSED</option>
                                                     <option value="APPROVED">APPROVED</option>
