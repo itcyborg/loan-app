@@ -262,6 +262,7 @@
                                     <th>Identification Document</th>
                                     <th>Identification Number</th>
                                     <th>Contact</th>
+                                    <th>Location</th>
                                     </thead>
                                     <tbody>
                                     <tr>
@@ -276,6 +277,7 @@
                                         </td>
                                         <td><input type="text" class="w-100" id="guarantor_id_number" name="guarantor_id_number"></td>
                                         <td><input type="text" class="w-100" name="guarantor_contact" id="guarantor_contact"></td>
+                                        <td><input type="text" class="w-100" name="guarantor_location" id="guarantor_location"></td>
                                         <td><a href="#" class="fa fa-trash text-danger"></a></td>
                                     </tr>
                                     </tbody>
@@ -297,5 +299,5 @@
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
-    <script src="{{asset('assets/js/app.js')}}"></script>
+    <script src="{{asset('assets_/js/app.js')}}"></script>
 @endsection

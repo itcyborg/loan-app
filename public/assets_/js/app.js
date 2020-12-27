@@ -24,6 +24,10 @@ $(document).ready(function(){
         e.preventDefault();
         submitApplication();
     });
+
+    $('#client').on('change',function (){
+        
+    });
 });
 
 function getClientInfo(id){
@@ -259,4 +263,8 @@ function addGuarantorRow(){
         '    <td><input type="text" class="w-100"></td>' +
         '</tr>';
     $('#guarantors_table tbody').append(basicRow);
+}
+
+function loadApplications(clientId){
+
 }

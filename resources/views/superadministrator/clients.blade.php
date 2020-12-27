@@ -3,6 +3,14 @@
     Clients
 @endsection
 @section('content')
+
+    <style type="text/css">
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 400px;
+        }
+    </style>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -53,9 +61,20 @@
                                             {!! Form::number('alternative_contact',null,['class'=>'form-control','placeholder'=>'Alternative Contact']) !!}
                                         </div>
                                         <div class="col-md-4">
-                                            {!! Form::textarea('address',null,['class'=>'form-control','placeholder'=>'Address']) !!}
+                                            {!! Form::textarea('address',null,['class'=>'form-control','placeholder'=>'Physical Address']) !!}
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            {!! Form::label('latitude','Latitude') !!}
+                                            {!! Form::text('latitude',null,['class'=>'form-control']) !!}
+                                        </div>
+                                        <div class="col-6">
+                                            {!! Form::label('longitude','Longitude') !!}
+                                            {!! Form::text('longitude',null,['class'=>'form-control']) !!}
+                                        </div>
+                                    </div>
+                                    <div class="row" id="map"></div>
                                     {!! Form::submit('Add',['class'=>'btn btn-primary']) !!}
                                     {!! Form::close() !!}
                                 </div>
@@ -82,5 +101,71 @@
     </div>
 @endsection
 @section('scripts')
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuogBspOfHKhSzSldN3vYhcCcsHSoShRA&libraries=places"></script>
     {{$dataTable->scripts()}}
+    <script>
+        var marker=false;
+
+        var map, infoWindow;
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: -34.397, lng: 150.644},
+                zoom: 14
+            });
+            infoWindow = new google.maps.InfoWindow;
+
+            // Try HTML5 geolocation.
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    infoWindow.setPosition(pos);
+                    infoWindow.setContent('Location found.');
+                    infoWindow.open(map);
+                    map.setCenter(pos);
+                    if(marker===false){
+                        marker=new google.maps.Marker({
+                            position:pos,
+                            map:map,
+                            draggable:true
+                        });
+                        markerLocation();
+                        google.maps.event.addListener(marker,'dragend',function(event){
+                            markerLocation();
+                        });
+                    }else{
+                        marker.setPosition(pos);
+                    }
+                }, function() {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, infoWindow, map.getCenter());
+            }
+        }
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(browserHasGeolocation ?
+                'Error: The Geolocation service failed.' :
+                'Error: Your browser doesn\'t support geolocation.');
+            infoWindow.open(map);
+        }
+
+        function markerLocation(){
+            var currentLocation=marker.getPosition();
+            document.getElementById('latitude').value=currentLocation.lat();
+            document.getElementById('longitude').value=currentLocation.lng();
+        }
+
+        $(document).ready(function() {
+            // Basic
+            google.maps.event.addDomListener(window, 'load', initMap);
+        });
+    </script>
 @endsection
