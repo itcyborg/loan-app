@@ -16,7 +16,7 @@ class CreateNextOfKinTable extends Migration
         Schema::create('next_of_kin', function (Blueprint $table) {
             $table->id();
             $table->uuid('log_id');
-            $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('loan_id');
             $table->string('name');
             $table->string('email')->unique()->nullable();
             $table->enum('gender',['MALE','FEMALE']);
