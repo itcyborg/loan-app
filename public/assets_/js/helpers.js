@@ -340,7 +340,7 @@ function loadAgentReport(){
             width: '100%',
             dom: 'Bfrtip',
             buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
+                'csv', 'excel', 'pdf', 'print'
             ]
         });
         let products_row='<option value="">All</option>';
