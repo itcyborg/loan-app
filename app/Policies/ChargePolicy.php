@@ -18,7 +18,7 @@ class ChargePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        // view any charge
     }
 
     /**
@@ -30,7 +30,7 @@ class ChargePolicy
      */
     public function view(User $user, Charge $charge)
     {
-        //
+        // view charge
     }
 
     /**
@@ -41,7 +41,7 @@ class ChargePolicy
      */
     public function create(User $user)
     {
-        //
+        // create charge
     }
 
     /**

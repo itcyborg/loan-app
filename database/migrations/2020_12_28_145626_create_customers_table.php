@@ -31,6 +31,7 @@ class CreateCustomersTable extends Migration
             $table->enum('status',['ACTIVE','INACTIVE'])->default('INACTIVE');
             $table->unsignedBigInteger('agent_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -29,6 +29,7 @@ class CreateGuarantorsTable extends Migration
             $table->timestamp('date_of_birth');
             $table->string('nationality');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

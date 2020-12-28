@@ -22,6 +22,7 @@ class CreateRevenuesTable extends Migration
             $table->unsignedInteger('user_id');
             $table->text('comment')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

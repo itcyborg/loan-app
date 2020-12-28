@@ -21,6 +21,7 @@ class CreateCollateralsTable extends Migration
             $table->text('details');
             $table->unsignedBigInteger('value');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

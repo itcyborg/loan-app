@@ -25,6 +25,7 @@ class CreateRefereesTable extends Migration
             $table->unsignedBigInteger('alternative_contact')->nullable();
             $table->string('nationality');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

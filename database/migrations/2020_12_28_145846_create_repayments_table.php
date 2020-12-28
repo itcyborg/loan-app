@@ -23,6 +23,7 @@ class CreateRepaymentsTable extends Migration
             $table->unsignedDouble('penalty')->default(0);
             $table->unsignedDouble('interest');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

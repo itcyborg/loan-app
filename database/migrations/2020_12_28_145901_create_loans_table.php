@@ -35,6 +35,7 @@ class CreateLoansTable extends Migration
             $table->unsignedBigInteger('disbursed_by')->nullable();
             $table->json('product_config');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

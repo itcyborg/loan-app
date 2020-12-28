@@ -29,6 +29,7 @@ class CreateNextOfKinTable extends Migration
             $table->string('nationality');
             $table->string('relation');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -26,6 +26,7 @@ class CreateProductsTable extends Migration
             $table->unsignedDouble('security');
             $table->enum('status',['ACTIVE','INACTIVE'])->default('INACTIVE');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

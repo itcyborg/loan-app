@@ -20,6 +20,7 @@ class CreateDisbursementsTable extends Migration
             $table->timestamp('date');
             $table->unsignedDouble('amount');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

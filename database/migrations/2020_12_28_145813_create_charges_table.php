@@ -22,6 +22,7 @@ class CreateChargesTable extends Migration
             $table->unsignedBigInteger('product_id');
             $table->enum('status',['ACTIVE','INACTIVE'])->default('INACTIVE');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

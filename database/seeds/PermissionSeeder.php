@@ -20,10 +20,11 @@ use Illuminate\Database\Seeder;
 
         // permissions
         #charges
-        Permission::create(['name'=>'list charges']);
+        Permission::create(['name'=>'view any charge']);
+        Permission::create(['name'=>'view charge']);
         Permission::create(['name'=>'create charge']);
-        Permission::create(['name'=>'']);
-        Permission::create(['name'=>'list charges']);
-        Permission::create(['name'=>'list charges']);
+        Permission::create(['name'=>'update charge']);
+        Permission::create(['name'=>'delete charge']);
+        Permission::create(['name'=>'restore charge']);
     }
 }
