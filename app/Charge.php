@@ -3,21 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class Charge extends Model implements Auditable
+class Charge extends Model
 {
-    use \OwenIt\Auditing\Auditable;
-
-    protected $fillable=[
-        'name',
-        'amount',
-        'type',
-        'product_id'
-    ];
-
-    public function product()
-    {
-        return $this->belongsTo(Product::class,'product_id','id');
-    }
+    //
 }

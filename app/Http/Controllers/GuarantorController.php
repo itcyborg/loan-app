@@ -10,7 +10,7 @@ class GuarantorController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -20,43 +20,29 @@ class GuarantorController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        return view('superadministrator.guarantor_create',['application_id'=>$request->application_id]);
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'name'=>'required',
-            'application_id'=>'required',
-            'identification_number'=>'required',
-            'identification_document'=>'required',
-            'contact'=>'required'
-        ]);
-        try {
-            $guarantor=Guarantor::create($request->all());
-            notify()->success('Guarantor added successfully');
-            return redirect()->route('loan-applications.index');
-        }catch (\Throwable $e){
-            notify()->error('An error occurred adding guarantor.');
-            return redirect()->back();
-        }
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param \App\Guarantor $guarantor
-     * @return void
+     * @param  \App\Guarantor  $guarantor
+     * @return \Illuminate\Http\Response
      */
     public function show(Guarantor $guarantor)
     {
@@ -66,8 +52,8 @@ class GuarantorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Guarantor $guarantor
-     * @return void
+     * @param  \App\Guarantor  $guarantor
+     * @return \Illuminate\Http\Response
      */
     public function edit(Guarantor $guarantor)
     {
@@ -77,9 +63,9 @@ class GuarantorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Guarantor           $guarantor
-     * @return void
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Guarantor  $guarantor
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Guarantor $guarantor)
     {
@@ -89,8 +75,8 @@ class GuarantorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Guarantor $guarantor
-     * @return void
+     * @param  \App\Guarantor  $guarantor
+     * @return \Illuminate\Http\Response
      */
     public function destroy(Guarantor $guarantor)
     {

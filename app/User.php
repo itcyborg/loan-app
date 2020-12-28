@@ -5,13 +5,10 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use OwenIt\Auditing\Contracts\Auditable;
-use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements Auditable
+class User extends Authenticatable
 {
-    use \OwenIt\Auditing\Auditable;
-    use Notifiable,HasRoles,Notifiable;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
