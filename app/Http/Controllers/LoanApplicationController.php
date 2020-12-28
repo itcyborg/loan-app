@@ -250,6 +250,8 @@ class LoanApplicationController extends Controller
             }
             $loan_application->amount_approved=$request->approved_amount;
             $loan_application->approval_date=Carbon::now();
+            $calcResults=json_decode(self::calc($loan_application->duration,$loan_application->amount_approved,$loan_application->rate));
+            $loan_application->total_interest=$calcResults->interest;
             $loan_application->status='APPROVED';
             $loan_application->due_date=Carbon::now()->addMonths($loan_application->duration+1);
             $loan_application->save();
