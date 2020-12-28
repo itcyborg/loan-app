@@ -19,7 +19,7 @@ use Illuminate\Database\Seeder;
         ]);
 
         // permissions
-        #charges
+        // charges
         Permission::create(['name'=>'view any charge']);
         Permission::create(['name'=>'view charge']);
         Permission::create(['name'=>'create charge']);
