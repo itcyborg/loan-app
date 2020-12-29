@@ -4,19 +4,33 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class UserTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *
      * @return void
      */
-    public function testExample()
+    public function test_list_users()
     {
-        $response = $this->get('/');
+        $this->withoutExceptionHandling();
+        $response = $this->get('/user');
 
         $response->assertStatus(200);
+    }
+
+    public function test_create_user()
+    {
+        $this->withoutExceptionHandling();
+        $response=$this->post('/user',[
+            'name'=>'test',
+            'password'=>Hash::make('password'),
+            'email'=>'test@app.com'
+        ]);
+        $response->assertStatus(201);
     }
 }

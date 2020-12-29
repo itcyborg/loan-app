@@ -13,3 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/',function(){
+    return view('welcome');
+});
+Route::resources([
+    'charge'=>'ChargeController',
+    'collateral'=>'CollateralController',
+    'customer' =>'CustomerController',
+    'disbursement'=>'DisbursementController',
+    'guarantor'=>'GuarantorController',
+    'loan'=>'LoanController',
+    'product'=>'ProductController',
+    'referee'=>'RefereeController',
+    'repayment'=>'RepaymentController',
+    'revenue' =>'RevenueController',
+    'user'=>'UserController',
+]);
