@@ -12,6 +12,18 @@ class Referee extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use SoftDeletes;
 
+    protected $fillable=[
+        'log_id',
+        'loan_id',
+        'name',
+        'gender',
+        'identification_document',
+        'identification_number',
+        'primary_contact',
+        'alternative_contact',
+        'nationality',
+    ];
+
     protected static function boot()
     {
         parent::boot();

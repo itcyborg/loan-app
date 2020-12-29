@@ -10,21 +10,20 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \App\User[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        return User::all();
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \App\User[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -81,6 +80,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+
     }
 }

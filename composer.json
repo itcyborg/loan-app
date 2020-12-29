@@ -14,6 +14,8 @@
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
+        "laravel/ui": "2.4",
+        "mckenziearts/laravel-notify": "^2.1",
         "owen-it/laravel-auditing": "^12.0",
         "sentry/sentry-laravel": "^2.3",
         "spatie/laravel-permission": "^3.18"

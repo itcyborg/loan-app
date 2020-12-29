@@ -12,6 +12,19 @@ class Product extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use SoftDeletes;
 
+    protected $fillable=[
+        'log_id',
+        'name',
+        'code',
+        'min_amount',
+        'min_amount',
+        'rate',
+        'min_duration',
+        'max_duration',
+        'security',
+        'status'
+    ];
+
     protected static function boot()
     {
         parent::boot();

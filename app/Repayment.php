@@ -12,6 +12,17 @@ class Repayment extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use SoftDeletes;
 
+    protected $fillable=[
+        'loan_id',
+        'log_id',
+        'due_date',
+        'amount',
+        'amount_paid',
+        'amount_default',
+        'penalty',
+        'interest',
+    ];
+
     protected static function boot()
     {
         parent::boot();

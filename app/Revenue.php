@@ -12,6 +12,15 @@ class Revenue extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use SoftDeletes;
 
+    protected $fillable=[
+        'log_id',
+        'category',
+        'type',
+        'amount',
+        'comment',
+        'user_id',
+    ];
+
     protected static function boot()
     {
         parent::boot();

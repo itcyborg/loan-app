@@ -10,6 +10,18 @@ use Tests\TestCase;
 class UserTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function test_create_user()
+    {
+        $this->withoutExceptionHandling();
+        $response=$this->post('/user',[
+            'name'=>'test',
+            'password'=>Hash::make('password'),
+            'email'=>'test@app.com'
+        ]);
+        $response->assertStatus(201);
+        $users=$this->get('/user')->assertSee('test');
+    }
     /**
      * A basic feature test example.
      *
@@ -21,16 +33,5 @@ class UserTest extends TestCase
         $response = $this->get('/user');
 
         $response->assertStatus(200);
-    }
-
-    public function test_create_user()
-    {
-        $this->withoutExceptionHandling();
-        $response=$this->post('/user',[
-            'name'=>'test',
-            'password'=>Hash::make('password'),
-            'email'=>'test@app.com'
-        ]);
-        $response->assertStatus(201);
     }
 }

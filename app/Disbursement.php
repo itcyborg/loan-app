@@ -12,6 +12,13 @@ class Disbursement extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use SoftDeletes;
 
+    protected $fillable=[
+        'log_id',
+        'loan_id',
+        'date',
+        'amount'
+    ];
+
     protected static function boot()
     {
         parent::boot();

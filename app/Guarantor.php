@@ -12,6 +12,22 @@ class Guarantor extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use SoftDeletes;
 
+    protected $fillable=[
+        'log_id',
+        'customer_id',
+        'loan_id',
+        'name',
+        'email',
+        'gender',
+        'identification_document',
+        'identification_number',
+        'primary_contact',
+        'alternative_contact',
+        'address',
+        'date_of_birth',
+        'nationality'
+    ];
+
     protected static function boot()
     {
         parent::boot();

@@ -12,6 +12,22 @@ class NextOfKin extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use SoftDeletes;
 
+    protected $fillable=[
+        'log_id',
+        'loan_id',
+        'name',
+        'email',
+        'gender',
+        'identification_document',
+        'identification_number',
+        'primary_contact',
+        'alternative_contact',
+        'address',
+        'date_of_birth',
+        'nationality',
+        'relation',
+    ];
+
     protected static function boot()
     {
         parent::boot();
