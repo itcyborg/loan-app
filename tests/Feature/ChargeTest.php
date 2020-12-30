@@ -4,13 +4,11 @@ namespace Tests\Feature;
 
 use App\Charge;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class ChargeTest extends TestCase
 {
-//    use RefreshDatabase;
+    use RefreshDatabase;
     /**
      * @return void
      */
@@ -41,13 +39,17 @@ class ChargeTest extends TestCase
     public function a_charge_can_be_updated()
     {
         $this->withoutExceptionHandling();
-        $response=$this->postJson('charge',[
+        $this->postJson('charge',[
             'name'=>'chagos',
             'amount'=>1500,
             'type'=>'fixed',
             'product_id'=>1
         ]);
-        $response->assertCreated();
+        $charge=Charge::first();
+        $this->patchJson('charge/'.$charge->id,[
+            'amount'=>2000
+        ]);
+        self::assertEquals(2000,(string) Charge::first()->amount);
     }
 
     /** @test */

@@ -14,7 +14,7 @@ class CollateralController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -35,7 +35,7 @@ class CollateralController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Collateral::create($request->all());
     }
 
     /**
@@ -65,21 +65,22 @@ class CollateralController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Collateral  $collateral
-     * @return \Illuminate\Http\Response
+     * @return bool|\Illuminate\Http\Response
      */
     public function update(Request $request, Collateral $collateral)
     {
-        //
+        return $collateral->update($request->all());
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Collateral  $collateral
-     * @return \Illuminate\Http\Response
+     * @param \App\Collateral $collateral
+     * @return bool|\Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Collateral $collateral)
     {
-        //
+        return $collateral->delete();
     }
 }

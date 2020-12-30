@@ -41,11 +41,11 @@ class ChargeController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Charge  $charge
-     * @return \Illuminate\Http\Response
+     * @return \App\Charge|\Illuminate\Http\Response
      */
     public function show(Charge $charge)
     {
-        //
+        return $charge;
     }
 
     /**
@@ -64,11 +64,11 @@ class ChargeController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Charge  $charge
-     * @return \Illuminate\Http\Response
+     * @return bool|\Illuminate\Http\Response
      */
     public function update(Request $request, Charge $charge)
     {
-        //
+        return $charge->update($request->all());
     }
 
     /**

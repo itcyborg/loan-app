@@ -35,7 +35,7 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Customer::create($request->all());
     }
 
     /**
@@ -65,21 +65,21 @@ class CustomerController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Customer  $customer
-     * @return \Illuminate\Http\Response
+     * @return bool|\Illuminate\Http\Response
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        return $customer->update($request->all());
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Customer  $customer
-     * @return \Illuminate\Http\Response
+     * @return bool|\Illuminate\Http\Response
      */
     public function destroy(Customer $customer)
     {
-        //
+        return $customer->delete();
     }
 }
