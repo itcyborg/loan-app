@@ -34,7 +34,7 @@ class ChargeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Charge::create($request->all());
     }
 
     /**

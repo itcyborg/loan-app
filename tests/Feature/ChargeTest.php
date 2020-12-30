@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Charge;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
@@ -9,21 +10,58 @@ use Tests\TestCase;
 
 class ChargeTest extends TestCase
 {
-    use RefreshDatabase;
+//    use RefreshDatabase;
     /**
      * @return void
      */
     public function test_list_charges(): void
     {
         $response = $this->get('/charge');
-        $response->assertStatus(200);
+        $response->assertOk();
     }
 
-//    public function test_create_charge(): void
-//    {
-//        $attributes =[
-//            'log_id'=>Str::uuid(),
-//            'name'=>'Charge 1',
-//        ];
-//    }
+    /**
+     * @test
+     */
+    public function a_charge_can_be_created()
+    {
+        $this->withoutExceptionHandling();
+        $response=$this->postJson('charge',[
+            'name'=>'chagos',
+            'amount'=>1500,
+            'type'=>'fixed',
+            'product_id'=>1
+        ]);
+        $response->assertCreated();
+    }
+
+    /**
+     * @test
+     */
+    public function a_charge_can_be_updated()
+    {
+        $this->withoutExceptionHandling();
+        $response=$this->postJson('charge',[
+            'name'=>'chagos',
+            'amount'=>1500,
+            'type'=>'fixed',
+            'product_id'=>1
+        ]);
+        $response->assertCreated();
+    }
+
+    /** @test */
+    public function a_charge_can_be_deleted()
+    {
+        $this->withoutExceptionHandling();
+        $this->postJson('charge',[
+            'name'=>'chagos',
+            'amount'=>1500,
+            'type'=>'fixed',
+            'product_id'=>1
+        ]);
+        $charge=Charge::first();
+        $response=$this->delete('charge/'.$charge->id);
+        $response->assertSuccessful();
+    }
 }

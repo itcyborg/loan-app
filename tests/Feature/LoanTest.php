@@ -59,7 +59,6 @@ class LoanTest extends TestCase
     /** @test */
     public function a_loan_application_can_be_deleted()
     {
-
         $this->withoutExceptionHandling();
         $this->postJson('loan',[
             'product_id'=>1,
