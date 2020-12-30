@@ -16,7 +16,7 @@ class CreateLoansTable extends Migration
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
             $table->uuid('log_id');
-            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedDouble('rate');
             $table->longText('purpose')->nullable();
             $table->unsignedDouble('amount_applied');
@@ -33,7 +33,7 @@ class CreateLoansTable extends Migration
             $table->unsignedBigInteger('loan_officer')->nullable();
             $table->unsignedBigInteger('applied_by')->nullable();
             $table->unsignedBigInteger('disbursed_by')->nullable();
-            $table->json('product_config');
+            $table->json('product_config')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

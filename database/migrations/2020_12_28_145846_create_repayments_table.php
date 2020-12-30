@@ -15,7 +15,7 @@ class CreateRepaymentsTable extends Migration
     {
         Schema::create('repayments', function (Blueprint $table) {
             $table->id();
-            $table->uuid('loan_id');
+            $table->uuid('log_id');
             $table->unsignedBigInteger('loan_id');
             $table->date('due_date');
             $table->unsignedDouble('amount');

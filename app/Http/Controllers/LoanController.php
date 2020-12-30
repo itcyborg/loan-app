@@ -35,7 +35,8 @@ class LoanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        return Loan::create($request->all());
     }
 
     /**
@@ -69,7 +70,7 @@ class LoanController extends Controller
      */
     public function update(Request $request, Loan $loan)
     {
-        //
+        return $loan->update($request->all());
     }
 
     /**
@@ -80,6 +81,6 @@ class LoanController extends Controller
      */
     public function destroy(Loan $loan)
     {
-        //
+        return $loan->delete();
     }
 }

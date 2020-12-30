@@ -13,7 +13,6 @@ class Loan extends Model implements Auditable
     use SoftDeletes;
 
     protected $fillable=[
-        'loan_id',
         'product_id',
         'rate',
         'purpose',
