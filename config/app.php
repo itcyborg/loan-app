@@ -166,7 +166,7 @@ return [
          * Package Service Providers...
          */
         Spatie\Permission\PermissionServiceProvider::class,
-
+        Rukhsar\TraitCommand\TraitCommandServiceProvider::class,
         /*
          * Application Service Providers...
          */

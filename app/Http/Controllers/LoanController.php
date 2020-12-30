@@ -35,7 +35,6 @@ class LoanController extends Controller
      */
     public function store(Request $request)
     {
-
         return Loan::create($request->all());
     }
 

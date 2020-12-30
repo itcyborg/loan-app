@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -11,6 +12,7 @@ class Loan extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use SoftDeletes;
+    use LoanHelper;
 
     protected $fillable=[
         'product_id',
@@ -43,6 +45,23 @@ class Loan extends Model implements Auditable
 
         self::creating(function ($model) {
             $model->log_id = (string) Str::uuid();
+        });
+
+        self::updating(function($model){
+            if($model->status == 'APPROVED'){
+                $model->total_interest =$this->calc($model->amount_approved,$model->rate,$model->duration);
+            }
+            if($model->status == 'DISBURSED'){
+                $model->disbursement_date=Carbon::now()->toDateTimeString();
+                $model->due_date=Carbon::now()->addMonths($model->duration)->addMonth();
+                $model->disbursed_by=1;
+            }
+        });
+
+        self::updated(function ($model) {
+            if($model->status == 'DISBURSED'){
+                $disbursement=$this->disbursement($model);
+            }
         });
     }
 }
