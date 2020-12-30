@@ -77,4 +77,21 @@ class LoanTest extends TestCase
         $response=$this->delete('loan/'.$loan->id);
         $response->assertSuccessful();
     }
+
+    /** @test */
+    public function an_interest_can_be_calculated()
+    {
+        $this->postJson('loan',[
+            'product_id'=>1,
+            'rate'=>12,
+            'purpose'=>'fees',
+            'amount_applied'=>12000,
+            'duration'=>6,
+            'repayment_frequency'=>'monthly',
+            'customer_id'=>1,
+            'applied_by'=>1,
+            'product_config'=>'test',
+        ]);
+
+    }
 }

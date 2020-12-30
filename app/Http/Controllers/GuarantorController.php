@@ -35,7 +35,7 @@ class GuarantorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Guarantor::create($request->all());
     }
 
     /**
@@ -65,21 +65,22 @@ class GuarantorController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Guarantor  $guarantor
-     * @return \Illuminate\Http\Response
+     * @return bool|\Illuminate\Http\Response
      */
     public function update(Request $request, Guarantor $guarantor)
     {
-        //
+        return $guarantor->update($request->all());
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Guarantor  $guarantor
-     * @return \Illuminate\Http\Response
+     * @param \App\Guarantor $guarantor
+     * @return bool|\Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Guarantor $guarantor)
     {
-        //
+        return $guarantor->delete();
     }
 }

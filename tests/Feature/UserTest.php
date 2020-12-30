@@ -34,4 +34,20 @@ class UserTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    /** @test */
+    public function user_can_login()
+    {
+        $this->withoutExceptionHandling();
+        $this->post('/user',[
+            'name'=>'test',
+            'password'=>Hash::make('password'),
+            'email'=>'test@app.com'
+        ]);
+        $response=$this->post('login',[
+            'email'=>'test@app.com',
+            'password'=>'password'
+        ]);
+        $response->assertRedirect('home');
+    }
 }
