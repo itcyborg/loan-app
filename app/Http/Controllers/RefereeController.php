@@ -35,7 +35,7 @@ class RefereeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Referee::create($request->all());
     }
 
     /**
@@ -65,21 +65,22 @@ class RefereeController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Referee  $referee
-     * @return \Illuminate\Http\Response
+     * @return bool|\Illuminate\Http\Response
      */
     public function update(Request $request, Referee $referee)
     {
-        //
+        return $referee->update($request->all());
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Referee  $referee
-     * @return \Illuminate\Http\Response
+     * @param \App\Referee $referee
+     * @return bool|\Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Referee $referee)
     {
-        //
+        return $referee->delete();
     }
 }

@@ -28,4 +28,5 @@ Route::resources([
     'repayment'=>'RepaymentController',
     'revenue' =>'RevenueController',
     'user'=>'UserController',
+    'next_of_kin'=>'NextOfKinController'
 ]);
