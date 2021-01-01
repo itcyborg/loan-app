@@ -35,7 +35,7 @@ class RevenueController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Revenue::create($request->all());
     }
 
     /**
@@ -65,21 +65,22 @@ class RevenueController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Revenue  $revenue
-     * @return \Illuminate\Http\Response
+     * @return bool|\Illuminate\Http\Response
      */
     public function update(Request $request, Revenue $revenue)
     {
-        //
+        return $revenue->update($request->all());
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Revenue  $revenue
-     * @return \Illuminate\Http\Response
+     * @param \App\Revenue $revenue
+     * @return bool|\Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Revenue $revenue)
     {
-        //
+        return $revenue->delete();
     }
 }
