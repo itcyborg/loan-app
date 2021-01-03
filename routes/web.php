@@ -12,21 +12,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Auth::routes(['register'=>false]);
-Route::get('/',function(){
-    return view('layouts.auth');
+
+Route::get('/{any?}',function(){
+    return view('welcome');
 });
-Route::resources([
-    'charge'=>'ChargeController',
-    'collateral'=>'CollateralController',
-    'customer' =>'CustomerController',
-    'disbursement'=>'DisbursementController',
-    'guarantor'=>'GuarantorController',
-    'loan'=>'LoanController',
-    'product'=>'ProductController',
-    'referee'=>'RefereeController',
-    'repayment'=>'RepaymentController',
-    'revenue' =>'RevenueController',
-    'user'=>'UserController',
-    'next_of_kin'=>'NextOfKinController'
-]);

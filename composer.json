@@ -9,9 +9,11 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "ext-json": "*",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
+        "laravel-frontend-presets/now-ui-dashboard": "^1.0",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "2.4",
@@ -20,8 +22,7 @@
         "owen-it/laravel-auditing": "^12.0",
         "rukhsar/traitcommand": "^1.1",
         "sentry/sentry-laravel": "^2.3",
-        "spatie/laravel-permission": "^3.18",
-        "ext-json": "*"
+        "spatie/laravel-permission": "^3.18"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

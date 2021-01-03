@@ -50,6 +50,7 @@
 <script src="{{asset('assets/js/plugins/bootstrap-notify.js')}}"></script>
 <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="{{asset('assets/js/now-ui-dashboard.min.js?v=1.5.0')}}" type="text/javascript"></script>
+<script src="js/app.js"></script>
 
 </body>
 

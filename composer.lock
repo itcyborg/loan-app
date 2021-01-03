@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3038538c149914dd557427292f1a8dc7",
+    "content-hash": "aa04dddf588e07d3cc15abf85ddcbb6f",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1046,6 +1046,53 @@
                 "source": "https://github.com/Jean85/pretty-package-versions/tree/1.5.1"
             },
             "time": "2020-09-14T08:43:34+00:00"
+        },
+        {
+            "name": "laravel-frontend-presets/now-ui-dashboard",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-frontend-presets/now-ui-dashboard.git",
+                "reference": "abcd01d2d4f2c07d62b32e913aa6f2a96305782c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-frontend-presets/now-ui-dashboard/zipball/abcd01d2d4f2c07d62b32e913aa6f2a96305782c",
+                "reference": "abcd01d2d4f2c07d62b32e913aa6f2a96305782c",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "LaravelFrontendPresets\\NowUiPreset\\NowUiPresetServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "LaravelFrontendPresets\\NowUiPreset\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Laravel 5.x Front-end preset for now ui dashboard",
+            "homepage": "https://github.com/creativetimofficial/now-ui-dashboard-laravel",
+            "keywords": [
+                "Now UI",
+                "laravel",
+                "preset"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel-frontend-presets/now-ui-dashboard/issues",
+                "source": "https://github.com/laravel-frontend-presets/now-ui-dashboard/tree/v1.0.3"
+            },
+            "time": "2020-03-16T17:14:10+00:00"
         },
         {
             "name": "laravel/framework",
@@ -8504,7 +8551,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.2.5"
+        "php": "^7.2.5",
+        "ext-json": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"
