@@ -25,6 +25,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Created</th>
+                                    <th>Action</th>
                                 </thead>
                                 <tbody>
                                     <tr v-for="row in rows">
@@ -32,6 +33,7 @@
                                         <td>{{row.name}}</td>
                                         <td>{{row.email}}</td>
                                         <td>{{row.created_at}}</td>
+                                        <td><button class="btn btn-danger" v-on:click="deleteUser(row.id)">X</button></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -53,6 +55,13 @@ import axios from 'axios';
             axios.get('/api/user').then((res)=>{
                this.rows=res.data;
             });
+        },
+        methods:{
+            deleteUser:function (id){
+                axios.delete('/api/user/'+id).then((res)=>{
+                    console.log(res)
+                });
+            }
         }
     }
 </script>
