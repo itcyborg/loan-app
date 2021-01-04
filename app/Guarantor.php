@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 
+/**
+ * @method static create(array $all)
+ */
 class Guarantor extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;

@@ -14,6 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+    Route::resources([
+        'charge'=>'ChargeController',
+        'collateral'=>'CollateralController',
+        'customer' =>'CustomerController',
+        'disbursement'=>'DisbursementController',
+        'guarantor'=>'GuarantorController',
+        'loan'=>'LoanController',
+        'product'=>'ProductController',
+        'referee'=>'RefereeController',
+        'repayment'=>'RepaymentController',
+        'revenue' =>'RevenueController',
+        'user'=>'UserController',
+        'next_of_kin'=>'NextOfKinController'
+    ]);

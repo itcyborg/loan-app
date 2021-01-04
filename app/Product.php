@@ -17,7 +17,7 @@ class Product extends Model implements Auditable
         'name',
         'code',
         'min_amount',
-        'min_amount',
+        'max_amount',
         'rate',
         'min_duration',
         'max_duration',

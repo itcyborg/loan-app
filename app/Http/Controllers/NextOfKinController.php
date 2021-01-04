@@ -35,7 +35,7 @@ class NextOfKinController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return NextOfKin::create($request->all());
     }
 
     /**
@@ -65,21 +65,22 @@ class NextOfKinController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\NextOfKin  $nextOfKin
-     * @return \Illuminate\Http\Response
+     * @return bool|\Illuminate\Http\Response
      */
     public function update(Request $request, NextOfKin $nextOfKin)
     {
-        //
+        return $nextOfKin->update($request->all());
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\NextOfKin  $nextOfKin
-     * @return \Illuminate\Http\Response
+     * @param \App\NextOfKin $nextOfKin
+     * @return bool|\Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(NextOfKin $nextOfKin)
     {
-        //
+        return $nextOfKin->delete();
     }
 }
