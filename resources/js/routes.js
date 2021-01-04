@@ -1,10 +1,17 @@
-import Dashboard from './components/Dashboard';
-import Users from './components/Users';
-import Product from './components/Product';
-import Loans from './components/Loans';
-import Repayment from './components/Repayment';
-import Client from './components/Clients';
-import Charge from './components/Charge';
+import Dashboard from './Pages/Dashboard';
+
+import Users from './Pages/Users/Users';
+import CreateUser from './Pages/Users/CreateUser';
+
+import Product from './Pages/Product/Product';
+
+import Loans from './Pages/Loans/Loans';
+
+import Repayment from './Pages/Repayment/Repayment';
+
+import Client from './Pages/Client/Clients';
+
+import Charge from './Pages/Charge/Charge';
 
 
 export default {
@@ -13,11 +20,17 @@ export default {
     routes:[
         {
             path:'/',
+            name:'Dashboard',
             component:Dashboard
         },
         {
             path: '/user',
             component:Users
+        },
+        {
+            path:'/user/create',
+            component:CreateUser,
+            name:'CreateUser'
         },
         {
             path: '/loan',

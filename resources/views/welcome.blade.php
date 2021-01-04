@@ -32,7 +32,7 @@
             </div>
             <div class="sidebar-wrapper" id="sidebar-wrapper">
                 <ul class="nav">
-                    <li class="active">
+                    <li>
                         <router-link to="/">
                             <i class="now-ui-icons design_app"></i>
                             <p>Dashboard</p>
@@ -179,8 +179,8 @@
 </div>
 <!--   Core JS Files   -->
 <script src="{{mix('js/app.js')}}"></script>
-<!--  Google Maps Plugin    -->
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+{{-- <!--  Google Maps Plugin    -->
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> --}}
 <!--  Notifications Plugin    -->
 <script src="{{asset('assets/js/plugins/bootstrap-notify.js')}}"></script>
 <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
