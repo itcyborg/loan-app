@@ -21,6 +21,11 @@ class Charge extends Model implements Auditable
         'status'
     ];
 
+
+    protected $casts = [
+        'created_at' => 'datetime:F j, Y, g:i a',
+    ];
+
     protected static function boot()
     {
         parent::boot();
@@ -28,5 +33,10 @@ class Charge extends Model implements Auditable
         self::creating(function ($model) {
             $model->log_id = (string) Str::uuid();
         });
+    }
+
+    public function product()
+    {
+      return $this->belongsTo(Product::class);
     }
 }

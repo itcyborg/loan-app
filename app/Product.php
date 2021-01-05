@@ -25,6 +25,11 @@ class Product extends Model implements Auditable
         'status'
     ];
 
+
+    protected $casts = [
+        'created_at' => 'datetime:F j, Y, g:i a',
+    ];
+
     protected static function boot()
     {
         parent::boot();

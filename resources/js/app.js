@@ -13,8 +13,7 @@ import 'vue-toast-notification/dist/theme-sugar.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import 'perfect-scrollbar';
-
-Vue.use(VueToast);
+window.axios=require('axios');
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);
@@ -22,6 +21,9 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 
 window.$ = window.jQuery = require('jquery');
+
+
+Vue.use(VueToast);
 
 Vue.use(VueRouter);
 

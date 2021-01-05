@@ -24,7 +24,7 @@ class ChargeTest extends TestCase
     public function a_charge_can_be_created()
     {
         $this->withoutExceptionHandling();
-        $response=$this->postJson('charge',[
+        $response=$this->postJson('/api/charge',[
             'name'=>'chagos',
             'amount'=>1500,
             'type'=>'fixed',
@@ -39,14 +39,14 @@ class ChargeTest extends TestCase
     public function a_charge_can_be_updated()
     {
         $this->withoutExceptionHandling();
-        $this->postJson('charge',[
+        $this->postJson('/api/charge',[
             'name'=>'chagos',
             'amount'=>1500,
             'type'=>'fixed',
             'product_id'=>1
         ]);
         $charge=Charge::first();
-        $this->patchJson('charge/'.$charge->id,[
+        $this->patchJson('/api/charge/'.$charge->id,[
             'amount'=>2000
         ]);
         self::assertEquals(2000,(string) Charge::first()->amount);

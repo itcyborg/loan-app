@@ -14,6 +14,7 @@ class ChargeController extends Controller
      */
     public function index()
     {
+      return Charge::with('product')->get();
     }
 
     /**
@@ -43,8 +44,9 @@ class ChargeController extends Controller
      * @param  \App\Charge  $charge
      * @return \App\Charge|\Illuminate\Http\Response
      */
-    public function show(Charge $charge)
+    public function show($id)
     {
+        $charge=Charge::with('product')->findOrFail($id);
         return $charge;
     }
 
@@ -79,6 +81,6 @@ class ChargeController extends Controller
      */
     public function destroy(Charge $charge)
     {
-        //
+        return $charge->delete();
     }
 }

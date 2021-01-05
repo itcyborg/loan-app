@@ -3,22 +3,52 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <div id="addUser">
+                    <div id="addProduct">
                         <div class="card">
                             <div class="card-header card-header-primary">
-                                <div class="title">Add User</div>
+                                <div class="title">Add Product</div>
                             </div>
                             <div class="card-body">
                                 <div class="form">
-                                    <form @submit.prevent="createUser">
+                                    <form @submit.prevent="createProduct">
                                         <div class="row">
                                             <div class="col-6">
                                                 <label>Name</label>
                                                 <input type="text" v-model="form.name" class="form-control">
                                             </div>
                                             <div class="col-6">
-                                                <label>Email</label>
-                                                <input type="email" v-model="form.email" class="form-control">
+                                                <label>Code</label>
+                                                <input type="text" v-model="form.code" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label>Annual Rate</label>
+                                                <input type="text" class="form-control" v-model="form.rate">
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Security</label>
+                                                <input type="number" class="form-control" v-model="form.security">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label>Minimum Amount</label>
+                                                <input type="number" class="form-control" v-model="form.min_amount">
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Maximum Amount</label>
+                                                <input type="number" class="form-control" v-model="form.max_amount">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label>Minimum Duration (months)</label>
+                                                <input type="number" class="form-control" v-model="form.min_duration">
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Maximum Duration (months)</label>
+                                                <input type="number" class="form-control" v-model="form.max_duration">
                                             </div>
                                         </div>
                                         <button class="btn btn-primary">Submit</button>
@@ -34,29 +64,27 @@
 </template>
 
 <script>
-import axios from 'axios';
 import { required } from 'vuelidate/lib/validators';
 export default {
-
     data() {
         return {
             form: {
                 name: null,
-                email: null
+                code:null,
+                min_amount:null,
+                max_amount:null,
+                min_duration:null,
+                max_duration:null,
+                security:null,
+                rate:null,
             }
         };
     },
     validations:{
-        name:{
-            required
-        },
-        email:{
-
-        }
     },
     methods: {
-        createUser:function() {
-            axios.post('/api/user',this.form)
+        createProduct:function() {
+            axios.post('/api/product',this.form)
             .then((res)=>{
                 if(res.status==201){
                     this.$toast.success('User Created Successfully',{

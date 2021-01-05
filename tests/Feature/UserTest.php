@@ -14,13 +14,13 @@ class UserTest extends TestCase
     public function test_create_user()
     {
         $this->withoutExceptionHandling();
-        $response=$this->post('/user',[
+        $response=$this->post('/api/user',[
             'name'=>'test',
             'password'=>Hash::make('password'),
             'email'=>'test@app.com'
         ]);
         $response->assertStatus(201);
-        $users=$this->get('/user')->assertSee('test');
+        $this->get('/api/user')->assertSee('test');
     }
     /**
      * A basic feature test example.
@@ -30,7 +30,7 @@ class UserTest extends TestCase
     public function test_list_users()
     {
         $this->withoutExceptionHandling();
-        $response = $this->get('/user');
+        $response = $this->get('/api/user');
 
         $response->assertStatus(200);
     }
@@ -39,7 +39,7 @@ class UserTest extends TestCase
     public function user_can_login()
     {
         $this->withoutExceptionHandling();
-        $this->post('/user',[
+        $this->post('/api/user',[
             'name'=>'test',
             'password'=>Hash::make('password'),
             'email'=>'test@app.com'

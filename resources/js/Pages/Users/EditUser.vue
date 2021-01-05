@@ -6,11 +6,11 @@
                     <div id="addUser">
                         <div class="card">
                             <div class="card-header card-header-primary">
-                                <div class="title">Add User</div>
+                                <div class="title">Edit User</div>
                             </div>
                             <div class="card-body">
                                 <div class="form">
-                                    <form @submit.prevent="createUser">
+                                    <form @submit.prevent="editUser">
                                         <div class="row">
                                             <div class="col-6">
                                                 <label>Name</label>
@@ -37,7 +37,9 @@
 import axios from 'axios';
 import { required } from 'vuelidate/lib/validators';
 export default {
-
+    mounted(){
+        this.getUser(this.$route.params.id);
+    },
     data() {
         return {
             form: {
@@ -55,17 +57,25 @@ export default {
         }
     },
     methods: {
-        createUser:function() {
-            axios.post('/api/user',this.form)
+        editUser:function() {
+            axios.patch('/api/user/'+this.$route.params.id,this.form)
             .then((res)=>{
                 if(res.status==201){
-                    this.$toast.success('User Created Successfully',{
+                    this.$toast.success('User Updated Successfully',{
                         position:'top-right'
                     });
                     this.form.name='';
                     this.form.email='';
                 }
             })
+        },
+        getUser:function(id){
+            console.log(id);
+            axios.get('/api/user/'+id).then((res)=>{
+                console.log(res.data);
+                this.form.name=res.data.name;
+                this.form.email=res.data.email;
+            });
         }
     }
 }

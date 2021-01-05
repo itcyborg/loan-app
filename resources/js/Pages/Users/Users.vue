@@ -33,7 +33,10 @@
                                         <td>{{row.name}}</td>
                                         <td>{{row.email}}</td>
                                         <td>{{row.created_at}}</td>
-                                        <td><button class="btn btn-danger" v-on:click="deleteUser(row.id)">X</button></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-danger" v-on:click="deleteUser(row.id)">X</button>
+                                            <router-link :to="{name:'EditUser',params:{id:row.id} }" class="btn btn-primary">Edit</router-link>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -46,7 +49,6 @@
 </template>
 
 <script>
-import axios from 'axios';
     export default {
         data(){
           return {rows:[]}

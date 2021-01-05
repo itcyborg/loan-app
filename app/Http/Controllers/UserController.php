@@ -56,7 +56,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        return User::findOrFail($id);
     }
 
     /**
@@ -79,7 +79,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        return User::findOrFail($id)->update($request->all());
     }
 
     /**
