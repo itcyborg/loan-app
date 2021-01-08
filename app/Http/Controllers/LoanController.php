@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Loan;
+use App\Product;
 use Illuminate\Http\Request;
 
 class LoanController extends Controller
@@ -10,11 +11,11 @@ class LoanController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        return Loan::with(['client','product','officer'])->get();
     }
 
     /**
@@ -35,7 +36,23 @@ class LoanController extends Controller
      */
     public function store(Request $request)
     {
-        return Loan::create($request->all());
+        $product=Product::find(request('product_id'));
+        if(!$product){
+            return response('Product not found.',400);
+        }
+        if($product->status!=='ACTIVE'){
+            return response('Product not active.',400);
+        }
+        $data=[
+            'product_id'=>request('product_id'),
+            'purpose'=>request('purpose'),
+            'amount_applied'=>request('amount_applied'),
+            'duration'=>request('duration'),
+            'customer_id'=>request('customer_id'),
+            'product_config'=>$product,
+            'rate'=>$product->rate
+        ];
+        return Loan::create($data);
     }
 
     /**

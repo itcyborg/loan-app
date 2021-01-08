@@ -30,12 +30,21 @@ class Customer extends Model implements Auditable
         'agent_id',
     ];
 
+
+   protected $casts = [
+       'created_at' => 'datetime:F j, Y, g:i a',
+       'date_of_birth' => 'datetime:Y-m-d',
+   ];
+
     protected static function boot()
     {
         parent::boot();
 
         self::creating(function ($model) {
             $model->log_id = (string) Str::uuid();
+
+            // TODO: remove
+            $model->agent_id=1;
         });
     }
 }

@@ -39,8 +39,24 @@ class Loan extends Model implements Auditable
     ];
 
     protected $casts=[
-        'product_config'=>'json'
+        'product_config'=>'json',
+        'created_at' => 'datetime:F j, Y',
     ];
+
+    public function client()
+    {
+        return $this->belongsTo(Customer::class,'customer_id','id');
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class,'product_id','id');
+    }
+
+    public function officer()
+    {
+        return $this->belongsTo(User::class,'loan_officer','id');
+    }
 
     protected static function boot()
     {

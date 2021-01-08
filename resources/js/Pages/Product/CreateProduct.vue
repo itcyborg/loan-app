@@ -64,7 +64,6 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
 export default {
     data() {
         return {
@@ -79,8 +78,6 @@ export default {
                 rate:null,
             }
         };
-    },
-    validations:{
     },
     methods: {
         createProduct:function() {

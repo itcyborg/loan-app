@@ -1,128 +1,97 @@
 <template>
     <div class="row">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="title">Edit Profile</h5>
-                </div>
-                <div class="card-body">
-                    <form>
-                        <div class="row">
-                            <div class="col-md-5 pr-1">
-                                <div class="form-group">
-                                    <label>Company (disabled)</label>
-                                    <input type="text" class="form-control" disabled="" placeholder="Company" value="Creative Code Inc.">
-                                </div>
-                            </div>
-                            <div class="col-md-3 px-1">
-                                <div class="form-group">
-                                    <label>Username</label>
-                                    <input type="text" class="form-control" placeholder="Username" value="michael23">
-                                </div>
-                            </div>
-                            <div class="col-md-4 pl-1">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Email address</label>
-                                    <input type="email" class="form-control" placeholder="Email">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 pr-1">
-                                <div class="form-group">
-                                    <label>First Name</label>
-                                    <input type="text" class="form-control" placeholder="Company" value="Mike">
-                                </div>
-                            </div>
-                            <div class="col-md-6 pl-1">
-                                <div class="form-group">
-                                    <label>Last Name</label>
-                                    <input type="text" class="form-control" placeholder="Last Name" value="Andrew">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>Address</label>
-                                    <input type="text" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4 pr-1">
-                                <div class="form-group">
-                                    <label>City</label>
-                                    <input type="text" class="form-control" placeholder="City" value="Mike">
-                                </div>
-                            </div>
-                            <div class="col-md-4 px-1">
-                                <div class="form-group">
-                                    <label>Country</label>
-                                    <input type="text" class="form-control" placeholder="Country" value="Andrew">
-                                </div>
-                            </div>
-                            <div class="col-md-4 pl-1">
-                                <div class="form-group">
-                                    <label>Postal Code</label>
-                                    <input type="number" class="form-control" placeholder="ZIP Code">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>About Me</label>
-                                    <textarea rows="4" cols="80" class="form-control" placeholder="Here can be your description" value="Mike">Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+        <div class="row w-100">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <router-link :to="{ name: 'CreateLoan'}" class="btn btn-primary">Create Loan Application</router-link>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card card-user">
-                <div class="image">
-                    <img src="assets/img/bg5.jpg" alt="...">
-                </div>
-                <div class="card-body">
-                    <div class="author">
-                        <a href="#">
-                            <img class="avatar border-gray" src="assets/img/mike.jpg" alt="...">
-                            <h5 class="title">Mike Andrew</h5>
-                        </a>
-                        <p class="description">
-                            michael24
-                        </p>
+        <div class="row w-100">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="title">Loan Applications</h5>
                     </div>
-                    <p class="description text-center">
-                        "Lamborghini Mercy <br>
-                        Your chick she so thirsty <br>
-                        I'm in that two seat Lambo"
-                    </p>
-                </div>
-                <hr>
-                <div class="button-container">
-                    <button href="#" class="btn btn-neutral btn-icon btn-round btn-lg">
-                        <i class="fab fa-facebook-f"></i>
-                    </button>
-                    <button href="#" class="btn btn-neutral btn-icon btn-round btn-lg">
-                        <i class="fab fa-twitter"></i>
-                    </button>
-                    <button href="#" class="btn btn-neutral btn-icon btn-round btn-lg">
-                        <i class="fab fa-google-plus-g"></i>
-                    </button>
+                    <div class="card-body">
+                      <div class="table-responsive table-sm">
+                        <table class="table table-sm">
+                            <thead>
+                            <th>#</th>
+                            <th>Client Name</th>
+                            <th>Product Name</th>
+                            <th>Amount Applied</th>
+                            <th>Amount Approved</th>
+                            <th>Rate</th>
+                            <th>Duration</th>
+                            <th>Total Interest</th>
+                            <th>Approval Date</th>
+                            <th>Disbursement Date</th>
+                            <th>Repayment Frequency</th>
+                            <th>Total Amount Repaid</th>
+                            <th>Loan Officer</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th>Action</th>
+                            </thead>
+                            <tbody>
+                            <tr v-for="row in rows">
+                                <td>{{ row.id }}</td>
+                                <td>{{ row.client.name }}</td>
+                                <td>{{ row.product.name }}</td>
+                                <td>{{ row.amount_applied }}</td>
+                                <td>{{ row.amount_approved }}</td>
+                                <td>{{ row.rate }}</td>
+                                <td>{{ row.duration }}</td>
+                                <td>{{ row.total_interest }}</td>
+                                <td>{{ row.approval_date }}</td>
+                                <td>{{ row.disbursement_date }}</td>
+                                <td>{{ row.repayment_frequency }}</td>
+                                <td>{{ row.total_amount_repaid }}</td>
+                                <td>
+                                  <div v-if="row.officer">
+                                    {{ row.officer.name }}
+                                  </div>
+                                </td>
+                                <td>{{ row.status }}</td>
+                                <td>{{ row.created_at }}</td>
+                                <td>
+                                  <div class="row">
+                                      <button class="btn btn-sm btn-danger" v-on:click="deleteLoan(row.id)">X</button>
+                                      <router-link :to="{name:'EditLoan',params:{id:row.id} }" class="btn btn-sm btn-primary">
+                                          Edit
+                                      </router-link>
+                                  </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                      </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
-
 <script>
     export default {
-        mounted() {
-            console.log('Component mounted.')
+      data(){
+         return {
+           rows:[]
+         }
+      },
+      mounted() {
+        this.getLoans();
+      },
+      methods:{
+        getLoans(){
+          axios.get('/api/loan').then((res)=>{
+            // console.log(res)
+            this.rows=res.data;
+          });
         }
+      }
     }
 </script>

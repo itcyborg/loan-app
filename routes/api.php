@@ -28,3 +28,6 @@ use Illuminate\Support\Facades\Route;
         'user'=>'UserController',
         'next_of_kin'=>'NextOfKinController'
     ]);
+    Route::get('countries',function(){
+      return json_decode(\Illuminate\Support\Facades\Storage::disk('local')->get('countries.json'));
+    });
