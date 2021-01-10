@@ -286,7 +286,7 @@ class LoanApplicationController extends Controller
             Repayment::create([
                 'loan_application_id'=>$loan->id,
                 'due_date'=>$currentMonth,
-                'amount'=>number_format($amount,0)
+                'amount'=> number_format($amount,0,'.','')
             ]);
         }
     }
