@@ -17,7 +17,7 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-md-6">
-                                    {!! Form::select('client',$clients->pluck('name','id'),null,['class'=>'form-control','placeholder'=>'Client Name','id'=>'client']) !!}
+                                    {!! Form::select('client',$clients->pluck('name','id'),null,['class'=>'form-control','placeholder'=>'Client Name','id'=>'repayment_client_name']) !!}
                                 </div>
                                 <div class="form-group col-md-6">
                                     {!! Form::select('application',[],null,['class'=>'form-control','placeholder'=>'Select Application','id'=>'application']) !!}

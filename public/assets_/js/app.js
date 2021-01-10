@@ -2,13 +2,20 @@ let origin=window.location.origin+'/';
 let paths={
     client_info:origin+'clientinfo',
     product_info:origin+'productinfo',
-    loan_application:origin+'loan-applications'
+    loan_application:origin+'loan-applications',
+    active_application:origin+'client-applications'
 }
 
 $(document).ready(function(){
-    $('#client_name').select2();
-    $('#product_name').select2();
-    $('#loan_officer').select2();
+    if($('#client_name').length >0) {
+        $('#client_name').select2();
+    }
+    if($('#product_name').length >0) {
+        $('#product_name').select2();
+    }
+    if($('#loan_officer').length >0) {
+        $('#loan_officer').select2();
+    }
 
     $('#client_name').on('select2:select',function (event){
         let id=$(this).find(':selected')[0].getAttribute('value');
@@ -25,8 +32,13 @@ $(document).ready(function(){
         submitApplication();
     });
 
-    $('#client').on('change',function (){
-        
+    $('#repayment_client_name').on('change',function (){
+        let client=$('#repayment_client_name').val();
+        getApplications(client);
+    });
+
+    $('#application').on('change',function(){
+        let application_id=$('#application').val();
     });
 });
 
@@ -265,6 +277,14 @@ function addGuarantorRow(){
     $('#guarantors_table tbody').append(basicRow);
 }
 
-function loadApplications(clientId){
-
+function getApplications(clientId){
+    postJson(paths.active_application,{client:clientId},function(data){
+        let options='<option value="">Select Application</option>';
+        $.each(data,function(k,v){
+            options+="<option value='"+v.id+"'>Application no: "+v.id+"</option>";
+        });
+        $('#application').html(options);
+    },function(data){
+        console.log(data);
+    })
 }

@@ -41,12 +41,23 @@ class RepaymentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
-        //
+//        return print_r($request->all(),true);
+        $this->validate($request,[
+            'client'=>'required',
+            'application'=>'required',
+            'amount'=>'required'
+        ]);
+        $repayments=Repayment::where('loan_application_id',$request->application)->get();
+        foreach ($repayments as $repayment) {
+            $repayment->amount_paid=$request->amount;
+        }
+        return $repayments;
     }
 
     /**

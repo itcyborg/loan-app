@@ -22,10 +22,7 @@ class RepaymentDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-//            ->addColumn('action', 'repaymentdatatable.action')
-            ->editColumn('client_id',function (Repayment $repayment){
-                return $repayment->client->name;
-            })
+//            ->addColumn('action', 'repaymentdatatable.action'
             ;
     }
 
@@ -71,7 +68,6 @@ class RepaymentDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('client_id')->title('Client'),
             Column::make('loan_application_id'),
             Column::make('amount'),
             Column::make('created_at'),

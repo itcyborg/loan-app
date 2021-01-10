@@ -1,4 +1,5 @@
-<div class="modal fade view_loan_application" tabindex="-1" role="dialog" aria-labelledby="ViewLoanApplication" aria-hidden="true">
+<div class="modal fade view_loan_application" tabindex="-1" role="dialog" aria-labelledby="ViewLoanApplication"
+     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="col-md-12">
@@ -6,11 +7,10 @@
                     <div class="card-header card-header-primary">
                         <h4 class="card-title">Loan Application</h4>
                         <p class="category">
-                            <div class="client_name"></div>
-                            <div class="pull-right">
-                                Loan Application:  #<span id="loan_application_id"></span>
-                            </div>
-                        </p>
+                        <div class="client_name"></div>
+                        <div class="pull-right">
+                            Loan Application: #<span id="loan_application_id"></span>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="card">
@@ -112,10 +112,10 @@
                                     <h5>Charges</h5>
                                     <table class="table table-striped table primary">
                                         <thead>
-                                            <th>#</th>
-                                            <th>Name</th>
-                                            <th>Amount</th>
-                                            <th>Type</th>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Amount</th>
+                                        <th>Type</th>
                                         </thead>
                                         <tbody id="charges_data">
                                         </tbody>
@@ -138,9 +138,9 @@
                                     <div class="col-md-12 table-responsive table-condesed">
                                         <table class="table table-striped table-primary">
                                             <thead>
-                                                <th>#</th>
-                                                <th>Amount</th>
-                                                <th>Date</th>
+                                            <th>#</th>
+                                            <th>Amount</th>
+                                            <th>Due Date</th>
                                             </thead>
                                             <tbody id="loan_repayment_data">
                                             </tbody>
@@ -179,10 +179,10 @@
                                 <div class="table table-responsive table-condensed">
                                     <table class="table table-striped table-secondary">
                                         <thead>
-                                            <th>#</th>
-                                            <th>Type</th>
-                                            <th>Details</th>
-                                            <th>Value</th>
+                                        <th>#</th>
+                                        <th>Type</th>
+                                        <th>Details</th>
+                                        <th>Value</th>
                                         </thead>
                                         <tbody id="collaterals_data">
 
@@ -201,7 +201,6 @@
                                         <thead>
                                         <th>#</th>
                                         <th>Name</th>
-                                        <th>Gender</th>
                                         <th>Contact</th>
                                         <th>Identification Document</th>
                                         <th>Identification Number</th>
@@ -218,15 +217,18 @@
 
             <div class="modal-footer">
                 @role('superadministrator')
-                    <button class="btn btn-success" id="btn_approve" onclick='loanAction("{{route('loan-applications.action')}}","approve")'>
-                        <i class="fa fa-check"></i> Approve
-                    </button>
-                    <button class="btn btn-primary" id="btn_disburse" onclick='loanAction("{{route('loan-applications.action')}}","disburse")'>
-                        <i class="fa fa-check"></i> Disburse
-                    </button>
-                    <button class=" btn btn-danger" id="btn_reject" onclick='loanAction("{{route('loan-applications.action')}}","reject")'>
-                        <i class="flaticon-cancel"></i> Reject
-                    </button>
+                <button class="btn btn-success" id="btn_approve"
+                        onclick='loanAction("{{route('loan-applications.action')}}","approve")'>
+                    <i class="fa fa-check"></i> Approve
+                </button>
+                <button class="btn btn-primary" id="btn_disburse"
+                        onclick='loanAction("{{route('loan-applications.action')}}","disburse")'>
+                    <i class="fa fa-check"></i> Disburse
+                </button>
+                <button class="btn btn-danger" id="btn_reject"
+                        onclick='loanAction("{{route('loan-applications.action')}}","reject")'>
+                    <i class="flaticon-cancel"></i> Reject
+                </button>
                 @endrole
             </div>
         </div>

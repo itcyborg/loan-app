@@ -10,6 +10,7 @@ use App\Guarantor;
 use App\LoanApplication;
 use App\NextOfKin;
 use App\Product;
+use App\Repayment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -267,7 +268,26 @@ class LoanApplicationController extends Controller
             $loan_application->status='DISBURSED';
             $loan_application->disbursement_date=Carbon::now();
             $loan_application->save();
+
+            // create the schedule
+            $this->schedule($loan_application);
+
             return response()->json('Disbursement successful',201);
+        }
+    }
+
+    public function schedule($loan)
+    {
+        $currentMonth=Carbon::parse($loan->disbursement_date);
+        $duration=$loan->duration;
+        $amount=$loan->amount_approved/$duration;
+        for ($i=1;$i<=$duration;$i++){
+            $currentMonth=$currentMonth->addMonth();
+            Repayment::create([
+                'loan_application_id'=>$loan->id,
+                'due_date'=>$currentMonth,
+                'amount'=>number_format($amount,0)
+            ]);
         }
     }
 }

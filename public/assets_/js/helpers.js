@@ -100,6 +100,7 @@ function loadLoanApplicationModal(loanData) {
         $('#btn_approve').show();
     }
     if(loanData.status==='APPROVED'){
+        console.log(loanData);
         $('#btn_approve').hide();
         $('#btn_reject').hide();
         $('#btn_disburse').show();
@@ -120,7 +121,7 @@ function loadLoanApplicationModal(loanData) {
 function generateRepaymentTableData(repayment_data){
     var data=null;
     $.each(repayment_data,function(k,v){
-        data+="<tr><td>"+v.id+"</td><td>"+v.amount+"</td><td>"+v.created_at+"</td></tr>"
+        data+="<tr><td>"+v.id+"</td><td>"+v.amount+"</td><td>"+v.due_date+"</td></tr>"
     })
     return data;
 }
@@ -141,7 +142,7 @@ function generateNextOfKinTableData(next_of_kin_data){
 function generateGuarantorsTableData(next_of_kin_data){
     var data=null;
     $.each(next_of_kin_data,function(k,v){
-        data+="<tr><td>"+v.id+"</td><td>"+v.name+"</td><td>"+v.gender+"</td><td>"+v.primary_contact+","+v.alternative_contact+"</td><td>"+v.identification_document+"</td><td>"+v.identification_number+"</td></tr>"
+        data+="<tr><td>"+v.id+"</td><td>"+v.name+"</td><td>"+v.contact+"</td><td>"+v.identification_document+"</td><td>"+v.identification_number+"</td></tr>"
     })
     return data;
 }
