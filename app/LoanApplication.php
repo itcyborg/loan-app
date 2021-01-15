@@ -26,6 +26,21 @@ class LoanApplication extends Model implements Auditable
         'officer_id'
     ];
 
+    public function getAmountApprovedAttribute($value)
+    {
+        if($value==null){
+            return 0;
+        }
+        return $value;
+    }
+
+    public function getTotalInterestAttribute($value)
+    {
+        if($value==null){
+            return 0;
+        }
+        return $value;
+    }
     public function product()
     {
         return $this->hasOne(Product::class,'id','product_id');

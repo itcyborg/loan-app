@@ -23,7 +23,7 @@
                 <div class="card-body">
                     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                         <li class="nav-item">
-                            <a href="#pills_all" id="pills-all-tab" data-toggle="pill" role="tab"  class="nav-link active" aria-controls="pills-all" aria-selected="true">
+                            <a href="#pills-all" id="pills-all-tab" data-toggle="pill" role="tab"  class="nav-link active" aria-controls="pills-all" aria-selected="true">
                                 All Reports
                             </a>
                         </li>

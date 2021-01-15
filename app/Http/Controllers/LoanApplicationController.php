@@ -61,10 +61,10 @@ class LoanApplicationController extends Controller
 
         $data=$request->all();
         $data['user_id']=Auth::id();
-//        $data['user_id']=1;
         $product=Product::find($request->product);
         $data['client_id']=$request->client;
         $data['rate']=$product->rate;
+        $data['frequency']=$request->loanDetails['frequency'];
         $data['product_id']=$request->product;
         $data['amount_applied']=$request->loanDetails['amount'];
         $data['duration']=$request->loanDetails['duration'];
@@ -73,8 +73,9 @@ class LoanApplicationController extends Controller
         $data['total_interest']=json_decode(self::calc($request->loanDetails['duration'],$request->loanDetails['amount'],$data['rate']))->interest;
         try{
             if($request->loanDetails['amount']>$product->max_amount || $request->loanDetails['amount'] < $product->min_amount){
-                notify()->warning('The amount applied is out of product range. You can apply for '.$product->min_amount.' to '.$product->max_amount);
-                return redirect()->back();
+//                notify()->warning('The amount applied is out of product range. You can apply for '.$product->min_amount.' to '.$product->max_amount);
+//                return redirect()->back();
+                throw new \Exception('The amount applied is out of product range. You can apply for '.$product->min_amount.' to '.$product->max_amount);
             }
             $loan=LoanApplication::create($data);
                 if($loan){
@@ -120,9 +121,9 @@ class LoanApplicationController extends Controller
                         $gtr=Guarantor::create($data);
                     }
                 }
-                return response()->json(['status'=>'success','message'=>'Loan application saved successfully'],200);
+                return json_encode(['status'=>'success','message'=>'Loan application saved successfully'],200);
         }catch (\Throwable $e){
-            return response()->json(['status'=>'error','message'=>$e->getMessage()],500);
+            return response(['status'=>'error','message'=>$e->getMessage()],500);
         }
     }
 

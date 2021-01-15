@@ -222,10 +222,8 @@ function submitApplication(){
             alert(data.message)
         }
     },function (data){
-        data=JSON.parse(data);
-        if(data.status=='error'){
-            alert(data.message)
-        }
+        console.log(data.responseJSON.message)
+        alert(data.responseJSON.message);
     })
 }
 
