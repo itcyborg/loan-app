@@ -19,6 +19,7 @@ class Repayment extends Model
 
     protected $casts=[
         'created_at' => 'datetime:F j, Y',
+        'updated_at' => 'datetime:F j, Y',
         'due_date' => 'datetime:F j, Y'
     ];
 

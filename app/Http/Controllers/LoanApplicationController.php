@@ -77,7 +77,6 @@ class LoanApplicationController extends Controller
                 return redirect()->back();
             }
             $loan=LoanApplication::create($data);
-            if($request->ajax()){
                 if($loan){
                     // create next-of-kin
                     foreach ($request->next_of_kin as $kin){
@@ -122,15 +121,8 @@ class LoanApplicationController extends Controller
                     }
                 }
                 return response()->json(['status'=>'success','message'=>'Loan application saved successfully'],200);
-            }
-            notify()->success('Client details saved');
-            return redirect()->route('next-of-kin.create',['application_id'=>$loan->id,'client_id'=>$request->client_id]);
         }catch (\Throwable $e){
-            if($request->ajax()){
-                return response()->json(['status'=>'error','message'=>$e->getMessage()],500);
-            }
-            notify()->error('An error occurred.'.$e->getMessage());
-            return redirect()->route('loan-applications.create');
+            return response()->json(['status'=>'error','message'=>$e->getMessage()],500);
         }
     }
 

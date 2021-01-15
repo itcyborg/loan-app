@@ -94,6 +94,8 @@ function loadLoanApplicationModal(loanData) {
     $('#next_of_kin_data').html(generateNextOfKinTableData(loanData.nextofkins))
     $('#guarantors_data').html(generateGuarantorsTableData(loanData.guarantors))
     $('#charges_data').html(generateChargesTableData(loanData.charges))
+    $('#repaymentCardData').hide();
+    $('#repayment_alert').show();
     if(loanData.status==='PENDING'){
         $('#btn_disburse').hide();
         $('#btn_reject').show();
@@ -114,6 +116,8 @@ function loadLoanApplicationModal(loanData) {
         $('#btn_disburse').hide();
         $('#btn_approve').hide();
         $('#btn_reject').hide();
+        $('#repaymentCardData').show();
+        $('#repayment_alert').hide();
     }
     $('.view_loan_application').modal('show');
 }
@@ -121,7 +125,13 @@ function loadLoanApplicationModal(loanData) {
 function generateRepaymentTableData(repayment_data){
     var data=null;
     $.each(repayment_data,function(k,v){
-        data+="<tr><td>"+v.id+"</td><td>"+v.amount+"</td><td>"+v.due_date+"</td></tr>"
+        let default_amount=0;
+        if(v.amount_default<0){
+            default_amount=v.amount_default*(-1)+' (Overpayment)';
+        }else{
+            default_amount=v.amount_default;
+        }
+        data+="<tr><td>"+v.id+"</td><td>"+v.due_date+"</td><td>"+v.amount+"</td><td>"+v.amount_paid+"</td><td>"+default_amount+"</td><td>"+v.penalty+"</td></tr>"
     })
     return data;
 }

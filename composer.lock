@@ -1103,16 +1103,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v7.30.1",
+            "version": "v7.30.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "e73855b18dcfc645c36d2474f437e4e73dd3c11d"
+                "reference": "405ca2bcf532dff1ef27f9f7ff7940221c575c84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/e73855b18dcfc645c36d2474f437e4e73dd3c11d",
-                "reference": "e73855b18dcfc645c36d2474f437e4e73dd3c11d",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/405ca2bcf532dff1ef27f9f7ff7940221c575c84",
+                "reference": "405ca2bcf532dff1ef27f9f7ff7940221c575c84",
                 "shasum": ""
             },
             "require": {
@@ -1261,7 +1261,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2020-12-22T17:00:45+00:00"
+            "time": "2021-01-13T13:37:00+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -4151,16 +4151,16 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v6.2.4",
+            "version": "v6.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "56f0ab23f54c4ccbb0d5dcc67ff8552e0c98d59e"
+                "reference": "698a6a9f54d7eb321274de3ad19863802c879fb7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/56f0ab23f54c4ccbb0d5dcc67ff8552e0c98d59e",
-                "reference": "56f0ab23f54c4ccbb0d5dcc67ff8552e0c98d59e",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/698a6a9f54d7eb321274de3ad19863802c879fb7",
+                "reference": "698a6a9f54d7eb321274de3ad19863802c879fb7",
                 "shasum": ""
             },
             "require": {
@@ -4210,7 +4210,7 @@
             ],
             "support": {
                 "issues": "https://github.com/swiftmailer/swiftmailer/issues",
-                "source": "https://github.com/swiftmailer/swiftmailer/tree/v6.2.4"
+                "source": "https://github.com/swiftmailer/swiftmailer/tree/v6.2.5"
             },
             "funding": [
                 {
@@ -4222,7 +4222,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-12-08T18:02:06+00:00"
+            "time": "2021-01-12T09:35:59+00:00"
         },
         {
             "name": "symfony/console",
@@ -6884,16 +6884,16 @@
         },
         {
             "name": "yajra/laravel-datatables-buttons",
-            "version": "v4.10.3",
+            "version": "v4.10.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables-buttons.git",
-                "reference": "be8d281243e3163aa87aaf35480c09b66994808e"
+                "reference": "b1311d031ba38c4f378afdf5cd1617cc706153f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables-buttons/zipball/be8d281243e3163aa87aaf35480c09b66994808e",
-                "reference": "be8d281243e3163aa87aaf35480c09b66994808e",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables-buttons/zipball/b1311d031ba38c4f378afdf5cd1617cc706153f6",
+                "reference": "b1311d031ba38c4f378afdf5cd1617cc706153f6",
                 "shasum": ""
             },
             "require": {
@@ -6946,7 +6946,7 @@
             ],
             "support": {
                 "issues": "https://github.com/yajra/laravel-datatables-buttons/issues",
-                "source": "https://github.com/yajra/laravel-datatables-buttons/tree/v4.10.3"
+                "source": "https://github.com/yajra/laravel-datatables-buttons/tree/v4.10.4"
             },
             "funding": [
                 {
@@ -6958,7 +6958,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2021-01-02T02:26:13+00:00"
+            "time": "2021-01-13T08:07:18+00:00"
         },
         {
             "name": "yajra/laravel-datatables-editor",

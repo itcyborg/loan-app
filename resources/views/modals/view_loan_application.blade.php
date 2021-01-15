@@ -124,27 +124,33 @@
                             </div>
                         </div>
                         <div class="card">
-                            <div class="card-header card-header-info">
-                                <h5 class="card-title">Repayment Details</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <label>Repayment Frequency</label><br>
-                                        <span id="loan_repayment_frequency"></span>
-                                    </div>
+                            <div class="alert alert-info" id="repayment_alert">Repayment information will be available once loan has been disbursed</div>
+                            <div id="repaymentCardData">
+                                <div class="card-header card-header-info">
+                                    <h5 class="card-title">Repayment Details</h5>
                                 </div>
-                                <div class="row mt-2 pt-2">
-                                    <div class="col-md-12 table-responsive table-condesed">
-                                        <table class="table table-striped table-primary">
-                                            <thead>
-                                            <th>#</th>
-                                            <th>Amount</th>
-                                            <th>Due Date</th>
-                                            </thead>
-                                            <tbody id="loan_repayment_data">
-                                            </tbody>
-                                        </table>
+                                <div class="card-body" id="repayment_card">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <label>Repayment Frequency</label><br>
+                                            <span id="loan_repayment_frequency"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2 pt-2">
+                                        <div class="col-md-12 table-responsive table-condesed">
+                                            <table class="table table-striped table-primary">
+                                                <thead>
+                                                <th>#</th>
+                                                <th>Due Date</th>
+                                                <th>Amount Due</th>
+                                                <th>Amount Paid</th>
+                                                <th>Amount Defaulted</th>
+                                                <th>Penalty</th>
+                                                </thead>
+                                                <tbody id="loan_repayment_data">
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

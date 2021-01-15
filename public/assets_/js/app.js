@@ -3,7 +3,8 @@ let paths={
     client_info:origin+'clientinfo',
     product_info:origin+'productinfo',
     loan_application:origin+'loan-applications',
-    active_application:origin+'client-applications'
+    active_application:origin+'client-applications',
+    repayment:origin+'repayment/'
 }
 
 $(document).ready(function(){
@@ -287,4 +288,11 @@ function getApplications(clientId){
     },function(data){
         console.log(data);
     })
+}
+
+function makeRepayment(id){
+    let amount=prompt("Please enter Amount:", '0');
+    postJson(paths.repayment+id,{'_method':'PATCH',amount:amount},function (data){
+        alert(data)
+    },function(data){alert(data)});
 }
