@@ -49,7 +49,7 @@ class RevenueController extends Controller
         }else{
             notify()->error('An error occurred adding entry.');
         }
-        return view('revenue.index');
+        return redirect(route('revenue.index'));
     }
 
     /**

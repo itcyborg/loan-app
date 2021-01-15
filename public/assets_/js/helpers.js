@@ -284,10 +284,14 @@ function loadReports(){
         let disbursement=data.disbursement;
         let interest=data.interest;
         let principals=data.principals;
+        let expenses=data.expense;
+        let incomes=data.income;
 
         let dis_rows='';
         let principals_rows='';
         let interest_rows='';
+        let expense_rows='';
+        let income_rows='';
         $.each(disbursement,function(k,v){
             dis_rows+='' +
                 '<tr>' +
@@ -316,7 +320,54 @@ function loadReports(){
                 '<td>'+v.amount_approved_sum+'</td>' +
                 '</tr>';
         });
-        $('#tbl_principal tbody').html(principals_rows);
+        $.each(incomes,function(k,v){
+            income_rows+='' +
+                '<tr>' +
+                '<td>'+(++k)+'</td>' +
+                '<td>'+v.user.name+'</td>' +
+                '<td>'+v.type+'</td>' +
+                '<td>'+v.amount+'</td>' +
+                '<td>'+v.comment+'</td>' +
+                '</tr>';
+        })
+        $('#tbl_income tbody').html(income_rows);
+        $.each(expenses,function(k,v){
+            expense_rows+='' +
+                '<tr>' +
+                '<td>'+(++k)+'</td>' +
+                '<td>'+v.user.name+'</td>' +
+                '<td>'+v.type+'</td>' +
+                '<td>'+v.amount+'</td>' +
+                '<td>'+v.comment+'</td>' +
+                '</tr>';
+        })
+        $('#tbl_expense tbody').html(expense_rows);
+        $('#tbl_income,#tbl_expense').DataTable(
+            {
+                responsive: true,
+                width: '100%',
+                dom: 'Bfrtip',
+                buttons: false,
+                rowGroup: {
+                    startRender: null,
+                    endRender: function ( rows, group ) {
+                        var amountSum = rows
+                            .data()
+                            .pluck(3)
+                            .reduce( function (a, b) {
+                                return a + b.replace(/[^\d]/g, '')*1;
+                            }, 0);
+                        amountSum = $.fn.dataTable.render.number(',', '.', 0, 'KES. ').display( amountSum );
+
+                        return $('<tr/>')
+                            .append( '<td class="bg-light" colspan="3"><b>Sum for '+group+'<b/></td>' )
+                            .append( '<td class="bg-light" ><b>'+amountSum+'</b></td>' )
+                            .append( '<td class="bg-light" />' );
+                    },
+                    dataSrc: [1,2]
+                }
+            }
+        );
     });
 }
 

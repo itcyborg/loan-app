@@ -4,6 +4,14 @@
 @endsection
 @section('styles')
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.23/b-1.6.5/b-html5-1.6.5/b-print-1.6.5/r-2.2.6/sb-1.0.1/sp-1.2.2/datatables.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/rowgroup/1.1.2/css/rowGroup.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
+    <style>
+        tr.odd td:first-child,
+        tr.even td:first-child {
+            padding-left: 4em;
+        }
+    </style>
 @endsection
 @section('content')
     <div class="row">
@@ -27,6 +35,12 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Disbursements</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="pills-income-tab" data-toggle="pill" href="#pills-income" role="tab" aria-controls="pills-income" aria-selected="false">Income</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="pills-expense-tab" data-toggle="pill" href="#pills-expense" role="tab" aria-controls="pills-expense" aria-selected="false">Expense</a>
                         </li>
                     </ul>
                     <div class="tab-content" id="pills-tabContent">
@@ -66,9 +80,9 @@
                                 </div>
                             </div>
                             <div class="row p-5">
-                                <div class="table-responsive w-100">
+                                <div class="table-responsive w-100 p-5">
                                     <table class="table table-striped w-100" id="tbl_reports_all" style="width:100%">
-                                        <thead>
+                                        <thead class="thead-dark">
                                             <th>#</th>
                                             <th>Product</th>
                                             <th>Agent</th>
@@ -87,43 +101,83 @@
                         </div>
                         <div class="tab-pane fade" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                             <div class="row">
-                                <table class="table table-responsible" id="tbl_principal">
-                                    <thead>
-                                        <th>#</th>
-                                        <th>Product</th>
-                                        <th>Amount Applied</th>
-                                        <th>Amount Approved</th>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive w-100 p-5">
+                                    <table class="table table-responsive" id="tbl_principal">
+                                        <thead class="thead-dark">
+                                            <th>#</th>
+                                            <th>Product</th>
+                                            <th>Amount Applied</th>
+                                            <th>Amount Approved</th>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                             <div class="row">
-                                <table class="table table-responsible" id="tbl_interest">
-                                    <thead>
-                                    <th>#</th>
-                                    <th>Product</th>
-                                    <th>Total Interest</th>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive w-100 p-5">
+                                    <table class="table table-responsive w-100" id="tbl_interest">
+                                        <thead class="thead-dark">
+                                        <th>#</th>
+                                        <th>Product</th>
+                                        <th>Total Interest</th>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
                             <div class="row">
-                                <table class="table table-responsible" id="tbl_disbursement">
-                                    <thead>
-                                        <th>#</th>
-                                        <th>Product</th>
-                                        <th>Amount Applied</th>
-                                        <th>Amount Approved</th>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive w-100 p-5">
+                                    <table class="table table-responsive w-100 table-striped" id="tbl_disbursement">
+                                        <thead class="thead-dark">
+                                            <th>#</th>
+                                            <th>Product</th>
+                                            <th>Amount Applied</th>
+                                            <th>Amount Approved</th>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-income" role="tabpanel" aria-labelledby="pills-income-tab">
+                            <div class="row">
+                                <div class="table-responsive w-100 p-5">
+                                    <table class="table w-100 table-striped" id="tbl_income">
+                                        <thead class="thead-dark">
+                                            <th>#</th>
+                                            <th>Agent Name</th>
+                                            <th>Type</th>
+                                            <th>Amount</th>
+                                            <th>Comment</th>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-expense" role="tabpanel" aria-labelledby="pills-expense-tab">
+                            <div class="row">
+                                <div class="table-responsive w-100 p-5">
+                                    <table class="table table-responsible w-100 table-striped" id="tbl_expense">
+                                        <thead class="thead-dark">
+                                            <th>#</th>
+                                            <th>Agent Name</th>
+                                            <th>Type</th>
+                                            <th>Amount</th>
+                                            <th>Comment</th>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -136,6 +190,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.23/b-1.6.5/b-html5-1.6.5/b-print-1.6.5/r-2.2.6/sb-1.0.1/sp-1.2.2/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/rowgroup/1.1.2/js/dataTables.rowGroup.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
 
 <script>
         $(document).ready(function(){

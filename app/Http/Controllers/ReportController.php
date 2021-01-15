@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\LoanApplication;
 use App\Product;
 use App\Report;
+use App\Revenue;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -105,7 +106,19 @@ class ReportController extends Controller
             ->orWhere('status','DISBURSED')
             ->selectRaw('sum(total_interest) as total_interest,product_id')
             ->get();
-        return ['disbursement'=>$disbursements,'principals'=>$principals,'interest'=>$interest];
+        $income=Revenue::with('user')->where('category','income')
+            ->get();
+        $expense=Revenue::with('user')->where('category','expense')
+            ->get();
+        return [
+            'disbursement'=>$disbursements,
+            'principals'=>$principals,
+            'interest'=>$interest,
+            'income'=>$income,
+            'income_sum'=>$income->sum('amount'),
+            'expense'=>$expense,
+            'expense_sum'=>$expense->sum('amount')
+        ];
     }
 
     public function getAgentReports(Request $request)
