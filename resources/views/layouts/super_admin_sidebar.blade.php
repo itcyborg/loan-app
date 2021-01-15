@@ -52,6 +52,12 @@
         <p>Repayments</p>
     </a>
 </li>
+<li class="nav-item {{ Request::is('revenue*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{route('revenue.index')}}">
+        <i class="fa fa-money-bill text-success"></i>
+        <p>Income & Expense</p>
+    </a>
+</li>
 <li class="nav-item {{ Request::is('reports*') ? 'active' : '' }}">
     <a class="nav-link" href="{{route('reports.index')}}">
         <i class="fa fa-file-alt"></i>

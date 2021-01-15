@@ -31,14 +31,14 @@
     Route::group(['middleware' => 'auth'], function () {
         Route::group(['middleware' => 'role:superadministrator'], function () {
             Route::get('reports/data','ReportController@getData');
-//            Route::get('reports/user','ReportController@getAgentReports');
             Route::resources([
                 'users' => 'UsersController',
                 'products' => 'ProductController',
                 'roles' => 'RolesController',
                 'permissions' => 'PermissionsController',
                 'charges'=>'ChargeController',
-                'reports'=>'ReportController'
+                'reports'=>'ReportController',
+                'revenue'=>'RevenueController'
             ]);
             Route::post('products/activate','ProductController@activate');
         });
@@ -59,7 +59,3 @@
     Route::resources([
         'loan-applications' => 'LoanApplicationController',
     ]);
-    //to remove
-    Route::post('loan',function(Request $request){
-        dd($request->all());
-    });
