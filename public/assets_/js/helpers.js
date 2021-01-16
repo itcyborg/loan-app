@@ -94,6 +94,7 @@ function loadLoanApplicationModal(loanData) {
     $('#next_of_kin_data').html(generateNextOfKinTableData(loanData.nextofkins))
     $('#guarantors_data').html(generateGuarantorsTableData(loanData.guarantors))
     $('#charges_data').html(generateChargesTableData(loanData.charges))
+    $('#referees_data').html(generateRefereesTableData(loanData.referees))
     $('#repaymentCardData').hide();
     $('#repayment_alert').show();
     if(loanData.status==='PENDING'){
@@ -156,7 +157,13 @@ function generateGuarantorsTableData(next_of_kin_data){
     })
     return data;
 }
-
+function generateRefereesTableData(referees_data){
+    var data=null;
+    $.each(referees_data,function(k,v){
+        data+="<tr><td>"+v.id+"</td><td>"+v.name+"</td><td>"+v.nationality+"</td><td>"+v.contact+"</td><td>"+v.alternate_contact+"</td><td>"+v.location+"</td></tr>";
+    });
+    return data;
+}
 function generateChargesTableData(charges_data){
     var data=null;
     $.each(charges_data,function(k,v){

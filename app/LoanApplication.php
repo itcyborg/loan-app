@@ -85,4 +85,9 @@ class LoanApplication extends Model implements Auditable
     {
         return $this->hasManyThrough(Charge::class,Product::class,'id','product_id','product_id','id');
     }
+
+    public function referees()
+    {
+        return $this->hasMany(Referee::class,'loan_id','id');
+    }
 }

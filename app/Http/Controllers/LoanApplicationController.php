@@ -10,6 +10,7 @@ use App\Guarantor;
 use App\LoanApplication;
 use App\NextOfKin;
 use App\Product;
+use App\Referee;
 use App\Repayment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -56,7 +57,7 @@ class LoanApplicationController extends Controller
             'loanDetails.officer'=>'required',
             'loanDetails.purpose'=>'required',
             'loanDetails.frequency'=>'required',
-            'product'=>'required'
+            'product'=>'required',
         ]);
 
         $data=$request->all();
@@ -73,8 +74,6 @@ class LoanApplicationController extends Controller
         $data['total_interest']=json_decode(self::calc($request->loanDetails['duration'],$request->loanDetails['amount'],$data['rate']))->interest;
         try{
             if($request->loanDetails['amount']>$product->max_amount || $request->loanDetails['amount'] < $product->min_amount){
-//                notify()->warning('The amount applied is out of product range. You can apply for '.$product->min_amount.' to '.$product->max_amount);
-//                return redirect()->back();
                 throw new \Exception('The amount applied is out of product range. You can apply for '.$product->min_amount.' to '.$product->max_amount);
             }
             $loan=LoanApplication::create($data);
@@ -120,6 +119,20 @@ class LoanApplicationController extends Controller
                         ];
                         $gtr=Guarantor::create($data);
                     }
+                    // create referee
+                    foreach ($request->referees as $referee) {
+//                        dd($referee);
+                        $rawData=json_decode(json_encode($referee));
+                        $data=[
+                            'name'=>$rawData->name,
+                            'nationality'=>$rawData->nationality,
+                            'contact'=>$rawData->contact,
+                            'alternate_contact'=>$rawData->alternate_contact,
+                            'location'=>$rawData->location,
+                            'loan_id'=>$loan->id
+                        ];
+                        $rfr=Referee::create($data);
+                    }
                 }
                 return json_encode(['status'=>'success','message'=>'Loan application saved successfully'],200);
         }catch (\Throwable $e){
@@ -135,7 +148,7 @@ class LoanApplicationController extends Controller
      */
     public function show($id)
     {
-        $loanApplication=LoanApplication::with(['product','client','user','repayments','collaterals','guarantors','nextofkins','charges'])->find($id);
+        $loanApplication=LoanApplication::with(['product','client','user','repayments','collaterals','guarantors','nextofkins','charges','referees'])->find($id);
         return response()->json($loanApplication);
     }
 

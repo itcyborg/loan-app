@@ -128,7 +128,7 @@
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="application_amount">Application Amount</label>
-                                                <input type="text" name="application_amount" id="application_amount" class="form-control">
+                                                <input type="number" name="application_amount" id="application_amount" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-3">
@@ -162,9 +162,9 @@
                                         </div>
                                     </div>
                                     <div class="row mt-2">
-                                        <div class="form-group">
+                                        <div class="form-group p-3 w-100">
                                             <label for="application_purpose">Purpose</label>
-                                            <textarea name="application_purpose" id="application_purpose" cols="30" rows="3" class="form-control"></textarea>
+                                            <textarea name="application_purpose" id="application_purpose" cols="30" rows="3" class="form-control border"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -182,21 +182,21 @@
                             <div class="table-responsive w-100">
                                 <table class="table table-sm table-striped" ID="NOK_TABLE">
                                     <thead>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Gender</th>
+                                        <th class="col-2">Name</th>
+                                        <th class="col-2">Email</th>
+                                        <th class="col-2">Gender</th>
                                         <th>ID Document</th>
                                         <th>ID Number</th>
                                         <th>Nationality</th>
                                         <th>Contact</th>
                                         <th>Relation</th>
                                         <th>D.O.B</th>
-                                        <th>Address</th>
+                                        <th class="col-2">Address</th>
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td><input type="text" class="form-control-sm" name="next_of_kin_name" id="next_of_kin_name"></td>
-                                        <td><input type="email" name="next_of_kin_email" id="next_of_kin_email" class="form-control-sm"></td>
+                                        <td><input type="text" class="form-control" name="next_of_kin_name" id="next_of_kin_name"></td>
+                                        <td><input type="email" name="next_of_kin_email" id="next_of_kin_email" class="form-control"></td>
                                         <td class="col-2">
                                             <select name="next_of_kin_gender" id="next_of_kin_gender" class="form-control">
                                                 <option value="">Select Gender</option>
@@ -212,12 +212,12 @@
                                                 <option value="MILITARY_ID">MILITARY ID</option>
                                             </select>
                                         </td>
-                                        <td><input type="text" class="form-control-sm" name="next_of_kin_document_number" id="next_of_kin_document_number"></td>
-                                        <td><input type="text" class="form-control-sm" name="next_of_kin_nationality" id="next_of_kin_nationality"></td>
-                                        <td><input type="text" class="form-control-sm" name="next_of_kin_contact" id="next_of_kin_contact"></td>
-                                        <td><input type="text" class="form-control-sm" name="next_of_kin_relation" id="next_of_kin_relation"></td>
-                                        <td><input type="date" name="next_of_kin_date_of_birth" id="next_of_kin_date_of_birth" class="form-control-sm"></td>
-                                        <td><textarea name="next_of_kin_address" id="next_of_kin_address" cols="30" rows="1"></textarea></td>
+                                        <td><input type="text" class="form-control" name="next_of_kin_document_number" id="next_of_kin_document_number"></td>
+                                        <td><select class="form-control" name="next_of_kin_nationality" id="next_of_kin_nationality"><option value="">Select Nationality</option></select></td>
+                                        <td><input type="number" class="form-control" name="next_of_kin_contact" id="next_of_kin_contact"></td>
+                                        <td><input type="text" class="form-control" name="next_of_kin_relation" id="next_of_kin_relation"></td>
+                                        <td><input type="date" name="next_of_kin_date_of_birth" id="next_of_kin_date_of_birth" class="form-control"></td>
+                                        <td><textarea name="next_of_kin_address" id="next_of_kin_address" cols="30" rows="1" class="form-control"></textarea></td>
                                         <td><a href="#" class="fa fa-trash text-danger"></a></td>
                                     </tr>
                                     </tbody>
@@ -241,9 +241,9 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td><input type="text" class="w-100" name="collateral_type" id="collateral_type"></td>
-                                        <td><textarea name="collateral_details" id="collateral_details" class="w-100" rows="1"></textarea></td>
-                                        <td><input type="text" class="w-100" name="collateral_value" id="collateral_value"></td>
+                                        <td><input type="text" class="w-100 form-control" name="collateral_type" id="collateral_type"></td>
+                                        <td><textarea name="collateral_details" id="collateral_details" class="w-100 form-control" rows="1"></textarea></td>
+                                        <td><input type="number" class="w-100 form-control" name="collateral_value" id="collateral_value"></td>
                                         <td><a href="#" class="fa fa-trash text-danger"></a></td>
                                     </tr>
                                     </tbody>
@@ -269,7 +269,7 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td><input type="text" class="w-100" name="guarantor_name" id="guarantor_name"></td>
+                                        <td><input type="text" class="w-100 form-control" name="guarantor_name" id="guarantor_name"></td>
                                         <td>
                                             <select name="guarantor_id_document" id="guarantor_id_document" class="w-100 form-control">
                                                 <option value="">Select Identification Document</option>
@@ -278,15 +278,50 @@
                                                 <option value="MILITARY_ID">MILITARY ID</option>
                                             </select>
                                         </td>
-                                        <td><input type="text" class="w-100" id="guarantor_id_number" name="guarantor_id_number"></td>
-                                        <td><input type="text" class="w-100" name="guarantor_contact" id="guarantor_contact"></td>
-                                        <td><input type="text" class="w-100" name="guarantor_location" id="guarantor_location"></td>
+                                        <td><input type="text" class="w-100 form-control" id="guarantor_id_number" name="guarantor_id_number"></td>
+                                        <td><input type="number" class="w-100 form-control" name="guarantor_contact" id="guarantor_contact"></td>
+                                        <td><input type="text" class="w-100 form-control" name="guarantor_location" id="guarantor_location"></td>
                                         <td><a href="#" class="fa fa-trash text-danger"></a></td>
                                     </tr>
                                     </tbody>
                                 </table>
                                 <div class="w-100 p-3 float-right col-12">
                                     <button class="btn btn-success float-right" type="button" onclick="addGuarantorRow()">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Referee Details --}}
+                    <div class="card">
+                        <div class="card-header card-header-primary">Referees</div>
+                        <div class="card-body">
+                            <div class="table-responsive w-100">
+                                <table class="table table-sm table-striped" id="referees_table">
+                                    <thead>
+                                    <th>Name</th>
+                                    <th>Nationality</th>
+                                    <th>Contact</th>
+                                    <th>Alternative Contact</th>
+                                    <th>Location</th>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><input type="text" class="w-100 form-control" name="name" id="referee_name"></td>
+                                        <td>
+                                            <select name="nationality" id="referee_nationality" class="form-control">
+                                                <option value="Select nationality"></option>
+                                            </select>
+                                        </td>
+                                        <td><input type="number" class="w-100" id="referee_contact" name="contact"></td>
+                                        <td><input type="number" class="w-100" name="alternate_contact" id="referee_alternate_contact"></td>
+                                        <td><input type="text" class="w-100" name="location" id="referee_location"></td>
+                                        <td><a href="#" class="fa fa-trash text-danger"></a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="w-100 p-3 float-right col-12">
+                                    <button class="btn btn-success float-right" type="button" onclick="addRefereeRow()">Add</button>
                                 </div>
                             </div>
                         </div>
@@ -303,4 +338,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
     <script src="{{asset('assets_/js/app.js')}}"></script>
+    <script>
+        $(document).ready(function(){
+            loadCountries();
+        });
+    </script>
 @endsection

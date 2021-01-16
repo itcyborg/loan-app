@@ -4,8 +4,10 @@ let paths={
     product_info:origin+'productinfo',
     loan_application:origin+'loan-applications',
     active_application:origin+'client-applications',
-    repayment:origin+'repayment/'
+    repayment:origin+'repayment/',
+    countries:origin+'countries'
 }
+let countries='<option>Select Nationality</option>';
 
 $(document).ready(function(){
     if($('#client_name').length >0) {
@@ -81,6 +83,7 @@ function submitApplication(){
     let nextOfKins=[];
     let guarantors=[];
     let collaterals=[];
+    let referees=[];
     let loanDetails={
         amount:$('#application_amount').val(),
         duration:$('#application_duration').val(),
@@ -110,9 +113,6 @@ function submitApplication(){
             if(j.name=='next_of_kin_document_number'){
                 document_number=j.value;
             }
-            if(j.name=='next_of_kin_nationality'){
-                nationality=j.value;
-            }
             if(j.name=='next_of_kin_contact'){
                 contact=j.value;
             }
@@ -134,6 +134,9 @@ function submitApplication(){
             }
             if(j.name=='next_of_kin_gender'){
                 gender=j.value;
+            }
+            if(j.name=='next_of_kin_nationality'){
+                nationality=j.value;
             }
         });
         nextOfKins.push({
@@ -205,6 +208,38 @@ function submitApplication(){
         });
     });
 
+    $('#referees_table tbody').find('tr').each(function(k,v){
+        let name,nationality,contact,alternateContact,location;
+        $(v).find('input').each(function(i,j){
+           if(j.name=='name'){
+               name=j.value
+           }
+           if(j.name=='contact'){
+               contact=j.value
+           }
+           if(j.name=='alternate_contact'){
+               alternateContact=j.value
+           }
+           if(j.name=='location'){
+               location=j.value
+           }
+        });
+
+        $(v).find('select').each(function (i,j){
+            if(j.name=='nationality'){
+                nationality=j.value
+            }
+        });
+
+        referees.push({
+            name:name,
+            nationality:nationality,
+            contact:contact,
+            alternate_contact:alternateContact,
+            location:location
+        });
+    });
+
     // bundle it all
     let payload={
         loan_officer:officer,
@@ -213,7 +248,8 @@ function submitApplication(){
         collaterals:collaterals,
         loanDetails:loanDetails,
         product:product,
-        client:client
+        client:client,
+        referees:referees
     }
 
     postJson(paths.loan_application,payload,function(data){
@@ -230,8 +266,8 @@ function submitApplication(){
 function addNextOfKinRow(){
     let basicRow='' +
         `<tr>
-            <td><input type="text" class="form-control-sm" name="next_of_kin_name" id="next_of_kin_name"></td>
-            <td><input type="email" name="next_of_kin_email" id="next_of_kin_email" class="form-control-sm"></td>
+            <td><input type="text" class="form-control" name="next_of_kin_name" id="next_of_kin_name"></td>
+            <td><input type="email" name="next_of_kin_email" id="next_of_kin_email" class="form-control"></td>
             <td class="col-2">
                 <select name="next_of_kin_gender" id="next_of_kin_gender" class="form-control">
                     <option value="">Select Gender</option>
@@ -247,33 +283,58 @@ function addNextOfKinRow(){
                     <option value="MILITARY_ID">MILITARY ID</option>
                 </select>
             </td>
-            <td><input type="text" class="form-control-sm" name="next_of_kin_document_number" id="next_of_kin_document_number"></td>
-            <td><input type="text" class="form-control-sm" name="next_of_kin_nationality" id="next_of_kin_nationality"></td>
-            <td><input type="text" class="form-control-sm" name="next_of_kin_contact" id="next_of_kin_contact"></td>
-            <td><input type="text" class="form-control-sm" name="next_of_kin_relation" id="next_of_kin_relation"></td>
-            <td><input type="date" name="next_of_kin_date_of_birth" id="next_of_kin_date_of_birth" class="form-control-sm"></td>
-            <td><textarea name="next_of_kin_address" id="next_of_kin_address" cols="30" rows="1"></textarea></td>
+            <td><input type="text" class="form-control" name="next_of_kin_document_number" id="next_of_kin_document_number"></td>
+            <td><select class="form-control" name="next_of_kin_nationality" id="next_of_kin_nationality">`+countries+`</select></td>
+            <td><input type="text" class="form-control" name="next_of_kin_contact" id="next_of_kin_contact"></td>
+            <td><input type="text" class="form-control" name="next_of_kin_relation" id="next_of_kin_relation"></td>
+            <td><input type="date" name="next_of_kin_date_of_birth" id="next_of_kin_date_of_birth" class="form-control"></td>
+            <td><textarea name="next_of_kin_address" id="next_of_kin_address" cols="30" rows="1" class="form-control"></textarea></td>
         </tr>`;
     $('#NOK_TABLE tbody').append(basicRow);
 }
 function addCollateralRow(){
     let basicRow=''+
         '<tr>' +
-        '    <td><input type="text" class="w-100" name="collateral_type" id="collateral_type"></td>' +
-        '    <td><textarea name="collateral_details" id="collateral_details" class="w-100" rows="1"></textarea></td>' +
-        '    <td><input type="text" class="w-100" name="collateral_value" id="collateral_value"></td>' +
+        '    <td><input type="text" class="w-100 form-control" name="collateral_type" id="collateral_type"></td>' +
+        '    <td><textarea name="collateral_details" id="collateral_details" class="w-100 form-control" rows="1"></textarea></td>' +
+        '    <td><input type="text" class="w-100 form-control" name="collateral_value" id="collateral_value"></td>' +
+        '    <td><a href="#" class="fa fa-trash text-danger"></a></td>' +
         '</tr>';
     $('#collateral_table tbody').append(basicRow);
 }
 function addGuarantorRow(){
     let basicRow=''+
         ' <tr>' +
-        '    <td><input type="text" class="w-100"></td>' +
-        '    <td><textarea name="" id="" class="w-100" rows="1"></textarea></td>' +
-        '    <td><input type="text" class="w-100"></td>' +
-        '    <td><input type="text" class="w-100"></td>' +
+        '    <td><input type="text" class="w-100 form-control" name="guarantor_name" id="guarantor_name"></td>' +
+        '    <td>\n' +
+        '        <select name="guarantor_id_document" id="guarantor_id_document" class="w-100 form-control">\n' +
+        '            <option value="">Select Identification Document</option>\n' +
+        '            <option value="NATIONAL_ID">NATIONAL ID</option>\n' +
+        '            <option value="PASSPORT">PASSPORT</option>\n' +
+        '            <option value="MILITARY_ID">MILITARY ID</option>\n' +
+        '        </select>\n' +
+        '    </td>' +
+        '    <td><input type="text" class="w-100 form-control" id="guarantor_id_number" name="guarantor_id_number"></td>' +
+        '    <td><input type="number" class="w-100 form-control" name="guarantor_contact" id="guarantor_contact"></td>' +
+        '    <td><input type="text" class="w-100 form-control" name="guarantor_location" id="guarantor_location"></td>' +
+        '    <td><a href="#" class="fa fa-trash text-danger"></a></td>' +
         '</tr>';
     $('#guarantors_table tbody').append(basicRow);
+}
+function addRefereeRow(){
+    let basicRow=''+
+        ' <tr>' +
+        '    <td><input type="text" class="w-100 form-control" name="name" id="referee_name"></td>' +
+        '    <td>' +
+        '        <select name="nationality" id="referee_nationality" class="form-control">'+countries +
+        '        </select>' +
+        '    </td>' +
+        '    <td><input type="number" class="w-100" id="referee_contact" name="contact"></td>' +
+        '    <td><input type="number" class="w-100" name="alternate_contact" id="referee_alternate_contact"></td>' +
+        '    <td><input type="text" class="w-100" name="location" id="referee_location"></td>' +
+        '    <td><a href="#" class="fa fa-trash text-danger"></a></td>' +
+        '</tr>';
+    $('#referees_table tbody').append(basicRow);
 }
 
 function getApplications(clientId){
@@ -293,4 +354,13 @@ function makeRepayment(id){
     postJson(paths.repayment+id,{'_method':'PATCH',amount:amount},function (data){
         alert(data)
     },function(data){alert(data)});
+}
+
+function loadCountries(){
+    RestCalls(paths.countries,onError,function(data){
+        $.each(data,function(k,v){
+            countries+="<option value='"+v.name+"'>"+v.name+"</option>";
+        });
+        $('#referee_nationality,#next_of_kin_nationality').html(countries);
+    });
 }

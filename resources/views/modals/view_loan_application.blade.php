@@ -217,6 +217,27 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="card">
+                            <div class="card-header card-header-info">
+                                <h5 class="card-title">Referees Details</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table table-responsive table-condensed">
+                                    <table class="table table-striped table-secondary">
+                                        <thead>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Nationality</th>
+                                        <th>Contact</th>
+                                        <th>Alternate Contact</th>
+                                        <th>Location</th>
+                                        </thead>
+                                        <tbody id="referees_data">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

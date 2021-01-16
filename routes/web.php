@@ -59,3 +59,7 @@
     Route::resources([
         'loan-applications' => 'LoanApplicationController',
     ]);
+
+    Route::get('countries',function(){
+        return json_decode(\Illuminate\Support\Facades\Storage::disk('local')->get('countries.json'));
+    });
