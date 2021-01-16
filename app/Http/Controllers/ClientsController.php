@@ -6,6 +6,7 @@ use App\Clients;
 use App\DataTables\ClientsDataTable;
 use App\NextOfKin;
 use Carbon\Carbon;
+use http\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Yajra\DataTables\DataTables;
@@ -18,25 +19,9 @@ class ClientsController extends Controller
      * @param \App\DataTables\ClientsDataTable $dataTable
      * @return \App\Clients[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
      */
-    public function index(ClientsDataTable $dataTable)
+    public function index()
     {
-        $clients= Cache::remember('clients',150,function(){
-            return Clients::all();
-        });
-        if (request()->ajax()) {
-            return DataTables::of($clients)
-                ->editColumn('created_at', function (Clients $clients){
-                    return \Illuminate\Support\Carbon::parse($clients->created_at)->toFormattedDateString();
-                })
-                ->editColumn('updated_at',function (Clients $clients){
-                    return Carbon::parse($clients->updated_at)->toFormattedDateString();
-                })
-                ->editColumn('date_of_birth',function (Clients $clients){
-                    return Carbon::parse($clients->date_of_birth)->toFormattedDateString();
-                })->toJson();
-        }
-
-        return $dataTable->render('superadministrator.clients');
+        return view('superadministrator.clients',['clients'=>Clients::all()]);
     }
 
     /**
@@ -85,11 +70,12 @@ class ClientsController extends Controller
      * Display the specified resource.
      *
      * @param \App\Clients $clients
-     * @return void
+     * @return Clients|void
      */
-    public function show(Clients $clients)
+    public function show($id)
     {
-        //
+        $clients=Clients::findOrFail($id);
+        return $clients;
     }
 
     /**
@@ -109,9 +95,10 @@ class ClientsController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return array
      */
-    public function update(Request $request)
+    public function update(Request $request,$id)
     {
-        return $request->all();
+        $client=Clients::findOrFail($id);
+        return $client->update($request->all());
     }
 
     /**

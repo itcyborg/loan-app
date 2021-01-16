@@ -11,9 +11,7 @@
         </nav>
         <div class="copyright float-right">
             &copy;
-            <script>
-                document.write(new Date().getFullYear())
-            </script>, made with <i class="material-icons">favorite</i> by
+            2021, made with <i class="fa flaticon2-heart-rate-monitor"></i> by
             <a href="https://itcyborg.company" target="_blank">Itcyborg Designs</a> for better web systems.
         </div>
         <!-- your footer here -->

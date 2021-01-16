@@ -5,7 +5,6 @@
     <div class="content">
         <div class="container-fluid">
             <!-- your content here -->
-            @include('notify::messages')
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">

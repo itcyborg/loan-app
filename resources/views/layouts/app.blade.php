@@ -16,10 +16,17 @@
     <link href="{{asset('assets/css/now-ui-dashboard.css?v=1.5.0')}}" rel="stylesheet" />
     @notifyCss
     @yield('styles')
+    <style type="text/css">
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 400px;
+        }
+    </style>
 </head>
 
 <body class="">
-<div class="wrapper ">
+<div class="wrapper" id="app">
     @section('sidebar')
         @include('layouts.sidebar')
     @show

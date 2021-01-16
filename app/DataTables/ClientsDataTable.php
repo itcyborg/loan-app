@@ -24,6 +24,7 @@ class ClientsDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->addColumn('action', 'actions.client_action')
             ->editColumn('created_at',function (Clients $clients){
                 return Carbon::parse($clients->created_at)->toFormattedDateString();
             })
@@ -32,6 +33,9 @@ class ClientsDataTable extends DataTable
             })
             ->editColumn('date_of_birth',function (Clients $clients){
                 return Carbon::parse($clients->date_of_birth)->toFormattedDateString();
+            })
+            ->rawColumns(['action'])->order(function($query){
+                $query->orderBy('id','asc');
             });
     }
 
@@ -89,6 +93,11 @@ class ClientsDataTable extends DataTable
             Column::make('nationality'),
             Column::make('created_at'),
             Column::make('updated_at'),
+            Column::computed('action')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->addClass('text-center'),
         ];
     }
 

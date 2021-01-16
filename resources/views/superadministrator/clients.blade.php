@@ -3,14 +3,6 @@
     Clients
 @endsection
 @section('content')
-
-    <style type="text/css">
-        /* Always set the map height explicitly to define the size of the div
-         * element that contains the map. */
-        #map {
-            height: 400px;
-        }
-    </style>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -86,6 +78,7 @@
         </div>
     </div>
     <div class="row">
+        @include('modals.edit-client')
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header card-header-primary">
@@ -93,7 +86,46 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                       {{$dataTable->table()}}
+                       <table class="table table-striped">
+                           <thead>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Gender</th>
+                            <th>Nationality</th>
+                            <th>Identification Document</th>
+                            <th>Identification Number</th>
+                            <th>Primary Contact</th>
+                            <th>Alternative Contact</th>
+                            <th>Address</th>
+                            <th>Date of Birth</th>
+                            <th>Created at</th>
+                            <th>Updated at</th>
+                            <th>Action</th>
+                           </thead>
+                           <tbody>
+                           @foreach($clients as $client)
+                               <tr>
+                                   <td>{{$client->id}}</td>
+                                   <td>{{$client->name}}</td>
+                                   <td>{{$client->email}}</td>
+                                   <td>{{$client->gender}}</td>
+                                   <td>{{$client->nationality}}</td>
+                                   <td>{{$client->identification_document}}</td>
+                                   <td>{{$client->identification_number}}</td>
+                                   <td>{{$client->primary_contact}}</td>
+                                   <td>{{$client->alternative_contact}}</td>
+                                   <td>{{$client->address}}</td>
+                                   <td>{{$client->date_of_birth}}</td>
+                                   <td>{{$client->created_at}}</td>
+                                   <td>{{$client->updated_at}}</td>
+                                   <td>
+                                       <button class="btn btn-info fa fa-edit" v-on:click="loadClient('{{route('client.show', $client->id)}}',{{$client->id}})" data-toggle="modal" data-target=".edit_client"></button>
+                                   </td>
+                               </tr>
+                           @endforeach
+                           </tbody>
+                       </table>
                     </div>
                 </div>
             </div>
@@ -103,7 +135,8 @@
 @section('scripts')
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuogBspOfHKhSzSldN3vYhcCcsHSoShRA&libraries=places"></script>
-    {{$dataTable->scripts()}}
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         var marker=false;
 
@@ -167,5 +200,62 @@
             // Basic
             google.maps.event.addDomListener(window, 'load', initMap);
         });
+    </script>
+    <script>
+
+        // vue instance
+        var app = new Vue({
+            el: '#app',
+            data: {
+                id:'',
+                client:{
+                    name:'',
+                    email:'',
+                    gender:'',
+                    identification_document:'',
+                    identification_number:'',
+                    nationality:'',
+                    date_of_birth:'',
+                    primary_contact:'',
+                    alternative_contact:'',
+                    address:'',
+                    longitude:'',
+                    latitude:''
+                },
+                clients:null
+            },
+            mounted(){
+              // this.getClients();
+            },
+            methods:{
+                getClients:function(){
+                  axios.get('client').then((res)=>{
+                      this.clients=res.data
+                  })
+                },
+                updateClient:function(){
+                    axios.patch('client/'+this.id,this.client).then((res)=>{
+                        console.log(res)
+                        alert('Client updated')
+                    }).catch((reason) => {
+                        alert('An error occurred')
+                        console.log(reason);
+                    })
+                },
+                loadClient:function(url,id){
+                    this.id=id;
+                    axios.get(url).then((res)=>{
+                        console.log(res)
+                        this.client=res.data;
+                    })
+                },
+                say:function(data){
+                    alert(data);
+                }
+            }
+        });
+
+
+        // end of vue instance
     </script>
 @endsection
