@@ -261,11 +261,13 @@ class LoanApplicationController extends Controller
             $loan_application->total_interest=$calcResults->interest;
             $loan_application->status='APPROVED';
             $loan_application->due_date=Carbon::now()->addMonths($loan_application->duration+1);
+            $loan_application->approved_by=Auth::id();
             $loan_application->save();
             return response()->json('Approval successful',201);
         }
         if($request->action=='reject'){
             $loan_application->status='REJECTED';
+            $loan_application->approved_by=Auth::id();
             $loan_application->save();
             return response()->json('Application has been successfully marked as rejected.',201);
         }
@@ -273,6 +275,7 @@ class LoanApplicationController extends Controller
         if($request->action == 'disburse'){
             $loan_application->status='DISBURSED';
             $loan_application->disbursement_date=Carbon::now();
+            $loan_application->disbursed_by=Auth::id();
             $loan_application->save();
 
             // create the schedule
