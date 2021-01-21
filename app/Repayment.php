@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Znck\Eloquent\Traits\BelongsToThrough;
 
 class Repayment extends Model
 {
+    use BelongsToThrough;
     protected $fillable=[
         'loan_application_id',
         'amount',
@@ -25,7 +27,7 @@ class Repayment extends Model
 
     public function client()
     {
-        return $this->belongsTo(Clients::class);
+        return $this->belongsToThrough(Clients::class,LoanApplication::class);
     }
 
     public function loan_application()

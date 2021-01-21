@@ -1,4 +1,4 @@
-<div class="modal fade view_loan_application" tabindex="-1" role="dialog" aria-labelledby="ViewLoanApplication"
+<div class="modal fade view_loan_application fullscreen-modal" hidden tabindex="-1" role="dialog" aria-labelledby="ViewLoanApplication"
      aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">

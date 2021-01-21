@@ -22,6 +22,9 @@ class RepaymentDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->editColumn('loan_application_id',function(Repayment $repayment){
+                return $repayment->client()->first()->name;
+            })
             ->addColumn('action', 'actions.repayment_action')
             ;
     }
