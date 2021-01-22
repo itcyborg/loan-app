@@ -97,22 +97,50 @@ class RepaymentController extends Controller
             'amount'=>'required|numeric'
         ]);
 
-        $amountDue=0;
+        $totalAmountDue=0;
+        $totalPenalties=0;
+
+        // get the total owed
+        $repayments=Repayment::where('loan_application_id',$repayment->loan_application_id)->get();
+        $totalAmountDue=$repayments->sum('amount');
+        $totalAmountPaid=$repayments->sum('amount_paid');
+        $totalPenalties=$repayments->sum('penalty');
+        $totalAmountDefault=$repayments->sum('amount_default');
+        $payable=$totalAmountDue-$totalAmountPaid;
+        $payable=$payable+$totalPenalties;
+
+        $totalOwed=$totalAmountDue+$totalPenalties;
+        $totalAmount=$totalAmountPaid+$request->amount;
+
+        foreach ($repayments as $repayment) {
+            $due=$repayment->amount;
+            $penalty=$repayment->penalty;
+            $amount_default=$repayment->amount_default;
+            $paid=$repayment->amount_paid;
+
+
+            $totalpaid=$paid-$amount_default;
+            $totaldue=($due+$penalty)-$totalpaid;
+            if($totaldue<$totalAmount){
+
+            }
+        }
+
+        // mark the payments starting from the earliest
 
         // get past repayments and check if there exists an overpayment or debt
-        $previousRepayments=Repayment::where('loan_application_id',$repayment->loan_application_id)->where('amount_paid','>',0)->get();
         $totalAmountDue=0;
         $totalAmountPaid=0;
         $totalAmountDefault=0;
-        foreach ($previousRepayments as $previousRepayment) {
-            // sum all due amount
-            if($repayment->amount_default<0){
-                $repayment->amount_default=$repayment->amount_default*-1;
-            }
-            $totalAmountDefault=$totalAmountDefault+$previousRepayment->amount_default;
-            $totalAmountDue=$totalAmountDue+$previousRepayment->amount_amount;
-            $totalAmountPaid=$totalAmountPaid+$previousRepayment->amount_paid;
-        }
+//        foreach ($previousRepayments as $previousRepayment) {
+//            // sum all due amount
+//            if($repayment->amount_default<0){
+//                $repayment->amount_default=$repayment->amount_default*-1;
+//            }
+//            $totalAmountDefault=$totalAmountDefault+$previousRepayment->amount_default;
+//            $totalAmountDue=$totalAmountDue+$previousRepayment->amount_amount;
+//            $totalAmountPaid=$totalAmountPaid+$previousRepayment->amount_paid;
+//        }
 
         // amountDue= totalAmountDue+totalAmountDefault-totalAmountPaid
         $amountDue=$totalAmountDue+$totalAmountDefault-$totalAmountPaid;

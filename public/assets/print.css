@@ -22,4 +22,11 @@
         background-color: rgb(0,0,0); /* Fallback color */
         background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
     }
+
+    table{
+        border:2px solid black;
+    }
+    table>th{
+        border:1px solid gray;
+    }
 }

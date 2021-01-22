@@ -1,7 +1,7 @@
 <div class="modal fade view_loan_application" role="dialog">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
-            <div class="row w-100">
+            <div class="col-12 ml-4 w-100">
                 <button class="btn btn-outline-primary" onclick="PrintElements.print(document.getElementsByClassName('printable'))"><i class="fa fa-print"></i> Print</button>
             </div>
             <div class="container-fluid p-3 printable" id="printable">
