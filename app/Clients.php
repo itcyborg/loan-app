@@ -20,4 +20,8 @@ class Clients extends Model implements Auditable
         'date_of_birth',
         'nationality',
     ];
+
+    protected $casts=[
+        'date_of_birth'=>'date:Y-m-d'
+    ];
 }

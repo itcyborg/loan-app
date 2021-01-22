@@ -80,6 +80,16 @@
                                         <td class="font-weight-bold">Due Date</td>
                                         <td id="loan_due_date"></td>
                                     </tr>
+                                    <tr>
+                                        <td class="font-weight-bold">Disbursement Channel</td>
+                                        <td id="loan_disbursment_channel"></td>
+                                        <td class="font-weight-bold">Disbursement Account</td>
+                                        <td id="loan_disbursement_account"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -200,6 +210,23 @@
             </div>
 
             <div class="modal-footer">
+                <div class="row" id="row_disbursement_details">
+                    <div class="col-6">
+                        <label for="disbursement_channel">Disbursement Channel</label>
+                        <select name="disbursement_channel" id="disbursement_channel" class="form-control">
+                            <option value="">Select Disbursement Channel</option>
+                            <option value="mobile">Mobile</option>
+                            <option value="cheque">Cheque</option>
+                            <option value="bank">Bank</option>
+                            <option value="cash">Cash</option>
+                            <option value="rtgs">RTGS</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label for="acc_details">Account Details</label>
+                        <input type="text" class="form-control" name="acc_details" id="acc_details">
+                    </div>
+                </div>
                 @role('superadministrator')
                 <button class="btn btn-success" id="btn_approve"
                         onclick='loanAction("{{route('loan-applications.action')}}","approve")'>

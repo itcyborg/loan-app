@@ -70,6 +70,7 @@ class LoanApplicationController extends Controller
         $data['amount_applied']=$request->loanDetails['amount'];
         $data['duration']=$request->loanDetails['duration'];
         $data['officer_id']=$request->loanDetails['officer'];
+        $data['purpose']=$request->loanDetails['purpose'];
         $data['charges']=json_encode(Charge::where('product_id',$request->product)->get());
         $data['total_interest']=json_decode(self::calc($request->loanDetails['duration'],$request->loanDetails['amount'],$data['rate']))->interest;
         try{
@@ -240,7 +241,8 @@ class LoanApplicationController extends Controller
         $loan_application=LoanApplication::with(['collaterals','nextofkins','guarantors'])->find($request->id);
         if($request->action=='approve'){
             $validator=Validator::make($request->all(),[
-                'approved_amount'=>'required'
+                'approved_amount'=>'required',
+                'duration'=>'required'
             ]);
             if($loan_application->collaterals->count()<1){
                 return response()->json(['message'=>'The loan application does not have a collateral on file.'],419);
@@ -255,6 +257,7 @@ class LoanApplicationController extends Controller
             }else{
                 return response()->json('The approved amount cannot be more than the applied amount.',422);
             }
+            $loan_application->duration=$request->duration;
             $loan_application->amount_approved=$request->approved_amount;
             $loan_application->approval_date=Carbon::now();
             $calcResults=json_decode(self::calc($loan_application->duration,$loan_application->amount_approved,$loan_application->rate));
@@ -273,6 +276,8 @@ class LoanApplicationController extends Controller
         }
 
         if($request->action == 'disburse'){
+            $loan_application->channel=$request->channel;
+            $loan_application->account=$request->account;
             $loan_application->status='DISBURSED';
             $loan_application->disbursement_date=Carbon::now();
             $loan_application->disbursed_by=Auth::id();

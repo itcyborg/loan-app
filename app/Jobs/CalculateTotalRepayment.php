@@ -10,7 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class CalculatePenalties implements ShouldQueue
+class CalculateTotalRepayment implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -31,19 +31,18 @@ class CalculatePenalties implements ShouldQueue
      */
     public function handle()
     {
+        print('Running totals'.PHP_EOL);
         $repayments=Repayment::whereDate('due_date','<',Carbon::now())->get();
-        $rate=env('penalty_rate',10);
         foreach ($repayments as $repayment) {
-            $default=$repayment->amount-$repayment->amount_paid;
-            $duration=Carbon::parse($repayment->due_date)->diffInMonths(Carbon::now());
-//            dump($repayment);
-            if($default>0){
-                $penalty=$duration*(($rate/100)/12)*$default;
-                $repayment->penalty=$penalty;
+            if(Carbon::parse($repayment->due_date)->isPast()){
+                $default=$repayment->amount-$repayment->amount_paid;
                 $repayment->amount_default=$default;
-                $repayment->save();
+                $repayment->total_to_pay=$repayment->amount_default+$repayment->penalty;
+//                $repayment->total_to_pay=($repayment->amount-$default)+$repayment->penalty-$repayment->amount_paid;
+            }else{
+                $repayment->total_to_pay=$repayment->amount;
             }
+            $repayment->save();
         }
-        CalculateTotalRepayment::dispatch();
     }
 }

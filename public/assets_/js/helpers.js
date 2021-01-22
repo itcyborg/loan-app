@@ -1,4 +1,5 @@
 let current_loan_application=null;
+let current_loan_duration=null;
 let current_loan_amount=null;
 let edit_endpoint=null;
 let is_edit=false;
@@ -67,6 +68,7 @@ function loadLoanApplications(url){
 function loadLoanApplicationModal(loanData) {
     current_loan_application=loanData.id;
     current_loan_amount=loanData.amount_applied;
+    current_loan_duration=loanData.duration;
     $('.client_name').text(loanData.client.name);
     $('#loan_application_id').html(loanData.id);
     $('#loan_application_id').text(loanData.id);
@@ -95,10 +97,13 @@ function loadLoanApplicationModal(loanData) {
     $('#guarantors_data').html(generateGuarantorsTableData(loanData.guarantors))
     $('#charges_data').html(generateChargesTableData(loanData.charges))
     $('#referees_data').html(generateRefereesTableData(loanData.referees))
+    $('#loan_disbursment_channel').text(loanData.channel);
+    $('#loan_disbursement_account').text(loanData.account);
     $('#repaymentCardData').hide();
     $('#repayment_alert').show();
     if(loanData.status==='PENDING'){
         $('#btn_disburse').hide();
+        $('#row_disbursement_details').hide();
         $('#btn_reject').show();
         $('#btn_approve').show();
     }
@@ -107,13 +112,16 @@ function loadLoanApplicationModal(loanData) {
         $('#btn_approve').hide();
         $('#btn_reject').hide();
         $('#btn_disburse').show();
+        $('#row_disbursement_details').show();
     }
     if(loanData.status==='REJECTED'){
+        $('#row_disbursement_details').hide();
         $('#btn_disburse').hide();
         $('#btn_approve').hide();
         $('#btn_reject').hide();
     }
     if(loanData.status==='DISBURSED'){
+        $('#row_disbursement_details').hide();
         $('#btn_disburse').hide();
         $('#btn_approve').hide();
         $('#btn_reject').hide();
@@ -182,10 +190,34 @@ function loanAction(endpoint,action) {
     }
     if(action=='approve'){
         let approved_amount = prompt("Please enter approved loan amount:", current_loan_amount);
+        let approved_duration=current_loan_duration;
+        if(approved_amount>0){
+            approved_duration = prompt("Please enter duration:", current_loan_duration);
+        }else{
+            return alert('Approval cancelled');
+        }
+        if(approved_duration<1){
+            return alert('Duration has to be 1 or greater than 1');
+        }
         payload={
             'id':current_loan_application,
             'action':action,
-            'approved_amount':approved_amount
+            'approved_amount':approved_amount,
+            'duration':approved_duration
+        }
+    }
+    if(action=='disburse'){
+        let channel=$('#disbursement_channel').val();
+        let acc_no=$('#acc_details').val();
+        if(channel!=='' && acc_no !== ''){
+            payload={
+                id:current_loan_application,
+                action:action,
+                channel:channel,
+                account:acc_no
+            }
+        }else{
+            return alert('Some disbursement information is missing.');
         }
     }
     postJson(endpoint,payload);
@@ -274,6 +306,7 @@ function updateProduct(endpoint) {
 function activateProduct(endpoint,action) {
     postJson(endpoint,{'id':product,'action':action},onSuccess,onError);
 }
+
 function resetPassword() {
     if(confirm('Are you sure?')){
         //reset account password
@@ -429,6 +462,7 @@ function loadAgentReport(){
         $('#loan_officer').html(loan_officers_row);
     });
 }
+
 function printElement(elem) {
     var domClone = elem.cloneNode(true);
 

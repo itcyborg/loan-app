@@ -16,7 +16,8 @@ class Repayment extends Model
         'due_date',
         'amount_default',
         'penalty',
-        'interest'
+        'interest',
+        'total_to_pay'
     ];
 
     protected $casts=[
