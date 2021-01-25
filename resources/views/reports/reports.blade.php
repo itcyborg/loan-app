@@ -42,6 +42,9 @@
                         <li class="nav-item">
                             <a class="nav-link" id="pills-expense-tab" data-toggle="pill" href="#pills-expense" role="tab" aria-controls="pills-expense" aria-selected="false">Expense</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="pills-charges-tab" data-toggle="pill" href="#pills-charges" role="tab" aria-controls="pills-charges" aria-selected="false">Charges</a>
+                        </li>
                     </ul>
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
@@ -173,6 +176,25 @@
                                             <th>Type</th>
                                             <th>Amount</th>
                                             <th>Comment</th>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-charges" role="tabpanel" aria-labelledby="pills-charges-tab">
+                            <div class="row">
+                                <div class="alert alert alert-info w-100 m-5">
+                                    This data is refreshed every 6 hrs.
+                                </div>
+                                <div class="table-responsive w-100 p-5">
+                                    <table class="table table-responsible w-100 table-striped" id="tbl_charges">
+                                        <thead class="thead-dark">
+                                        <th>#</th>
+                                        <th>Product Id</th>
+                                        <th>Charge Name</th>
+                                        <th>Amount</th>
                                         </thead>
                                         <tbody>
                                         </tbody>

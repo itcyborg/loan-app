@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use OwenIt\Auditing\Contracts\Auditable;
 
+/**
+ * @method static where(string $string, string $string1)
+ */
 class LoanApplication extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
@@ -28,6 +31,11 @@ class LoanApplication extends Model implements Auditable
         'applied_by',
         'approved_by',
         'disbursed_by'
+    ];
+
+    protected $casts=[
+        'charges_config'=>'array',
+        'product_config'=>'array'
     ];
 
     protected static function boot()

@@ -38,7 +38,7 @@
                 'permissions' => 'PermissionsController',
                 'charges'=>'ChargeController',
                 'reports'=>'ReportController',
-                'revenue'=>'RevenueController'
+                'revenue'=>'RevenueController',
             ]);
             Route::post('products/activate','ProductController@activate');
         });

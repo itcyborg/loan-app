@@ -7,23 +7,33 @@ use App\Clients;
 use App\Collaterals;
 use App\DataTables\LoanApplicationDataTable;
 use App\Guarantor;
+use App\Jobs\UpdateChargesApplied;
 use App\LoanApplication;
 use App\NextOfKin;
 use App\Product;
 use App\Referee;
 use App\Repayment;
+use App\User;
 use Carbon\Carbon;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
+use Throwable;
 
 class LoanApplicationController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param \App\DataTables\LoanApplicationDataTable $dataTable
-     * @return \Illuminate\Http\Response
+     * @param LoanApplicationDataTable $dataTable
+     * @return Response
      */
     public function index(LoanApplicationDataTable $dataTable)
     {
@@ -33,20 +43,21 @@ class LoanApplicationController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @return Application|Factory|Response|View
      */
     public function create()
     {
 
-        $officers=\App\User::role('administrator')->get();
+        $officers= User::role('administrator')->get();
         return view('applications.create',['clients'=>Clients::all(),'products'=>Product::all(),'officers'=>$officers]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|string
+     * @param Request $request
+     *
+     * @return RedirectResponse|Response|string
      */
     public function store(Request $request)
     {
@@ -75,7 +86,7 @@ class LoanApplicationController extends Controller
         $data['total_interest']=json_decode(self::calc($request->loanDetails['duration'],$request->loanDetails['amount'],$data['rate']))->interest;
         try{
             if($request->loanDetails['amount']>$product->max_amount || $request->loanDetails['amount'] < $product->min_amount){
-                throw new \Exception('The amount applied is out of product range. You can apply for '.$product->min_amount.' to '.$product->max_amount);
+                throw new Exception('The amount applied is out of product range. You can apply for '.$product->min_amount.' to '.$product->max_amount);
             }
             $loan=LoanApplication::create($data);
                 if($loan){
@@ -136,7 +147,7 @@ class LoanApplicationController extends Controller
                     }
                 }
                 return json_encode(['status'=>'success','message'=>'Loan application saved successfully'],200);
-        }catch (\Throwable $e){
+        }catch (Throwable $e){
             return response(['status'=>'error','message'=>$e->getMessage()],500);
         }
     }
@@ -144,8 +155,9 @@ class LoanApplicationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\LoanApplication $loanApplication
-     * @return \Illuminate\Http\JsonResponse|void
+     * @param LoanApplication $loanApplication
+     *
+     * @return JsonResponse|void
      */
     public function show($id)
     {
@@ -156,8 +168,9 @@ class LoanApplicationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\LoanApplication  $loanApplication
-     * @return \Illuminate\Http\Response
+     * @param LoanApplication $loanApplication
+     *
+     * @return Response
      */
     public function edit(LoanApplication $loanApplication)
     {
@@ -167,9 +180,10 @@ class LoanApplicationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\LoanApplication  $loanApplication
-     * @return bool|\Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     * @param Request         $request
+     * @param LoanApplication $loanApplication
+     *
+     * @return bool|JsonResponse|Response
      */
     public function update(Request $request, LoanApplication $loanApplication)
     {
@@ -205,15 +219,16 @@ class LoanApplicationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\LoanApplication  $loanApplication
-     * @return \Illuminate\Http\Response
+     * @param LoanApplication  $loanApplication
+     *
+     * @return Response
      */
     public function destroy(LoanApplication $loanApplication)
     {
         try {
             $loanApplication->delete();
             notify()->success('Loan application has been successfully deleted.');
-        }catch (\Throwable $e){
+        }catch (Throwable $e){
             notify()->error('An error occurred trying to delete the loan application.');
         }
         return redirect()->back();
@@ -257,6 +272,9 @@ class LoanApplicationController extends Controller
             }else{
                 return response()->json('The approved amount cannot be more than the applied amount.',422);
             }
+
+            $loan_application->product_config=$loan_application->product()->get();
+            $loan_application->charges_config=$loan_application->charges()->get();
             $loan_application->duration=$request->duration;
             $loan_application->amount_approved=$request->approved_amount;
             $loan_application->approval_date=Carbon::now();
@@ -285,6 +303,8 @@ class LoanApplicationController extends Controller
 
             // create the schedule
             $this->schedule($loan_application);
+
+            dispatch(new UpdateChargesApplied());
 
             return response()->json('Disbursement successful',201);
         }
