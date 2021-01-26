@@ -327,6 +327,7 @@ function loadReports(){
         let expenses=data.expense;
         let incomes=data.income;
         let charges=data.charges;
+        let repayments=data.repayments;
 
         let dis_rows='';
         let chg_rows='';
@@ -334,6 +335,7 @@ function loadReports(){
         let interest_rows='';
         let expense_rows='';
         let income_rows='';
+        let repayment_rows='';
         $.each(charges,function(k,v){
             chg_rows+='' +
                 '<tr>' +
@@ -392,8 +394,21 @@ function loadReports(){
                 '<td>'+v.comment+'</td>' +
                 '</tr>';
         })
+        $.each(repayments,function(k,v){
+            repayment_rows+='' +
+                '<tr>' +
+                '<td>'+(++k)+'</td>' +
+                '<td>'+v.product.name+'</td>' +
+                '<td>'+v.loan_application_id+'</td>' +
+                '<td>'+v.amount_default+'</td>' +
+                '<td>'+parseInt(v.penalty)+'</td>' +
+                '<td>'+v.amount_paid+'</td>' +
+                '</tr>';
+        });
         $('#tbl_expense tbody').html(expense_rows);
         $('#tbl_charges tbody').html(chg_rows);
+        $('#tbl_principal tbody').html(principals_rows);
+        $('#tbl_repayments tbody').html(repayment_rows);
         $('#tbl_income,#tbl_expense').DataTable(
             {
                 responsive: true,
@@ -440,6 +455,48 @@ function loadReports(){
                         return $('<tr/>')
                             .append( '<td class="bg-light" colspan="3"><b>Sum for '+group+'<b/></td>' )
                             .append( '<td class="bg-light" ><b>'+amountSum+'</b></td>' )
+                            .append( '<td class="bg-light" />' );
+                    },
+                    dataSrc: [1,2]
+                }
+            }
+        );
+        $('#tbl_repayments').DataTable(
+            {
+                responsive: true,
+                width: '100%',
+                dom: 'Bfrtip',
+                buttons: true,
+                rowGroup: {
+                    startRender: null,
+                    endRender: function ( rows, group ) {
+                        var amountSum = rows
+                            .data()
+                            .pluck(3)
+                            .reduce( function (a, b) {
+                                return a + b.replace(/[^\d]/g, '')*1;
+                            }, 0);
+                        amountSum = $.fn.dataTable.render.number(',', '.', 2, 'KES. ').display( amountSum );
+                        var penaltySum = rows
+                            .data()
+                            .pluck(4)
+                            .reduce( function (a, b) {
+                                return a + b.replace(/[^\d]/g, '')*1;
+                            }, 0);
+                        penaltySum = $.fn.dataTable.render.number(',', '.', 2, 'KES. ').display( penaltySum );
+                        var paidSum = rows
+                            .data()
+                            .pluck(5)
+                            .reduce( function (a, b) {
+                                return a + b.replace(/[^\d]/g, '')*1;
+                            }, 0);
+                        paidSum = $.fn.dataTable.render.number(',', '.', 0, 'KES. ').display( paidSum );
+
+                        return $('<tr/>')
+                            .append( '<td class="bg-light" colspan="3"><b>Sum for '+group+'<b/></td>' )
+                            .append( '<td class="bg-light" ><b>'+amountSum+'</b></td>' )
+                            .append( '<td class="bg-light" ><b>'+penaltySum+'</b></td>' )
+                            .append( '<td class="bg-light" ><b>'+paidSum+'</b></td>' )
                             .append( '<td class="bg-light" />' );
                     },
                     dataSrc: [1,2]

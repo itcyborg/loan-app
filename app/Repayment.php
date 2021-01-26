@@ -23,7 +23,7 @@ class Repayment extends Model
     protected $casts=[
         'created_at' => 'datetime:F j, Y',
         'updated_at' => 'datetime:F j, Y',
-        'due_date' => 'datetime:F j, Y'
+        'due_date' => 'datetime:F j, Y',
     ];
 
     public function client()
@@ -34,5 +34,10 @@ class Repayment extends Model
     public function loan_application()
     {
         return $this->belongsTo(LoanApplication::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsToThrough('App\Product','App\LoanApplication');
     }
 }

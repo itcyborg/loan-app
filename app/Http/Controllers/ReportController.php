@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ChargeIncome;
 use App\LoanApplication;
 use App\Product;
+use App\Repayment;
 use App\Report;
 use App\Revenue;
 use App\User;
@@ -112,6 +113,7 @@ class ReportController extends Controller
         $expense=Revenue::with('user')->where('category','expense')
             ->get();
         $chargesIncome=ChargeIncome::with('product')->get();
+        $repayments=Repayment::with('product')->get();
         return [
             'disbursement'=>$disbursements,
             'principals'=>$principals,
@@ -120,7 +122,8 @@ class ReportController extends Controller
             'income_sum'=>$income->sum('amount'),
             'expense'=>$expense,
             'expense_sum'=>$expense->sum('amount'),
-            'charges'=>$chargesIncome
+            'charges'=>$chargesIncome,
+            'repayments'=>$repayments
         ];
     }
 

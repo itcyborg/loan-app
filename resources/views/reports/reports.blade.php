@@ -45,6 +45,9 @@
                         <li class="nav-item">
                             <a class="nav-link" id="pills-charges-tab" data-toggle="pill" href="#pills-charges" role="tab" aria-controls="pills-charges" aria-selected="false">Charges</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="pills-repayments-tab" data-toggle="pill" href="#pills-repayments" role="tab" aria-controls="pills-repayments" aria-selected="false">Repayments, Penalties & Defaults</a>
+                        </li>
                     </ul>
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
@@ -195,6 +198,24 @@
                                         <th>Product Id</th>
                                         <th>Charge Name</th>
                                         <th>Amount</th>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="pills-repayments" role="tabpanel" aria-labelledby="pills-repayments-tab">
+                            <div class="row">
+                                <div class="table-responsive w-100 p-5">
+                                    <table class="table table-responsible w-100 table-striped" id="tbl_repayments">
+                                        <thead class="thead-dark">
+                                        <th>#</th>
+                                        <th>Product Name</th>
+                                        <th>Application</th>
+                                        <th>Default</th>
+                                        <th>Penalty</th>
+                                        <th>Amount Paid</th>
                                         </thead>
                                         <tbody>
                                         </tbody>
