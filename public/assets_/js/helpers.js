@@ -338,7 +338,7 @@ function loadReports(){
             chg_rows+='' +
                 '<tr>' +
                     '<td>'+(++k)+'</td>' +
-                    '<td>'+v.product_id+'</td>' +
+                    '<td>'+v.product.name+'</td>' +
                     '<td>'+v.charge_name+'</td>' +
                     '<td>'+v.amount+'</td>' +
                 '</tr>';

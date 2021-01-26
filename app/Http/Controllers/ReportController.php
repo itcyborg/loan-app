@@ -111,7 +111,7 @@ class ReportController extends Controller
             ->get();
         $expense=Revenue::with('user')->where('category','expense')
             ->get();
-        $chargesIncome=ChargeIncome::all();
+        $chargesIncome=ChargeIncome::with('product')->get();
         return [
             'disbursement'=>$disbursements,
             'principals'=>$principals,
