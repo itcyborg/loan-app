@@ -113,7 +113,7 @@ class ReportController extends Controller
         $expense=Revenue::with('user')->where('category','expense')
             ->get();
         $chargesIncome=ChargeIncome::with('product')->get();
-        $repayments=Repayment::with('product')->get();
+        $repayments=Repayment::with(['product','client'])->get();
         return [
             'disbursement'=>$disbursements,
             'principals'=>$principals,

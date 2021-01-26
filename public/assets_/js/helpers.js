@@ -399,7 +399,7 @@ function loadReports(){
                 '<tr>' +
                 '<td>'+(++k)+'</td>' +
                 '<td>'+v.product.name+'</td>' +
-                '<td>'+v.loan_application_id+'</td>' +
+                '<td>'+v.client.name+'</td>' +
                 '<td>'+v.amount_default+'</td>' +
                 '<td>'+parseInt(v.penalty)+'</td>' +
                 '<td>'+v.amount_paid+'</td>' +
