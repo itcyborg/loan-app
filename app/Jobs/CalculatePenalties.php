@@ -31,7 +31,7 @@ class CalculatePenalties implements ShouldQueue
      */
     public function handle()
     {
-        $repayments=Repayment::whereDate('due_date','<',Carbon::now())->get();
+        $repayments=Repayment::whereDate('due_date','<',Carbon::now())->where('status',0)->get();
         $rate=env('penalty_rate',10);
         foreach ($repayments as $repayment) {
             $default=$repayment->amount-$repayment->amount_paid;

@@ -32,7 +32,7 @@ class CalculateTotalRepayment implements ShouldQueue
     public function handle()
     {
         print('Running totals'.PHP_EOL);
-        $repayments=Repayment::whereDate('due_date','<',Carbon::now())->get();
+        $repayments=Repayment::whereDate('due_date','<',Carbon::now())->where('status',0)->get();
         foreach ($repayments as $repayment) {
             if(Carbon::parse($repayment->due_date)->isPast()){
                 $default=$repayment->amount-$repayment->amount_paid;

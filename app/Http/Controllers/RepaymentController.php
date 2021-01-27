@@ -15,19 +15,20 @@ class RepaymentController extends Controller
      * Display a listing of the resource.
      *
      * @param RepaymentDataTable $repaymentDataTable
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(RepaymentDataTable $repaymentDataTable)
     {
-        $applications=LoanApplication::with(['client'])->where('status','=','DISBURSED')->get();
-        $clients=[];
+        $applications = LoanApplication::with(['client'])->where('status', '=', 'DISBURSED')->get();
+        $clients = [];
         foreach ($applications as $application) {
-            if(!in_array($application->client_id,$clients)){
-                $clients[]=$application->client_id;
+            if (!in_array($application->client_id, $clients)) {
+                $clients[] = $application->client_id;
             }
         }
-        $newClients=Clients::whereIn('id',$clients)->get();
-        return $repaymentDataTable->render('superadministrator.repayments',['clients'=>$newClients]);
+        $newClients = Clients::whereIn('id', $clients)->get();
+        return $repaymentDataTable->render('superadministrator.repayments', ['clients' => $newClients]);
     }
 
     /**
@@ -44,20 +45,21 @@ class RepaymentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
 //        return print_r($request->all(),true);
-        $this->validate($request,[
-            'client'=>'required',
-            'application'=>'required',
-            'amount'=>'required'
+        $this->validate($request, [
+            'client' => 'required',
+            'application' => 'required',
+            'amount' => 'required'
         ]);
-        $repayments=Repayment::where('loan_application_id',$request->application)->get();
+        $repayments = Repayment::where('loan_application_id', $request->application)->get();
         foreach ($repayments as $repayment) {
-            $repayment->amount_paid=$request->amount;
+            $repayment->amount_paid = $request->amount;
         }
         return $repayments;
     }
@@ -65,7 +67,8 @@ class RepaymentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Repayment  $repayment
+     * @param \App\Repayment $repayment
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Repayment $repayment)
@@ -76,7 +79,8 @@ class RepaymentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Repayment  $repayment
+     * @param \App\Repayment $repayment
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Repayment $repayment)
@@ -87,91 +91,90 @@ class RepaymentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Repayment  $repayment
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Repayment           $repayment
+     *
      * @return bool|\Illuminate\Http\Response
      */
     public function update(Request $request, Repayment $repayment)
     {
-        $this->validate($request,[
-            'amount'=>'required|numeric'
+        $this->validate($request, [
+            'amount' => 'required|numeric'
         ]);
 
-        $amountDue=0;
+        $amountDue = 0;
 
         // get payments due today and the past
-        $previousRepayments=Repayment::where('loan_application_id',$repayment->loan_application_id)->whereDate('due_date','<=',Carbon::now())->get();
-        $amount=$request->amount;
-        $default=0;
-        // loop through checking if there exists a default, penalty or amount to pay
+        $previousRepayments = Repayment::where('loan_application_id', $repayment->loan_application_id)->whereDate('due_date', '<=', Carbon::now())->where('status', 0)->get();
+        $amount = $request->amount;
+        $default = 0;
+
+
+        // loop through checking if the amount paid is equal or more than the amount to pay
         foreach ($previousRepayments as $previousRepayment) {
-            // check if amount is fully paid
-            if($previousRepayment->amount==$previousRepayment->amount_paid){
+            # get the amount paid if any
+            $amountPaid = $previousRepayment->amount_paid;
 
+            # get the amount default
+            $amountDefault = $previousRepayment->amount_default;
+
+            # get the total to pay
+            $amountToPay = $previousRepayment->total_to_pay;
+
+            # check if amount to pay is equal to request amount
+            if ($amount > $amountToPay) {
+                # set the amount paid to amount due
+                $repayment->amount_paid = $repayment->amount_paid + $amount;
+                $repayment->amount_default = ($amountToPay - $amount);
+                $repayment->status = 1;
+                $repayment->save();
+
+                # set the amount to the balance remaining
+                $amount = $amount - $amountToPay;
             }
+            if ($amount == $amountToPay) {
+                # set the amount paid to amount due
+                $repayment->amount_paid = $repayment->amount_paid + $amount;
+                $repayment->amount_default = 0;
+                $repayment->status = 1;
+                $repayment->save();
 
-            $default=$default+$previousRepayment->amount_default;
-            $amount=$amount+$previousRepayment->amount_paid;
-            //check if there is a debt
-            if($previousRepayment->amount>=$previousRepayment->amount_paid){
-                // remove any defaulted amount from the amount requested
-                $toPay=$previousRepayment->amount+$previousRepayment->default+$default;
-                if($toPay<=$amount){
-                    $previousRepayment->amount_paid=$previousRepayment->amount;
-                    $previousRepayment->amount_default=$toPay-$amount;
-                    $previousRepayment->penalty=0;
-
-                    $previousRepayment->save();
-                }
-                if($toPay>$amount){
-                    $previousRepayment->amount_paid=$amount;
-                    $previousRepayment->amount_default=$toPay-$amount;
-
-                    $previousRepayment->save();
-                }
+                # set the amount to 0; no money left
+                $amount = 0;
             }
-         }
+            if ($amount < $amountToPay) {
 
-        return 0;
+                # set the amount paid to amount due
+                $repayment->amount_paid = $repayment->amount_paid + $amount;
+                $repayment->amount_default = ($amountToPay - $amount);
+                $repayment->status = 0;
+                $repayment->save();
 
-        $previousRepayments=Repayment::where('loan_application_id',$repayment->loan_application_id)->where('amount_paid','>',0)->get();
-        $totalAmountDue=0;
-        $totalAmountPaid=0;
-        $totalAmountDefault=0;
-        foreach ($previousRepayments as $previousRepayment) {
-            // sum all due amount
-            if($repayment->amount_default<0){
-                $repayment->amount_default=$repayment->amount_default*-1;
+                # set the amount to 0; no money left
+                $amount = 0;
             }
-            $totalAmountDefault=$totalAmountDefault+$previousRepayment->amount_default;
-            $totalAmountDue=$totalAmountDue+$previousRepayment->amount_amount;
-            $totalAmountPaid=$totalAmountPaid+$previousRepayment->amount_paid;
         }
 
-        // amountDue= totalAmountDue+totalAmountDefault-totalAmountPaid
-        $amountDue=$totalAmountDue+$totalAmountDefault-$totalAmountPaid;
+        // check if amount is more than 0
 
-        $amount=$request->amount+$repayment->amount;
+        if ($amount > 0) {
 
-        $overpayment=0;
-
-        // check if amount is equal to amount due or more
-        $data=[];
-        $data['amount_paid']=$request->amount;
-        $data['penalty']=0;
-        $data['amount_default']=$amountDue+$request->amount;
-        $data['interest']=0;
-
-        if($repayment->update($data)){
-            return "Payment has been registered successfully";
+            # get the next payment to be made and register it in the amount paid
+            $nextPayment = Repayment::where('loan_application_id', $repayment->loan_application_id)->whereDate('due_date', '>', Carbon::now())->where('status', 0)->orderBy('due_date', 'asc')->first();
+            if ($nextPayment) {
+                $nextPayment->amount_paid = $amount;
+                $nextPayment->save();
+            }
         }
-        return "An error occurred.";
+
+        return "Payment has been registered successfully";
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Repayment  $repayment
+     * @param \App\Repayment $repayment
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Repayment $repayment)
@@ -181,10 +184,10 @@ class RepaymentController extends Controller
 
     public function listApplications(Request $request)
     {
-        $this->validate($request,[
-            'client'=>'required'
+        $this->validate($request, [
+            'client' => 'required'
         ]);
-        $applications=LoanApplication::where('client_id',$request->client)->where('status','DISBURSED')->get();
+        $applications = LoanApplication::where('client_id', $request->client)->where('status', 'DISBURSED')->get();
         return $applications;
     }
 }

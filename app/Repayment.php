@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
+/**
+ * @property mixed amount_paid
+ */
 class Repayment extends Model
 {
     use BelongsToThrough;
