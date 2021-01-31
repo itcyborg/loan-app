@@ -158,7 +158,6 @@ class RepaymentController extends Controller
         // check if amount is more than 0
 
         if ($amount > 0) {
-
             # get the next payment to be made and register it in the amount paid
             $nextPayment = Repayment::where('loan_application_id', $repayment->loan_application_id)->whereDate('due_date', '>', Carbon::now())->where('status', 0)->orderBy('due_date', 'asc')->first();
             if ($nextPayment) {

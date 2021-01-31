@@ -86,7 +86,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                       <table class="table table-striped">
+                       <table class="table table-striped" id="clients_table">
                            <thead>
                             <th>#</th>
                             <th>Name</th>
@@ -198,7 +198,9 @@
 
         $(document).ready(function() {
             // Basic
+            $('#clients_table').DataTable();
             google.maps.event.addDomListener(window, 'load', initMap);
+
         });
     </script>
     <script>
