@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Clients;
+use App\LoanApplication;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -28,6 +29,24 @@ class DashboardController extends Controller
         $stats['clients']['week']=Clients::whereBetween('created_at',[$dateSOW,$dateEOW])->count();
         $stats['clients']['month']=Clients::whereBetween('created_at',[$dateSOM,$dateEOM])->count();
         $stats['clients']['year']=Clients::whereBetween('created_at',[$dateSOYr,$dateEOYr])->count();
+
+        $stats['applications']['today']=LoanApplication::whereBetween('created_at',[$dateSOT,$dateEOT])->count();
+        $stats['applications']['yesterday']=LoanApplication::whereBetween('created_at',[$dateSOY,$dateEOY])->count();
+        $stats['applications']['week']=LoanApplication::whereBetween('created_at',[$dateSOW,$dateEOW])->count();
+        $stats['applications']['month']=LoanApplication::whereBetween('created_at',[$dateSOM,$dateEOM])->count();
+        $stats['applications']['year']=LoanApplication::whereBetween('created_at',[$dateSOYr,$dateEOYr])->count();
+
+        $stats['applications_applied']['today']=LoanApplication::whereBetween('created_at',[$dateSOT,$dateEOT])->sum('amount_applied');
+        $stats['applications_applied']['yesterday']=LoanApplication::whereBetween('created_at',[$dateSOY,$dateEOY])->sum('amount_applied');
+        $stats['applications_applied']['week']=LoanApplication::whereBetween('created_at',[$dateSOW,$dateEOW])->sum('amount_applied');
+        $stats['applications_applied']['month']=LoanApplication::whereBetween('created_at',[$dateSOM,$dateEOM])->sum('amount_applied');
+        $stats['applications_applied']['year']=LoanApplication::whereBetween('created_at',[$dateSOYr,$dateEOYr])->sum('amount_applied');
+
+        $stats['applications_approved']['today']=LoanApplication::whereBetween('created_at',[$dateSOT,$dateEOT])->sum('amount_approved');
+        $stats['applications_approved']['yesterday']=LoanApplication::whereBetween('created_at',[$dateSOY,$dateEOY])->sum('amount_approved');
+        $stats['applications_approved']['week']=LoanApplication::whereBetween('created_at',[$dateSOW,$dateEOW])->sum('amount_approved');
+        $stats['applications_approved']['month']=LoanApplication::whereBetween('created_at',[$dateSOM,$dateEOM])->sum('amount_approved');
+        $stats['applications_approved']['year']=LoanApplication::whereBetween('created_at',[$dateSOYr,$dateEOYr])->sum('amount_approved');
 
         return $stats;
     }
