@@ -24,7 +24,8 @@
         "sentry/sentry-laravel": "1.8.0",
         "spatie/laravel-permission": "^3.13",
         "staudenmeir/belongs-to-through": "^2.5",
-        "yajra/laravel-datatables": "^1.5"
+        "yajra/laravel-datatables-buttons": "^4.10",
+        "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

@@ -1,6 +1,6 @@
 <li class="nav-item {{ Request::is('home*') ? 'active' : '' }}">
     <a class="nav-link" href="{{route('home')}}">
-        <i class="fa fa-tachometer-alt"></i>
+        <i class="fa fa-dashboard"></i>
         <p>Dashboard</p>
     </a>
 </li>

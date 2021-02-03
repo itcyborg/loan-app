@@ -55,7 +55,7 @@ class UsersDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(0,'asc')
                     ->buttons(
                         Button::make('create'),
                         Button::make('export'),
@@ -78,7 +78,6 @@ class UsersDataTable extends DataTable
             Column::make('email'),
             Column::make('role'),
             Column::make('created_at'),
-            Column::make('updated_at'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

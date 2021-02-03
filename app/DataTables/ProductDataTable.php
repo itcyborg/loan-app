@@ -4,6 +4,8 @@ namespace App\DataTables;
 
 use App\Product;
 use Carbon\Carbon;
+use Yajra\DataTables\DataTableAbstract;
+use Yajra\DataTables\Html\Builder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
@@ -14,7 +16,7 @@ class ProductDataTable extends DataTable
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.
-     * @return \Yajra\DataTables\DataTableAbstract
+     * @return DataTableAbstract
      */
     public function dataTable($query)
     {
@@ -32,7 +34,7 @@ class ProductDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Product $model
+     * @param Product $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Product $model)
@@ -43,7 +45,7 @@ class ProductDataTable extends DataTable
     /**
      * Optional method if you want to use html builder.
      *
-     * @return \Yajra\DataTables\Html\Builder
+     * @return Builder
      */
     public function html()
     {
@@ -52,7 +54,7 @@ class ProductDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(0,'asc')
                     ->buttons(
                         Button::make('create'),
                         Button::make('export'),
@@ -81,10 +83,9 @@ class ProductDataTable extends DataTable
             Column::make('security'),
             Column::make('status'),
             Column::make('created_at'),
-            Column::make('updated_at'),
             Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
+                ->exportable(true)
+                ->printable(true)
                 ->width(60)
                 ->addClass('text-center'),
         ];

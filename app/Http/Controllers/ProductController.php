@@ -4,14 +4,22 @@ namespace App\Http\Controllers;
 
 use App\DataTables\ProductDataTable;
 use App\Product;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
+use Throwable;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param ProductDataTable $dataTable
+     *
+     * @return Response
      */
     public function index(ProductDataTable $dataTable)
     {
@@ -31,8 +39,9 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @param Request $request
+     *
+     * @return RedirectResponse|Response
      */
     public function store(Request $request)
     {
@@ -49,7 +58,7 @@ class ProductController extends Controller
         try{
             Product::create($request->all());
             notify()->success('The product was successfully added.');
-        }catch (\Throwable $e){
+        }catch (Throwable $e){
             notify()->error('An error occurred adding a product.');
         }
 
@@ -59,8 +68,9 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
+     * @param Product $product
+     *
+     * @return Response
      */
     public function show(Product $product)
     {
@@ -70,8 +80,9 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
+     * @param Product $product
+     *
+     * @return Response
      */
     public function edit(Product $product)
     {
@@ -81,9 +92,10 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     * @param Request  $request
+     * @param  Product $product
+     *
+     * @return JsonResponse|Response
      */
     public function update(Request $request, Product $product)
     {
@@ -96,13 +108,15 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
+     * @param Product  $product
+     *
+     * @return Application|RedirectResponse|Response|Redirector
      */
     public function destroy(Product $product)
     {
         $product->delete();
-        return response()->json('Product deleted');
+        notify()->success('Product has been deleted');
+        return redirect('/products');
     }
 
     public function activate(Request $request)

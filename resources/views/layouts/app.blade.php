@@ -53,6 +53,7 @@
 
 <body class="">
 <div class="wrapper" id="app">
+    @include('notify::messages')
     @section('sidebar')
         @include('layouts.sidebar')
     @show
