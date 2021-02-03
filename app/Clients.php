@@ -22,6 +22,8 @@ class Clients extends Model implements Auditable
     ];
 
     protected $casts=[
-        'date_of_birth'=>'date:Y-m-d'
+        'date_of_birth'=>'date:Y-m-d',
+        'created_at'=>'date:Y-m-d',
+        'updated_at'=>'date:Y-m-d',
     ];
 }

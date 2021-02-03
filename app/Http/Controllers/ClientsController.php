@@ -6,9 +6,16 @@ use App\Clients;
 use App\DataTables\ClientsDataTable;
 use App\NextOfKin;
 use Carbon\Carbon;
+use Exception;
 use http\Client;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\View\View;
+use Throwable;
 use Yajra\DataTables\DataTables;
 
 class ClientsController extends Controller
@@ -16,8 +23,7 @@ class ClientsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param \App\DataTables\ClientsDataTable $dataTable
-     * @return \App\Clients[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
+     * @return Clients[]|Application|Factory|Collection|Response|View
      */
     public function index()
     {
@@ -37,9 +43,10 @@ class ClientsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     * @throws \Exception
+     * @param Request $request
+     *
+     * @return Response
+     * @throws Exception
      */
     public function store(Request $request)
     {
@@ -60,7 +67,7 @@ class ClientsController extends Controller
             $client['date_of_birth']=Carbon::parse($request->date_of_birth)->toDateString();
             Clients::create($client);
             notify()->success('Client successfully added');
-        }catch (\Throwable $e){
+        }catch (Throwable $e){
             notify()->error('An error occurred adding the client');
         }
         return redirect()->route('client.index');
@@ -69,7 +76,8 @@ class ClientsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Clients $clients
+     * @param Clients $clients
+     *
      * @return Clients|void
      */
     public function show($id)
@@ -81,7 +89,8 @@ class ClientsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Clients $clients
+     * @param Clients $clients
+     *
      * @return void
      */
     public function edit(Clients $clients)
@@ -92,7 +101,8 @@ class ClientsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
+     *
      * @return array
      */
     public function update(Request $request,$id)
@@ -104,7 +114,8 @@ class ClientsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Clients $clients
+     * @param Clients $clients
+     *
      * @return void
      */
     public function destroy(Clients $clients)
