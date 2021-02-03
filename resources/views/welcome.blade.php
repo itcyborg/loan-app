@@ -4,6 +4,57 @@
 @endsection
 @section('content')
     <div class="row">
+        <div class="card w-100">
+            <div class="card-body">
+                {!! $chart->container() !!}
+            </div>
+        </div>
+    </div>
+    <div class="row w-100">
+        <div class="col-4">
+            <div class="card w-100">
+                <div class="card-body">
+                    {!! $products_applied->container() !!}
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card w-100">
+                <div class="card-body">
+                    {!! $approved->container() !!}
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card w-100">
+                <div class="card-body">
+                    {!! $disbursed->container() !!}
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card w-100">
+                <div class="card-body">
+                    {!! $interestProduct->container() !!}
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card w-100">
+                <div class="card-body">
+                    {!! $status->container() !!}
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card w-100">
+                <div class="card-body">
+                    {!! $clients->container() !!}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-xl-3 col-md-6">
             <div class="card card-stats">
                 <!-- Card body -->
@@ -93,4 +144,16 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/offline-exporting.js"></script>
+    {!! $chart->script() !!}
+    {!! $products_applied->script() !!}
+    {!! $approved->script() !!}
+    {!! $disbursed->script() !!}
+    {!! $interestProduct->script() !!}
+    {!! $status->script() !!}
+    {!! $clients->script() !!}
 @endsection

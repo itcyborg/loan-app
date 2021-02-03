@@ -8,6 +8,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @method static where(string $string, string $string1)
+ * @method static whereDate(string $string, \Illuminate\Support\Carbon $subDays)
  */
 class LoanApplication extends Model implements Auditable
 {

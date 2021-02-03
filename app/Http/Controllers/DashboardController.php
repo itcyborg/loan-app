@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\LoanApplicationChart;
 use App\Clients;
 use App\LoanApplication;
 use Carbon\Carbon;
