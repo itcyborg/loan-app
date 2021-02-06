@@ -30,7 +30,7 @@
 </li>
 <li class="nav-item {{ Request::is('charges*') ? 'active' : '' }}">
     <a class="nav-link" href="{{route('charges.index')}}">
-        <i class="fa fa-coins"></i>
+        <i class="fa flaticon-coins"></i>
         <p>Charges</p>
     </a>
 </li>
@@ -46,21 +46,27 @@
         <p>Loan Applications</p>
     </a>
 </li>
+<li class="nav-item {{ Request::is('payment*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{route('payment.index')}}">
+        <i class="fa fa-money"></i>
+        <p>Payments</p>
+    </a>
+</li>
 <li class="nav-item {{ Request::is('repayment*') ? 'active' : '' }}">
     <a class="nav-link" href="{{route('repayment.index')}}">
-        <i class="fa fa-money-bill"></i>
-        <p>Repayments</p>
+        <i class="fa fa-calendar"></i>
+        <p>Schedule</p>
     </a>
 </li>
 <li class="nav-item {{ Request::is('revenue*') ? 'active' : '' }}">
     <a class="nav-link" href="{{route('revenue.index')}}">
-        <i class="fa fa-money-bill text-success"></i>
+        <i class="fa flaticon-arrows"></i>
         <p>Income & Expense</p>
     </a>
 </li>
 <li class="nav-item {{ Request::is('reports*') ? 'active' : '' }}">
     <a class="nav-link" href="{{route('reports.index')}}">
-        <i class="fa fa-file-alt"></i>
+        <i class="fa fa-bar-chart"></i>
         <p>Reports</p>
     </a>
 </li>

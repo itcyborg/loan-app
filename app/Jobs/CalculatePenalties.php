@@ -36,7 +36,6 @@ class CalculatePenalties implements ShouldQueue
         foreach ($repayments as $repayment) {
             $default=$repayment->amount-$repayment->amount_paid;
             $duration=Carbon::parse($repayment->due_date)->diffInMonths(Carbon::now());
-//            dump($repayment);
             if($default>0){
                 $penalty=$duration*(($rate/100)/12)*$default;
                 $repayment->penalty=$penalty;

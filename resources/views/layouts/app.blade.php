@@ -15,6 +15,7 @@
     <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" />
     <link href="{{asset('assets/css/now-ui-dashboard.css?v=1.5.0')}}" rel="stylesheet" />
     <link href="{{asset('assets/nucleo/css/nucleo.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/loader.css')}}" rel="stylesheet" />
     @notifyCss
     @yield('styles')
     <style type="text/css">
@@ -52,6 +53,7 @@
 </head>
 
 <body class="">
+<div class="loader loader-bouncing" id="loader"></div>
 <div class="wrapper" id="app">
     @include('notify::messages')
     @section('sidebar')

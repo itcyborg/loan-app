@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Jobs\CalculatePenalties;
 use Illuminate\Database\Eloquent\Model;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
@@ -42,5 +43,13 @@ class Repayment extends Model
     public function product()
     {
         return $this->belongsToThrough('App\Product','App\LoanApplication');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        self::updated(function(){
+            CalculatePenalties::dispatchAfterResponse();
+        });
     }
 }

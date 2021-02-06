@@ -283,6 +283,10 @@ class LoanApplicationController extends Controller
             $loan_application->status='APPROVED';
             $loan_application->due_date=Carbon::now()->addMonths($loan_application->duration+1);
             $loan_application->approved_by=Auth::id();
+
+            $this->calculateDisbursalAmount($loan_application);
+
+
             $loan_application->save();
             return response()->json('Approval successful',201);
         }
@@ -315,13 +319,40 @@ class LoanApplicationController extends Controller
         $currentMonth=Carbon::parse($loan->disbursement_date);
         $duration=$loan->duration;
         $amount=$loan->amount_approved/$duration;
+        $last_repayment=null;
         for ($i=1;$i<=$duration;$i++){
             $currentMonth=$currentMonth->addMonth();
-            Repayment::create([
+            $last_repayment=Repayment::create([
                 'loan_application_id'=>$loan->id,
                 'due_date'=>$currentMonth,
-                'amount'=> number_format($amount,0,'.','')
+                'amount'=> number_format($amount,0,'.',',')
             ]);
         }
+
+        $total_to_pay=Repayment::where('loan_application_id',$loan->id)->sum('amount');
+        $difference=ceil($loan->amount_approved-$total_to_pay);
+
+        if($difference>0){
+            $last_repayment->amount=$last_repayment->amount+$difference;
+            $last_repayment->save();
+        }
+    }
+
+    public function applications(Request $request)
+    {
+        $this->validate($request,[
+            'client_id'=>'required'
+        ]);
+
+        $applications= LoanApplication::where('client_id',$request->client_id)->get();
+        if($applications->count()==0){
+            return response('No application found',404);
+        }
+        return $applications;
+    }
+
+    private function calculateDisbursalAmount(?\Illuminate\Database\Eloquent\Model $loan_application)
+    {
+
     }
 }

@@ -2,8 +2,7 @@
 
 namespace App\DataTables;
 
-use App\LoanApplication;
-use App\Repayment;
+use App\Payment;
 use Yajra\DataTables\DataTableAbstract;
 use Yajra\DataTables\Html\Builder;
 use Yajra\DataTables\Html\Button;
@@ -12,7 +11,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class RepaymentDataTable extends DataTable
+class PaymentDatatable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -24,18 +23,16 @@ class RepaymentDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('loan_application_id',function(Repayment $repayment){
-                return $repayment->client()->first()->name;
-            });
+            ->addColumn('action', 'paymentdatatable.action');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param Repayment $model
+     * @param Payment $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Repayment $model)
+    public function query(Payment $model)
     {
         return $model->newQuery();
     }
@@ -48,7 +45,7 @@ class RepaymentDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('repaymentdatatable-table')
+                    ->setTableId('paymentdatatable-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
@@ -72,15 +69,11 @@ class RepaymentDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('loan_application_id'),
+            Column::make('client_id'),
             Column::make('amount'),
-            Column::make('amount_paid'),
-            Column::make('amount_default'),
-            Column::make('penalty'),
-            Column::make('total_to_pay'),
-            Column::make('due_date'),
-            Column::make('status'),
+            Column::make('approved_by'),
+            Column::make('approved_on'),
             Column::make('created_at'),
-            Column::make('updated_at'),
         ];
     }
 
@@ -91,6 +84,6 @@ class RepaymentDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Repayment_' . date('YmdHis');
+        return 'Payment_' . date('YmdHis');
     }
 }

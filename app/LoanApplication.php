@@ -31,7 +31,9 @@ class LoanApplication extends Model implements Auditable
         'officer_id',
         'applied_by',
         'approved_by',
-        'disbursed_by'
+        'disbursed_by',
+        'overpayment',
+        'disbursed_amount'
     ];
 
     protected $casts=[
