@@ -35,4 +35,22 @@ class Payment extends Model
             $payment->approved_by=Auth::id();
         });
     }
+
+
+    public function loan()
+    {
+        return $this->belongsTo(LoanApplication::class);
+    }
+
+
+    public function client()
+    {
+        return $this->belongsTo(Clients::class);
+    }
+
+
+    public function approver()
+    {
+        return $this->belongsTo(User::class,'approved_by');
+    }
 }

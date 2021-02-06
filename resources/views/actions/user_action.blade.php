@@ -1,5 +1,5 @@
 {!! Form::open(['route' => ['users.destroy', $id], 'method' => 'delete']) !!}
-<div class='btn-group'>
+<div class='btn-group btn-group-sm'>
     <a href="#" onclick='loadUser("{{ route('users.show', $id) }}")' class='btn btn-default btn-sm fa fa-eye'>
     </a>
     <a href="#" onclick='loadUser(" {{ route('users.show', $id) }}",true,"{{route('users.edit',$id)}}")' class='btn btn-default btn-sm fa fa-edit'>

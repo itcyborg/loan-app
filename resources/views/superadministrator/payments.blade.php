@@ -6,14 +6,16 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="w-100 p-4">
-                    <a href="{{url('/payment/create')}}" class="btn btn-primary pull-right">Add Payment</a>
-                </div>
+                @can('create_payment')
+                    <div class="w-100 p-4">
+                        <a href="{{url('/payment/create')}}" class="btn btn-primary pull-right">Add Payment</a>
+                    </div>
+                @endcan
                 <div class="card-header card-header-primary">
                     <div class="card-title">Payment</div>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <div class="table-responsive table-condensed">
                        {{$dataTable->table()}}
                     </div>
                 </div>

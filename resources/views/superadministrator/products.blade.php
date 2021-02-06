@@ -2,8 +2,17 @@
 @section('title')
     Products
 @endsection
+@section('styles')
+    <style>
+        .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+            padding: 3px 7px;
+            vertical-align: middle;
+        }
+    </style>
+@endsection
 @section('content')
-    <div class="row">
+    @can('create_product')
+        <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -68,6 +77,7 @@
             </div>
         </div>
     </div>
+    @endcan
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -75,7 +85,7 @@
                     <div class="card-title">Products</div>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <div class="table-responsive table-shopping">
                        {{$dataTable->table()}}
                     </div>
                 </div>
@@ -83,7 +93,9 @@
         </div>
     </div>
 @endsection
-@include('modals.edit_product')
+@can('update_product')
+    @include('modals.edit_product')
+@endcan
 @section('scripts')
     {{$dataTable->scripts()}}
 @endsection

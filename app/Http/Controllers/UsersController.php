@@ -12,6 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
@@ -133,11 +134,20 @@ class UsersController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return Response
+     *
+     * @return Application|RedirectResponse|Response|Redirector
      */
     public function destroy($id)
     {
-        return User::findOrFail($id)->destroy();
+        try {
+            $user = User::findOrFail($id);
+            notify()->success('User has been successfully deleted.');
+            $user->delete();
+            return redirect('/users');
+        }catch (Throwable $e){
+            notify()->success('An error occurred.');
+            return redirect('/users');
+        }
     }
 
     public function actions(Request $request)

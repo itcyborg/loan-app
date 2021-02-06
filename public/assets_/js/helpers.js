@@ -52,6 +52,33 @@ function postJson(endpointUri, payload,success=null,error=null) {
     });
 }
 
+function updateJson(endpointUri, payload,success=null,error=null) {
+    $.ajax({
+        url: endpointUri,
+        type: "PUT",
+        data: JSON.stringify(payload),
+        contentType: "application/json;",
+        headers: {
+            "Accept": "application/json;",
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (data) {
+            if(success){
+                success(data)
+            }else {
+                onSuccess(data);
+            }
+        },
+        error: function (data) {
+            if(error){
+                error(data);
+            }else{
+                onError(data);
+            }
+        }
+    });
+}
+
 function onError(error) {
     alert(error.responseJSON.message)
     console.log(error);
@@ -297,7 +324,7 @@ function updateProduct(endpoint) {
         'security':$('.view_product #security').val(),
         'rate':$('.view_product #rate').val()
     }
-    postJson(endpoint,payload,function(data){
+    updateJson(endpoint+'/'+payload.id,payload,function(data){
         alert(data)
         console.log(data)
     },onError)

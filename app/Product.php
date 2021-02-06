@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
+/**
+ * @method static where(string $string, string $string1)
+ */
 class Product extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;

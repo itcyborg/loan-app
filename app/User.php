@@ -8,6 +8,10 @@ use Illuminate\Notifications\Notifiable;
 use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * @method static role(string $string)
+ * @method static findOrFail(int $id)
+ */
 class User extends Authenticatable implements Auditable
 {
     use \OwenIt\Auditing\Auditable;

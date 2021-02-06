@@ -18,12 +18,15 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Throwable;
 
@@ -49,7 +52,7 @@ class LoanApplicationController extends Controller
     {
 
         $officers= User::role('administrator')->get();
-        return view('applications.create',['clients'=>Clients::all(),'products'=>Product::all(),'officers'=>$officers]);
+        return view('applications.create',['clients'=>Clients::all(),'products'=>Product::where('status','ACTIVE')->get(),'officers'=>$officers]);
     }
 
     /**
@@ -58,6 +61,7 @@ class LoanApplicationController extends Controller
      * @param Request $request
      *
      * @return RedirectResponse|Response|string
+     * @throws ValidationException
      */
     public function store(Request $request)
     {
@@ -170,11 +174,18 @@ class LoanApplicationController extends Controller
      *
      * @param LoanApplication $loanApplication
      *
-     * @return Response
+     * @return Application|RedirectResponse|Response|Redirector
      */
     public function edit(LoanApplication $loanApplication)
     {
-        //
+        if($loanApplication->status=='PENDING') {
+            notify()->success('Loan Application has been cancelled.');
+            $loanApplication->status='CANCELLED';
+            $loanApplication->save();
+        }else{
+            notify()->error('Loan Application cannot be cancelled at this stage.');
+        }
+        return redirect('/loan-applications');
     }
 
     /**
@@ -344,14 +355,14 @@ class LoanApplicationController extends Controller
             'client_id'=>'required'
         ]);
 
-        $applications= LoanApplication::where('client_id',$request->client_id)->get();
+        $applications= LoanApplication::where('client_id',$request->client_id)->where('status','DISBURSED')->get();
         if($applications->count()==0){
             return response('No application found',404);
         }
         return $applications;
     }
 
-    private function calculateDisbursalAmount(?\Illuminate\Database\Eloquent\Model $loan_application)
+    private function calculateDisbursalAmount(?Model $loan_application)
     {
 
     }

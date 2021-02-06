@@ -2,8 +2,17 @@
 @section('title')
     Users
 @endsection
+@section('styles')
+    <style>
+        .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+            padding: 3px 7px;
+            vertical-align: middle;
+        }
+    </style>
+@endsection
 @section('content')
-    <div class="row">
+    @can('create_user')
+        <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -39,6 +48,7 @@
             </div>
         </div>
     </div>
+    @endcan
     <div class="row">
         <div class="col-md-12">
             <div class="card">
