@@ -4,6 +4,8 @@ namespace App\DataTables;
 
 use App\LoanApplication;
 use App\Repayment;
+use Yajra\DataTables\DataTableAbstract;
+use Yajra\DataTables\Html\Builder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -16,23 +18,21 @@ class RepaymentDataTable extends DataTable
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.
-     * @return \Yajra\DataTables\DataTableAbstract
+     * @return DataTableAbstract
      */
     public function dataTable($query)
     {
         return datatables()
             ->eloquent($query)
-//            ->addColumn('action', 'repaymentdatatable.action')
-            ->editColumn('client_id',function (Repayment $repayment){
-                return $repayment->client->name;
-            })
-            ;
+            ->editColumn('loan_application_id',function(Repayment $repayment){
+                return $repayment->client()->first()->name;
+            });
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Repayment $model
+     * @param Repayment $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Repayment $model)
@@ -43,7 +43,7 @@ class RepaymentDataTable extends DataTable
     /**
      * Optional method if you want to use html builder.
      *
-     * @return \Yajra\DataTables\Html\Builder
+     * @return Builder
      */
     public function html()
     {
@@ -52,7 +52,7 @@ class RepaymentDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(0,'asc')
                     ->buttons(
                         Button::make('create'),
                         Button::make('export'),
@@ -71,16 +71,16 @@ class RepaymentDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('client_id')->title('Client'),
             Column::make('loan_application_id'),
             Column::make('amount'),
+            Column::make('amount_paid'),
+            Column::make('amount_default'),
+            Column::make('penalty'),
+            Column::make('total_to_pay'),
+            Column::make('due_date'),
+            Column::make('status'),
             Column::make('created_at'),
             Column::make('updated_at'),
-//            Column::computed('action')
-//                ->exportable(false)
-//                ->printable(false)
-//                ->width(60)
-//                ->addClass('text-center'),
         ];
     }
 

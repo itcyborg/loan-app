@@ -6,8 +6,6 @@ use App\User;
 use Illuminate\Support\Carbon;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class UsersDataTable extends DataTable
@@ -53,11 +51,11 @@ class UsersDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('users-table')->addClass('table-stripped')
+                    ->setTableId('users-table')->addTableClass('table-striped')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(0,'asc')
                     ->buttons(
                         Button::make('create'),
                         Button::make('export'),
@@ -80,7 +78,6 @@ class UsersDataTable extends DataTable
             Column::make('email'),
             Column::make('role'),
             Column::make('created_at'),
-            Column::make('updated_at'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

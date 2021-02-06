@@ -5,12 +5,19 @@ namespace App\Http\Controllers;
 use App\DataTables\UsersDataTable;
 use App\Notifications\UserCreated;
 use App\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
+use Throwable;
 
 class UsersController extends Controller
 {
@@ -18,8 +25,9 @@ class UsersController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param \App\DataTables\UsersDataTable $dataTable
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @param UsersDataTable $dataTable
+     *
+     * @return Application|Factory|Response|View
      */
     public function index(UsersDataTable $dataTable)
     {
@@ -29,7 +37,7 @@ class UsersController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -39,8 +47,9 @@ class UsersController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @param Request $request
+     *
+     * @return RedirectResponse|Response
      */
     public function store(Request $request)
     {
@@ -66,9 +75,10 @@ class UsersController extends Controller
             $mail['password_raw']=$password;
             $mail=json_decode(json_encode($mail));
             Notification::route('mail',$data['email'])->notify(new UserCreated($mail));
+            notify()->success('User has been created successfully. An email with credentials has been sent');
             return redirect()->route('users.index');
-        }catch (\Throwable $e){
-            return $e->getMessage();
+        }catch (Throwable $e){
+            return redirect()->route('users.index');
         }
     }
 
@@ -76,7 +86,8 @@ class UsersController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     *
+     * @return JsonResponse|Response
      */
     public function show($id)
     {
@@ -89,7 +100,7 @@ class UsersController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
@@ -99,9 +110,10 @@ class UsersController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     * @param Request $request
+     * @param  int    $id
+     *
+     * @return JsonResponse|Response
      */
     public function update(Request $request, $id)
     {
@@ -121,7 +133,7 @@ class UsersController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {

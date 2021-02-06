@@ -2,6 +2,9 @@
 @section('title')
     New Loan Application
 @endsection
+@section('styles')
+    <link rel="stylesheet" href="{{asset('assets/print.css')}}" media="print">
+@endsection
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -31,5 +34,7 @@
 @endsection
 @section('scripts')
     {{$dataTable->scripts()}}
+    <script src="{{asset('assets/print_elements.js')}}"></script>
 @endsection
-@include('modals.view_loan_application')
+{{--@include('modals.view_loan_application')--}}
+@include('modals.new_view_loan_application')

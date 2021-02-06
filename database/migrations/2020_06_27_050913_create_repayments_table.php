@@ -16,8 +16,12 @@ class CreateRepaymentsTable extends Migration
         Schema::create('repayments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('loan_application_id');
+            $table->date('due_date');
             $table->unsignedDouble('amount');
-            $table->unsignedDouble('client_id');
+            $table->double('amount_paid')->default(0);
+            $table->double('amount_default')->default(0);
+            $table->unsignedDouble('penalty')->default(0);
+            $table->unsignedDouble('interest');
             $table->timestamps();
         });
     }

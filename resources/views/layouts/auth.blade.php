@@ -15,7 +15,7 @@
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
-    <link href="{{asset("assets/css/material-dashboard.min.css")}}" rel="stylesheet"/>
+    <link href="{{asset("assets_/css/material-dashboard.min.css")}}" rel="stylesheet"/>
 </head>
 
 <body class="off-canvas-sidebar">
@@ -47,7 +47,7 @@
 <!-- End Navbar -->
 <div class="wrapper wrapper-full-page">
     <div class="page-header login-page header-filter" filter-color="black"
-         style="background-image: url('{{asset("assets/img/city.jpg")}}'); background-size: cover; background-position: top center;">
+         style="background-image: url('{{asset("assets_/img/city.jpg")}}'); background-size: cover; background-position: top center;">
         <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
         <div class="container">
             <div class="row">
@@ -68,12 +68,12 @@
     </div>
 </div>
 <!--   Core JS Files   -->
-<script src="{{asset('assets/js/core/jquery.min.js')}}"></script>
-{{--<script src="{{asset('assets/js/core/popper.min.js')}}"></script>--}}
-{{--<script src="{{asset('assets/js/core/bootstrap-material-design.min.js')}}"></script>--}}
-{{--<script src="{{asset('assets/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>--}}
+<script src="{{asset('assets_/js/core/jquery.min.js')}}"></script>
+{{--<script src="{{asset('assets_/js/core/popper.min.js')}}"></script>--}}
+{{--<script src="{{asset('assets_/js/core/bootstrap-material-design.min.js')}}"></script>--}}
+{{--<script src="{{asset('assets_/js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>--}}
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-{{--<script src="{{asset('assets/js/material-dashboard.min.js')}}" type="text/javascript"></script>--}}
+{{--<script src="{{asset('assets_/js/material-dashboard.min.js')}}" type="text/javascript"></script>--}}
 </body>
 
 </html>

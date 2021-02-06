@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 use App\Charge;
 use App\DataTables\ChargeDatatable;
 use App\Product;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Throwable;
 
 class ChargeController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param \App\DataTables\ChargeDatatable $chargeDatatable
-     * @return \Illuminate\Http\Response
+     * @param ChargeDatatable $chargeDatatable
+     * @return Response
      */
     public function index(ChargeDatatable $chargeDatatable)
     {
@@ -23,7 +26,7 @@ class ChargeController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -33,8 +36,9 @@ class ChargeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @param Request $request
+     *
+     * @return RedirectResponse|Response
      */
     public function store(Request $request)
     {
@@ -48,7 +52,7 @@ class ChargeController extends Controller
             Charge::create($request->all());
             notify()->success('Charge has been successfully created.');
             return redirect()->back();
-        }catch (\Throwable $e){
+        }catch (Throwable $e){
             notify()->error('Charge operation failed. Error: '.$e->getMessage());
             return redirect()->back();
         }
@@ -57,8 +61,9 @@ class ChargeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Charge  $charge
-     * @return \Illuminate\Http\Response
+     * @param Charge $charge
+     *
+     * @return Response
      */
     public function show(Charge $charge)
     {
@@ -68,8 +73,9 @@ class ChargeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Charge  $charge
-     * @return \Illuminate\Http\Response
+     * @param Charge $charge
+     *
+     * @return Response
      */
     public function edit(Charge $charge)
     {
@@ -79,9 +85,10 @@ class ChargeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Charge  $charge
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Charge  $charge
+     *
+     * @return Response
      */
     public function update(Request $request, Charge $charge)
     {
@@ -91,8 +98,9 @@ class ChargeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Charge  $charge
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @param  Charge  $charge
+     *
+     * @return RedirectResponse|Response
      */
     public function destroy(Charge $charge)
     {
@@ -100,7 +108,7 @@ class ChargeController extends Controller
             $charge->delete();
             notify()->success('The charge has been successfully deleted.');
             return redirect()->back();
-        }catch (\Throwable $e){
+        }catch (Throwable $e){
             notify()->error('The charge failed to be deleted. Error: '.$e->getMessage());
             return redirect()->back();
         }

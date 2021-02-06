@@ -10,7 +10,7 @@ class CollateralsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \App\Collaterals[]|\Illuminate\Database\Eloquent\Collection
      */
     public function index()
     {
@@ -56,8 +56,8 @@ class CollateralsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Collaterals  $collaterals
-     * @return \Illuminate\Http\Response
+     * @param \App\Collaterals $collaterals
+     * @return void
      */
     public function show(Collaterals $collaterals)
     {
@@ -67,8 +67,8 @@ class CollateralsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Collaterals  $collaterals
-     * @return \Illuminate\Http\Response
+     * @param \App\Collaterals $collaterals
+     * @return void
      */
     public function edit(Collaterals $collaterals)
     {
@@ -78,9 +78,9 @@ class CollateralsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Collaterals  $collaterals
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Collaterals         $collaterals
+     * @return void
      */
     public function update(Request $request, Collaterals $collaterals)
     {
@@ -90,8 +90,8 @@ class CollateralsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Collaterals  $collaterals
-     * @return \Illuminate\Http\Response
+     * @param \App\Collaterals $collaterals
+     * @return void
      */
     public function destroy(Collaterals $collaterals)
     {

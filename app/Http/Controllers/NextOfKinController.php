@@ -10,7 +10,7 @@ class NextOfKinController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function index()
     {
@@ -20,6 +20,7 @@ class NextOfKinController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function create(Request $request)
@@ -62,8 +63,8 @@ class NextOfKinController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\NextOfkin  $nextOfkin
-     * @return \Illuminate\Http\Response
+     * @param \App\NextOfkin $nextOfkin
+     * @return void
      */
     public function show(NextOfkin $nextOfkin)
     {
@@ -84,9 +85,9 @@ class NextOfKinController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\NextOfkin  $nextOfkin
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param \App\NextOfkin           $nextOfkin
+     * @return void
      */
     public function update(Request $request, NextOfkin $nextOfkin)
     {

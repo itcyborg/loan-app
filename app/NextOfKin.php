@@ -24,4 +24,12 @@ class NextOfKin extends Model implements Auditable
         'address',
         'loan_applications_id'
     ];
+
+    public function getAlternativeContactAttribute($value)
+    {
+        if($value==null){
+            return '';
+        }
+        return $value;
+    }
 }
