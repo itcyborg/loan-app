@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRefereesTable extends Migration
+class CreateChargesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateRefereesTable extends Migration
      */
     public function up()
     {
-        Schema::create('referees', function (Blueprint $table) {
-            $table->id();
+        Schema::create('charges', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->string('name');
-            $table->string('nationality');
-            $table->string('contact');
-            $table->string('alternate_contact');
-            $table->text('location');
-            $table->unsignedBigInteger('loan_id');
+            $table->double('amount');
+            $table->enum('type', ['FIXED', 'PERCENTAGE']);
+            $table->unsignedBigInteger('product_id');
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ class CreateRefereesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('referees');
+        Schema::dropIfExists('charges');
     }
 }

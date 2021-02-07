@@ -4,6 +4,8 @@
     </a>
     <a href="#" onclick='loadUser(" {{ route('users.show', $id) }}",true,"{{route('users.edit',$id)}}")' class='btn btn-default btn-sm fa fa-edit'>
     </a>
+    <a href="{{url('/users/'.$id.'/permissions')}}" class='btn btn-info btn-sm fa fa-lock' data-toggle="tooltip" data-placement="top" title="Edit Permissions">
+    </a>
     {!! Form::button('',[
         'type' => 'submit',
         'class' => 'btn btn-danger btn-sm fa fa-trash',

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\View\View;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Throwable;
 
@@ -164,5 +165,23 @@ class UsersController extends Controller
                 return $response;
             }
         }
+    }
+
+    public function editPermission(Request $request,User $user)
+    {
+        $userPermissions=$user->permissions()->get();
+        return view('superadministrator.assign_permission',['permissions'=>Permission::all(),'userPermissions'=>$userPermissions]);
+    }
+
+    public function updatePermission(Request $request,User $user)
+    {
+        $permissions=Permission::whereIn('id',array_values($request->permissions))->get();
+        $permissions->pluck('name');
+        if($user->syncPermissions($permissions->pluck('name'))){
+            notify()->success('Permissions have been linked.');
+        }else{
+            notify()->error('An error occurred.');
+        }
+        return redirect('/users/'.$user->id.'/permissions');
     }
 }

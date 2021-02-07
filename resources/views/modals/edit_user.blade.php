@@ -27,9 +27,13 @@
                 </div>
             </div>
             <div class="modal-footer w-100">
-                <button class="btn btn-warning pull-right" onclick="resetPassword()"><i class="fa fa-refresh"></i> Password</button>
+                @can('reset_password')
+                    <button class="btn btn-warning pull-right" onclick="resetPassword()"><i class="fa fa-refresh"></i> Password</button>
+                @endcan
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button class="btn btn-primary" id="edit" onclick="updateUser('{{url('users')}}')">Save and Exit</button>
+                @can('create_user')
+                    <button class="btn btn-outline-success" id="edit" onclick="updateUser('{{url('users')}}')">Save and Exit</button>
+                @endcan
             </div>
         </div>
     </div>

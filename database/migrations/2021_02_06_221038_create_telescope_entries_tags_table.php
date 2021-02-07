@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateChargeIncomesTable extends Migration
+class CreateTelescopeEntriesTagsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateChargeIncomesTable extends Migration
      */
     public function up()
     {
-        Schema::create('charge_incomes', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('product_id');
-            $table->string('charge_name');
-            $table->unsignedDouble('amount');
-            $table->timestamps();
+        Schema::create('telescope_entries_tags', function (Blueprint $table) {
+            $table->char('entry_uuid', 36);
+            $table->string('tag', 255)->index();
+            $table->index(['entry_uuid', 'tag']);
         });
     }
 
@@ -29,6 +27,6 @@ class CreateChargeIncomesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('charge_incomes');
+        Schema::dropIfExists('telescope_entries_tags');
     }
 }

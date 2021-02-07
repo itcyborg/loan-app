@@ -43,6 +43,7 @@
 @section('scripts')
     {{$dataTable->scripts()}}
     <script src="{{asset('assets/print_elements.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
         $(document).ready(function(){
             $('#loanapplication-table').on('draw.dt', function(){

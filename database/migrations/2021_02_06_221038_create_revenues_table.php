@@ -14,11 +14,11 @@ class CreateRevenuesTable extends Migration
     public function up()
     {
         Schema::create('revenues', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('log_id');
-            $table->enum('category',['income','expense']);
+            $table->bigIncrements('id');
+            $table->char('log_id', 36);
+            $table->enum('category', ['income', 'expense']);
             $table->string('type');
-            $table->unsignedDouble('amount');
+            $table->double('amount')->unsigned();
             $table->unsignedInteger('user_id');
             $table->text('comment')->nullable();
             $table->timestamps();

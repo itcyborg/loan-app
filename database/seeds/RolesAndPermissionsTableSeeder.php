@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -13,10 +14,31 @@ use Spatie\Permission\Models\Role;
      */
     public function run()
     {
+        $super=User::create([
+            'name'=>'Super Admin',
+            'email'=>'superadministrator@app.com',
+            'password'=>\Illuminate\Support\Facades\Hash::make('password')
+        ]);
+
+        $admin=User::create([
+            'name'=>'Admin',
+            'email'=>'administrator@app.com',
+            'password'=>\Illuminate\Support\Facades\Hash::make('password')
+        ]);
+
+        $agent=User::create([
+            'name'=>'Agent',
+            'email'=>'agent@app.com',
+            'password'=>\Illuminate\Support\Facades\Hash::make('password')
+        ]);
+
         $role=Role::create(['name'=>'superadministrator']);
         $role=Role::create(['name'=>'administrator']);
         $role=Role::create(['name'=>'agent']);
 
+        $super->assignRole('superadministrator');
+        $admin->assignRole('administrator');
+        $agent->assignRole('agent');
 
         $permission=Permission::create(['name'=>'view_loan']);
         $permission=Permission::create(['name'=>'apply_loan']);
@@ -57,6 +79,9 @@ use Spatie\Permission\Models\Role;
 
 
         $permission=Permission::create(['name'=>'view_schedule']);
+
+
+        $permission=Permission::create(['name'=>'reset_password']);
 
 
         $permission=Permission::create(['name'=>'view_reports']);

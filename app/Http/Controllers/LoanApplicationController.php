@@ -270,19 +270,20 @@ class LoanApplicationController extends Controller
                 'approved_amount'=>'required',
                 'duration'=>'required'
             ]);
-            if($loan_application->collaterals->count()<1){
-                return response()->json(['message'=>'The loan application does not have a collateral on file.'],419);
-            }
-            if($loan_application->nextofkins->count()<1){
-                return response()->json(['message'=>'The loan application does not have a next-of-kin on file.'],419);
-            }
-            if($loan_application->guarantors->count()<1){
-                return response()->json(['message'=>'The loan application does not have a guarantor on file.'],419);
-            }
-            if($loan_application->amount_applied>=$request->approved_amount){
-            }else{
-                return response()->json('The approved amount cannot be more than the applied amount.',422);
-            }
+
+//            if($loan_application->collaterals->count()<1){
+//                return response()->json(['message'=>'The loan application does not have a collateral on file.'],419);
+//            }
+//            if($loan_application->nextofkins->count()<1){
+//                return response()->json(['message'=>'The loan application does not have a next-of-kin on file.'],419);
+//            }
+//            if($loan_application->guarantors->count()<1){
+//                return response()->json(['message'=>'The loan application does not have a guarantor on file.'],419);
+//            }
+//            if($loan_application->amount_applied>=$request->approved_amount){
+//            }else{
+//                return response()->json('The approved amount cannot be more than the applied amount.',422);
+//            }
 
             $loan_application->product_config=$loan_application->product()->get();
             $loan_application->charges_config=$loan_application->charges()->get();
@@ -295,8 +296,8 @@ class LoanApplicationController extends Controller
             $loan_application->due_date=Carbon::now()->addMonths($loan_application->duration+1);
             $loan_application->approved_by=Auth::id();
 
-            $this->calculateDisbursalAmount($loan_application);
 
+            $loan_application->disbursed_amount=$this->calculateDisbursalAmount($loan_application);
 
             $loan_application->save();
             return response()->json('Approval successful',201);
@@ -311,17 +312,21 @@ class LoanApplicationController extends Controller
         if($request->action == 'disburse'){
             $loan_application->channel=$request->channel;
             $loan_application->account=$request->account;
-            $loan_application->status='DISBURSED';
-            $loan_application->disbursement_date=Carbon::now();
-            $loan_application->disbursed_by=Auth::id();
-            $loan_application->save();
+            if($loan_application->channel!="" && $loan_application->channel!==null && $loan_application->account!=='' && $loan_application->account!=null) {
+                $loan_application->status = 'DISBURSED';
+                $loan_application->disbursement_date = Carbon::now();
+                $loan_application->disbursed_by = Auth::id();
+                $loan_application->save();
 
-            // create the schedule
-            $this->schedule($loan_application);
+                // create the schedule
+                $this->schedule($loan_application);
 
-            dispatch(new UpdateChargesApplied());
+                dispatch(new UpdateChargesApplied());
 
-            return response()->json('Disbursement successful',201);
+                return response()->json('Disbursement successful', 201);
+            }else{
+                return response()->json('An error occurred',422);
+            }
         }
     }
 
@@ -362,8 +367,19 @@ class LoanApplicationController extends Controller
         return $applications;
     }
 
-    private function calculateDisbursalAmount(?Model $loan_application)
+    private function calculateDisbursalAmount($loan_application)
     {
-
+        $charges=$loan_application->charges_config;
+        if(count($charges)>0) {
+            $total_charge = 0;
+            foreach ($charges as $charge) {
+                if ($charge['type'] == 'PERCENTAGE') {
+                    $total_charge += $charge['amount'] * $loan_application->amount_approved / 100;
+                } else {
+                    $total_charge += $charge['amount'];
+                }
+            }
+        }
+        return floor($loan_application->amount_applied-($total_charge+$loan_application->total_interest));
     }
 }

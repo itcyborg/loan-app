@@ -14,16 +14,16 @@ class CreateProductsTable extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('code')->unique();
-            $table->unsignedDouble('min_amount');
-            $table->unsignedDouble('max_amount');
-            $table->unsignedDouble('rate');
+            $table->bigIncrements('id');
+            $table->string('name', 255);
+            $table->string('code', 255)->unique();
+            $table->double('min_amount')->unsigned();
+            $table->double('max_amount')->unsigned();
+            $table->double('rate')->unsigned();
             $table->unsignedInteger('min_duration');
             $table->unsignedInteger('max_duration');
-            $table->unsignedDouble('security');
-            $table->enum('status',['ACTIVE','INACTIVE'])->default('INACTIVE');
+            $table->double('security')->unsigned();
+            $table->enum('status', ['ACTIVE', 'INACTIVE'])->default('INACTIVE');
             $table->timestamps();
         });
     }

@@ -67,4 +67,6 @@
 @section('scripts')
     {{$dataTable->scripts()}}
 @endsection
-@include('modals.edit_user')
+@can('create_user')
+    @include('modals.edit_user')
+@endcan

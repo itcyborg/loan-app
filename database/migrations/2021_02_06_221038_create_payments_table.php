@@ -14,12 +14,12 @@ class CreatePaymentsTable extends Migration
     public function up()
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('loan_application_id');
             $table->unsignedBigInteger('client_id');
-            $table->unsignedDouble('amount');
+            $table->double('amount')->unsigned();
             $table->unsignedBigInteger('approved_by');
-            $table->date('approved_on')->useCurrent();
+            $table->date('approved_on');
             $table->timestamps();
         });
     }

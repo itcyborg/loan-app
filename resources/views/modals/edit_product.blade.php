@@ -54,9 +54,15 @@
             </div>
             <div class="modal-footer w-100">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success" id="activate" onclick="activateProduct('{{url('products/activate')}}','activate')">Activate</button>
-                <button type="button" class="btn btn-danger" id="deactivate" onclick="activateProduct('{{url('products/activate')}}','deactivate')">Deactivate</button>
-                <button class="btn btn-primary" id="edit" onclick="updateProduct('{{url('products')}}')">Save and Exit</button>
+                @can('activate_product')
+                    <button type="button" class="btn btn-success" id="activate" onclick="activateProduct('{{url('products/activate')}}','activate')">Activate</button>
+                @endcan
+                @can('activate_product')
+                    <button type="button" class="btn btn-danger" id="deactivate" onclick="activateProduct('{{url('products/activate')}}','deactivate')">Deactivate</button>
+                @endcan
+                @can('update_product')
+                    <button class="btn btn-primary" id="edit" onclick="updateProduct('{{url('products')}}')">Save and Exit</button>
+                @endcan
             </div>
         </div>
     </div>
