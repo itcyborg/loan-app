@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    Repayments
+    Repayment Schedule
 @endsection
 @section('styles')
     <style>
@@ -15,7 +15,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header card-header-primary">
-                    <h2 class="card-title">Repayments</h2>
+                    <h2 class="card-title">Repayment Schedule</h2>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
