@@ -26,7 +26,16 @@ class RepaymentDataTable extends DataTable
             ->eloquent($query)
             ->editColumn('loan_application_id',function(Repayment $repayment){
                 return $repayment->client()->first()->name;
-            });
+            })
+            ->editColumn('status',function(Repayment $repayment){
+                if($repayment->status==1){
+                    return "<span class='badge badge-azure'>PAID</span>";
+                }
+                if($repayment->status==0){
+                    return "<span class='badge badge-danger'>PENDING</span>";
+                }
+            })
+            ->rawColumns(['action','status']);
     }
 
     /**
