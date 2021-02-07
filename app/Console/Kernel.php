@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\CalculateChargesIncome;
 use App\Jobs\CalculatePenalties;
 use App\Jobs\CalculateTotalRepayment;
 use Illuminate\Console\Scheduling\Schedule;
@@ -29,6 +30,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         Log::info('Running Jobs');
+        $schedule->job(new CalculateChargesIncome())->everyMinute();
         $schedule->job(new CalculatePenalties())->everyMinute();
     }
 
