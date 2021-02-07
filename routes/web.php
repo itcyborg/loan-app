@@ -34,6 +34,8 @@
         Route::get('clients', 'ClientsController@list');
         Route::group(['middleware' => 'role:superadministrator'], function () {
             Route::get('reports/data','ReportController@getData');
+            Route::get('users/{user}/permissions','UsersController@editPermission');
+            Route::post('users/{user}/permissions','UsersController@updatePermission');
             Route::resources([
                 'users' => 'UsersController',
                 'products' => 'ProductController',

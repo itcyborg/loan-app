@@ -18,16 +18,17 @@ class CreateAuditsTable extends Migration
             $table->string('user_type')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('event');
-            $table->morphs('auditable');
+            $table->string('auditable_type');
+            $table->unsignedBigInteger('auditable_id');
             $table->text('old_values')->nullable();
             $table->text('new_values')->nullable();
             $table->text('url')->nullable();
-            $table->ipAddress('ip_address')->nullable();
+            $table->string('ip_address', 45)->nullable();
             $table->string('user_agent', 1023)->nullable();
             $table->string('tags')->nullable();
             $table->timestamps();
-
             $table->index(['user_id', 'user_type']);
+            $table->index(['auditable_type', 'auditable_id']);
         });
     }
 
@@ -38,6 +39,6 @@ class CreateAuditsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('audits');
+        Schema::dropIfExists('audits');
     }
 }

@@ -9,7 +9,7 @@
                 <div class="row m-1">
                     <div class="card">
                         <div class="card-body">
-                            <div class="card-title font-weight-bold">Personal Information</div>
+                            <div class="card-title font-weight-bold"><h5>Personal Information</h5></div>
                             <div class="card-text">
                                 <div class="row p-2">
                                     <table class="table table-borderless table-full-width">
@@ -46,7 +46,7 @@
                 <div class="row m-1">
                     <div class="card">
                         <div class="card-body">
-                            <div class="card-title font-weight-bold">Loan Details</div>
+                            <div class="card-title font-weight-bold"><h5>Loan Details</h5></div>
                             <div class="card-text">
                                 <table class="table table-borderless table-full-width">
                                     <tbody>
@@ -85,8 +85,8 @@
                                         <td id="loan_disbursment_channel"></td>
                                         <td class="font-weight-bold">Disbursement Account</td>
                                         <td id="loan_disbursement_account"></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td class="font-weight-bold">Disbursal Amount</td>
+                                        <td id="loan_disbursement_amount"></td>
                                         <td></td>
                                         <td></td>
                                     </tr>
@@ -101,7 +101,7 @@
                 <div class="row m-1">
                     <div class="card">
                         <div class="card-body">
-                            <div class="card-title font-weight-bold">Charges</div>
+                            <div class="card-title font-weight-bold"><h5>Charges</h5></div>
                             <div class="card-text">
                                 <table class="table table-borderless table-full-width">
                                     <thead>
@@ -122,7 +122,7 @@
                 <div class="row m-1">
                     <div class="card">
                         <div class="card-body">
-                            <div class="card-title font-weight-bold">Next of Kin</div>
+                            <div class="card-title font-weight-bold"><h5>Next of Kin</h5></div>
                             <div class="card-text">
                                 <table class="table table-borderless table-full-width">
                                     <thead>
@@ -146,7 +146,7 @@
                 <div class="row m-1">
                     <div class="card">
                         <div class="card-body">
-                            <div class="card-title font-weight-bold">Guarantors</div>
+                            <div class="card-title font-weight-bold"><h5>Guarantors</h5></div>
                             <div class="card-text">
                                 <table class="table table-borderless table-full-width">
                                     <thead>
@@ -168,7 +168,7 @@
                 <div class="row m-1">
                     <div class="card">
                         <div class="card-body">
-                            <div class="card-title font-weight-bold">Referees Details</div>
+                            <div class="card-title font-weight-bold"><h5>Referees Details</h5></div>
                             <div class="card-text">
                                 <table class="table table-borderless table-full-width">
                                     <thead>
@@ -191,7 +191,7 @@
                 <div class="row m-1">
                     <div class="card">
                         <div class="card-body">
-                            <div class="card-title font-weight-bold">Collateral</div>
+                            <div class="card-title font-weight-bold"><h5>Collateral</h5></div>
                             <div class="card-text">
                                 <table class="table table-borderless table-full-width">
                                     <thead>
@@ -210,37 +210,24 @@
             </div>
 
             <div class="modal-footer">
-                <div class="row" id="row_disbursement_details">
-                    <div class="col-6">
-                        <label for="disbursement_channel">Disbursement Channel</label>
-                        <select name="disbursement_channel" id="disbursement_channel" class="form-control">
-                            <option value="">Select Disbursement Channel</option>
-                            <option value="mobile">Mobile</option>
-                            <option value="cheque">Cheque</option>
-                            <option value="bank">Bank</option>
-                            <option value="cash">Cash</option>
-                            <option value="rtgs">RTGS</option>
-                        </select>
-                    </div>
-                    <div class="col-6">
-                        <label for="acc_details">Account Details</label>
-                        <input type="text" class="form-control" name="acc_details" id="acc_details">
-                    </div>
-                </div>
-                @role('superadministrator')
+                @can('approve_loan')
                 <button class="btn btn-success" id="btn_approve"
                         onclick='loanAction("{{route('loan-applications.action')}}","approve")'>
                     <i class="fa fa-check"></i> Approve
                 </button>
+                @endcan
+                @can('disburse_loan')
                 <button class="btn btn-success" id="btn_disburse"
                         onclick='loanAction("{{route('loan-applications.action')}}","disburse")'>
                     <i class="fa fa-check"></i> Disburse
                 </button>
+                @endcan
+                @can('reject_loan')
                 <button class="btn btn-danger" id="btn_reject"
                         onclick='loanAction("{{route('loan-applications.action')}}","reject")'>
                     <i class="flaticon-cancel"></i> Reject
                 </button>
-                @endrole
+                @endcan
             </div>
         </div>
     </div>

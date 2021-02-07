@@ -22,13 +22,23 @@ class ProductDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->editColumn('status',function(Product $product){
+                if($product->status=='ACTIVE'){
+                    return "<span class='badge badge-success'>$product->status</span>";
+                }
+                if($product->status=='INACTIVE'){
+                    return "<span class='badge badge-danger'>$product->status</span>";
+                }
+            })
             ->editColumn('created_at',function (Product $product){
                 return Carbon::parse($product->created_at)->toFormattedDateString();
             })
             ->editColumn('updated_at',function (Product $product){
                 return Carbon::parse($product->updated_at)->toFormattedDateString();
             })
-            ->addColumn('action', 'actions.product_action');
+            ->addColumn('action', 'actions.product_action')
+            ->rawColumns(['status','action'])
+            ;
     }
 
     /**
@@ -55,6 +65,7 @@ class ProductDataTable extends DataTable
                     ->minifiedAjax()
                     ->dom('Bfrtip')
                     ->orderBy(0,'asc')
+                    ->addTableClass('table-shopping')
                     ->buttons(
                         Button::make('create'),
                         Button::make('export'),

@@ -12,10 +12,12 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\View\View;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Throwable;
 
@@ -133,11 +135,20 @@ class UsersController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return Response
+     *
+     * @return Application|RedirectResponse|Response|Redirector
      */
     public function destroy($id)
     {
-        return User::findOrFail($id)->destroy();
+        try {
+            $user = User::findOrFail($id);
+            notify()->success('User has been successfully deleted.');
+            $user->delete();
+            return redirect('/users');
+        }catch (Throwable $e){
+            notify()->success('An error occurred.');
+            return redirect('/users');
+        }
     }
 
     public function actions(Request $request)
@@ -154,5 +165,23 @@ class UsersController extends Controller
                 return $response;
             }
         }
+    }
+
+    public function editPermission(Request $request,User $user)
+    {
+        $userPermissions=$user->permissions()->get();
+        return view('superadministrator.assign_permission',['permissions'=>Permission::all(),'userPermissions'=>$userPermissions]);
+    }
+
+    public function updatePermission(Request $request,User $user)
+    {
+        $permissions=Permission::whereIn('id',array_values($request->permissions))->get();
+        $permissions->pluck('name');
+        if($user->syncPermissions($permissions->pluck('name'))){
+            notify()->success('Permissions have been linked.');
+        }else{
+            notify()->error('An error occurred.');
+        }
+        return redirect('/users/'.$user->id.'/permissions');
     }
 }

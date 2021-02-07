@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCollateralsTable extends Migration
+class CreateReportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateCollateralsTable extends Migration
      */
     public function up()
     {
-        Schema::create('collaterals', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('application_id');
-            $table->string('type');
-            $table->text('details');
-            $table->unsignedBigInteger('value');
+        Schema::create('reports', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ class CreateCollateralsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('collaterals');
+        Schema::dropIfExists('reports');
     }
 }

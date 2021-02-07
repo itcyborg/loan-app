@@ -63,11 +63,11 @@ class ChargeController extends Controller
      *
      * @param Charge $charge
      *
-     * @return Response
+     * @return Charge|Response
      */
     public function show(Charge $charge)
     {
-        //
+        return $charge;
     }
 
     /**
@@ -92,7 +92,7 @@ class ChargeController extends Controller
      */
     public function update(Request $request, Charge $charge)
     {
-        //
+        return $charge->update($request->all());
     }
 
     /**

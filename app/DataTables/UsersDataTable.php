@@ -4,6 +4,8 @@ namespace App\DataTables;
 
 use App\User;
 use Illuminate\Support\Carbon;
+use Yajra\DataTables\DataTableAbstract;
+use Yajra\DataTables\Html\Builder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
@@ -14,28 +16,38 @@ class UsersDataTable extends DataTable
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.
-     * @return \Yajra\DataTables\DataTableAbstract
+     * @return DataTableAbstract
      */
     public function dataTable($query)
     {
         return datatables()
             ->eloquent($query)
             ->addColumn('action', 'actions.user_action')
+            ->editColumn('role',function(User $user){
+                $role=json_decode($user->roles)[0]->name;
+                if($role=='superadministrator'){
+                    return "<span class='badge badge-success'>$role</span>";
+                }
+                if($role=='administrator'){
+                    return "<span class='badge badge-primary'>$role</span>";
+                }
+                if($role=='agent'){
+                    return "<span class='badge badge-secondary'>$role</span>";
+                }
+            })
             ->editColumn('created_at',function (User $user){
                 return Carbon::parse($user->created_at)->toFormattedDateString();
             })
             ->editColumn('updated_at',function (User $user){
                 return Carbon::parse($user->updated_at)->toFormattedDateString();
             })
-            ->addColumn('role', function (User $user){
-                return json_decode($user->roles)[0]->name;
-            });
+            ->rawColumns(['action','role']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\User $model
+     * @param User $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(User $model)
@@ -46,7 +58,7 @@ class UsersDataTable extends DataTable
     /**
      * Optional method if you want to use html builder.
      *
-     * @return \Yajra\DataTables\Html\Builder
+     * @return Builder
      */
     public function html()
     {

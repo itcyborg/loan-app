@@ -2,9 +2,18 @@
 @section('title')
     Clients
 @endsection
+@section('styles')
+    <style>
+        .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+            padding: 3px 7px;
+            vertical-align: middle;
+        }
+    </style>
+@endsection
 @section('content')
     <div class="app">
-        <div class="row">
+        @can('create_client')
+            <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
@@ -78,8 +87,11 @@
                 </div>
             </div>
         </div>
+        @endcan
         <div class="row">
-            @include('modals.edit-client')
+            @can('update_client')
+                @include('modals.edit-client')
+            @endcan
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
@@ -87,7 +99,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                           <table class="table table-striped" id="clients_table">
+                           <table class="table table-striped table-shopping" id="clients_table">
                                <thead>
                                 <th>#</th>
                                 <th>Name</th>
@@ -101,7 +113,6 @@
                                 <th>Address</th>
                                 <th>Date of Birth</th>
                                 <th>Created at</th>
-                                <th>Updated at</th>
                                 <th>Action</th>
                                </thead>
                                <tbody>
@@ -117,11 +128,12 @@
                                        <td>{{$client->primary_contact}}</td>
                                        <td>{{$client->alternative_contact}}</td>
                                        <td>{{$client->address}}</td>
-                                       <td>{{$client->date_of_birth}}</td>
-                                       <td>{{$client->created_at}}</td>
-                                       <td>{{$client->updated_at}}</td>
+                                       <td>{{Carbon\Carbon::parse($client->date_of_birth)->toDateString()}}</td>
+                                       <td>{{Carbon\Carbon::parse($client->created_at)->toDateString()}}</td>
                                        <td>
-                                           <button class="btn btn-info fa fa-edit" v-on:click="loadClient('{{route('client.show', $client->id)}}',{{$client->id}})" data-toggle="modal" data-target=".edit_client"></button>
+                                           @can('update_client')
+                                               <button class="btn btn-info btn-sm fa fa-edit" v-on:click="loadClient('{{route('client.show', $client->id)}}',{{$client->id}})" data-toggle="modal" data-target=".edit_client"></button>
+                                           @endcan
                                        </td>
                                    </tr>
                                @endforeach

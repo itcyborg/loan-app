@@ -131,6 +131,8 @@ class ClientsController extends Controller
 
     public function list()
     {
-        return Clients::all();
+        return Clients::whereHas('applications',function($q){
+            $q->where('status','DISBURSED');
+        })->get();
     }
 }

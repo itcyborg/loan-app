@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGuarantorsTable extends Migration
+class CreateRefereesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateGuarantorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('guarantors', function (Blueprint $table) {
-            $table->id();
+        Schema::create('referees', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->string('name');
-            $table->enum('identification_document',['MILITARY_ID','NATIONAL_ID','PASSPORT']);
-            $table->string('identification_number');
-            $table->unsignedBigInteger('contact');
-            $table->unsignedBigInteger('application_id');
+            $table->string('nationality');
+            $table->string('contact');
+            $table->string('alternate_contact');
+            $table->text('location');
+            $table->unsignedBigInteger('loan_id');
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ class CreateGuarantorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('guarantors');
+        Schema::dropIfExists('referees');
     }
 }

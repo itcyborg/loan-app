@@ -38,7 +38,12 @@ class LoanApplication extends Model implements Auditable
 
     protected $casts=[
         'charges_config'=>'array',
-        'product_config'=>'array'
+        'product_config'=>'array',
+        'disbursement_date'=>'date:Y-m-d',
+        'approval_date'=>'date:Y-m-d',
+        'created_at'=>'date:Y-m-d',
+        'updated_at'=>'date:Y-m-d',
+        'due_date'=>'date:Y-m-d',
     ];
 
     protected static function boot()

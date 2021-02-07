@@ -18,12 +18,15 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Throwable;
 
@@ -49,7 +52,7 @@ class LoanApplicationController extends Controller
     {
 
         $officers= User::role('administrator')->get();
-        return view('applications.create',['clients'=>Clients::all(),'products'=>Product::all(),'officers'=>$officers]);
+        return view('applications.create',['clients'=>Clients::all(),'products'=>Product::where('status','ACTIVE')->get(),'officers'=>$officers]);
     }
 
     /**
@@ -58,6 +61,7 @@ class LoanApplicationController extends Controller
      * @param Request $request
      *
      * @return RedirectResponse|Response|string
+     * @throws ValidationException
      */
     public function store(Request $request)
     {
@@ -170,11 +174,18 @@ class LoanApplicationController extends Controller
      *
      * @param LoanApplication $loanApplication
      *
-     * @return Response
+     * @return Application|RedirectResponse|Response|Redirector
      */
     public function edit(LoanApplication $loanApplication)
     {
-        //
+        if($loanApplication->status=='PENDING') {
+            notify()->success('Loan Application has been cancelled.');
+            $loanApplication->status='CANCELLED';
+            $loanApplication->save();
+        }else{
+            notify()->error('Loan Application cannot be cancelled at this stage.');
+        }
+        return redirect('/loan-applications');
     }
 
     /**
@@ -259,19 +270,20 @@ class LoanApplicationController extends Controller
                 'approved_amount'=>'required',
                 'duration'=>'required'
             ]);
-            if($loan_application->collaterals->count()<1){
-                return response()->json(['message'=>'The loan application does not have a collateral on file.'],419);
-            }
-            if($loan_application->nextofkins->count()<1){
-                return response()->json(['message'=>'The loan application does not have a next-of-kin on file.'],419);
-            }
-            if($loan_application->guarantors->count()<1){
-                return response()->json(['message'=>'The loan application does not have a guarantor on file.'],419);
-            }
-            if($loan_application->amount_applied>=$request->approved_amount){
-            }else{
-                return response()->json('The approved amount cannot be more than the applied amount.',422);
-            }
+
+//            if($loan_application->collaterals->count()<1){
+//                return response()->json(['message'=>'The loan application does not have a collateral on file.'],419);
+//            }
+//            if($loan_application->nextofkins->count()<1){
+//                return response()->json(['message'=>'The loan application does not have a next-of-kin on file.'],419);
+//            }
+//            if($loan_application->guarantors->count()<1){
+//                return response()->json(['message'=>'The loan application does not have a guarantor on file.'],419);
+//            }
+//            if($loan_application->amount_applied>=$request->approved_amount){
+//            }else{
+//                return response()->json('The approved amount cannot be more than the applied amount.',422);
+//            }
 
             $loan_application->product_config=$loan_application->product()->get();
             $loan_application->charges_config=$loan_application->charges()->get();
@@ -284,8 +296,8 @@ class LoanApplicationController extends Controller
             $loan_application->due_date=Carbon::now()->addMonths($loan_application->duration+1);
             $loan_application->approved_by=Auth::id();
 
-            $this->calculateDisbursalAmount($loan_application);
 
+            $loan_application->disbursed_amount=$this->calculateDisbursalAmount($loan_application);
 
             $loan_application->save();
             return response()->json('Approval successful',201);
@@ -300,17 +312,21 @@ class LoanApplicationController extends Controller
         if($request->action == 'disburse'){
             $loan_application->channel=$request->channel;
             $loan_application->account=$request->account;
-            $loan_application->status='DISBURSED';
-            $loan_application->disbursement_date=Carbon::now();
-            $loan_application->disbursed_by=Auth::id();
-            $loan_application->save();
+            if($loan_application->channel!="" && $loan_application->channel!==null && $loan_application->account!=='' && $loan_application->account!=null) {
+                $loan_application->status = 'DISBURSED';
+                $loan_application->disbursement_date = Carbon::now();
+                $loan_application->disbursed_by = Auth::id();
+                $loan_application->save();
 
-            // create the schedule
-            $this->schedule($loan_application);
+                // create the schedule
+                $this->schedule($loan_application);
 
-            dispatch(new UpdateChargesApplied());
+                dispatch(new UpdateChargesApplied());
 
-            return response()->json('Disbursement successful',201);
+                return response()->json('Disbursement successful', 201);
+            }else{
+                return response()->json('An error occurred',422);
+            }
         }
     }
 
@@ -344,15 +360,26 @@ class LoanApplicationController extends Controller
             'client_id'=>'required'
         ]);
 
-        $applications= LoanApplication::where('client_id',$request->client_id)->get();
+        $applications= LoanApplication::where('client_id',$request->client_id)->where('status','DISBURSED')->get();
         if($applications->count()==0){
             return response('No application found',404);
         }
         return $applications;
     }
 
-    private function calculateDisbursalAmount(?\Illuminate\Database\Eloquent\Model $loan_application)
+    private function calculateDisbursalAmount($loan_application)
     {
-
+        $charges=$loan_application->charges_config;
+        if(count($charges)>0) {
+            $total_charge = 0;
+            foreach ($charges as $charge) {
+                if ($charge['type'] == 'PERCENTAGE') {
+                    $total_charge += $charge['amount'] * $loan_application->amount_approved / 100;
+                } else {
+                    $total_charge += $charge['amount'];
+                }
+            }
+        }
+        return floor($loan_application->amount_applied-($total_charge+$loan_application->total_interest));
     }
 }

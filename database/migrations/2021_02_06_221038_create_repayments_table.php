@@ -14,15 +14,17 @@ class CreateRepaymentsTable extends Migration
     public function up()
     {
         Schema::create('repayments', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('loan_application_id');
             $table->date('due_date');
-            $table->unsignedDouble('amount');
+            $table->double('amount')->unsigned();
             $table->double('amount_paid')->default(0);
             $table->double('amount_default')->default(0);
-            $table->unsignedDouble('penalty')->default(0);
-            $table->unsignedDouble('interest');
+            $table->double('penalty')->unsigned()->default(0);
+            $table->double('interest')->unsigned()->nullable()->default(0);
             $table->timestamps();
+            $table->double('total_to_pay')->nullable()->default(0);
+            $table->integer('status')->nullable()->default(0);
         });
     }
 

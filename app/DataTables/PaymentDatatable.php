@@ -23,7 +23,12 @@ class PaymentDatatable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', 'paymentdatatable.action');
+            ->editColumn('client_id',function(Payment $payment){
+                return $payment->client->name;
+            })
+            ->editColumn('approved_by',function(Payment $payment){
+                return $payment->approver->name;
+            });
     }
 
     /**

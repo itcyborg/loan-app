@@ -19,11 +19,20 @@ class Clients extends Model implements Auditable
         'address',
         'date_of_birth',
         'nationality',
+        'latitude',
+        'longitude'
     ];
+
 
     protected $casts=[
         'date_of_birth'=>'date:Y-m-d',
         'created_at'=>'date:Y-m-d',
         'updated_at'=>'date:Y-m-d',
     ];
+
+
+    public function applications()
+    {
+        return $this->hasMany(LoanApplication::class,'client_id');
+    }
 }

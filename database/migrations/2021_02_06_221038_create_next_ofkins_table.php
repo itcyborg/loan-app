@@ -14,21 +14,21 @@ class CreateNextOfkinsTable extends Migration
     public function up()
     {
         Schema::create('next_ofkins', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('client_id');
-            $table->unsignedBigInteger('loan_applications_id');
-            $table->string('name');
-            $table->string('email')->unique()->nullable();
-            $table->enum('gender',['MALE','FEMALE']);
-            $table->enum('identification_document',['MILITARY_ID','NATIONAL_ID','PASSPORT']);
-            $table->string('identification_number')->unique();
+            $table->string('name', 255);
+            $table->string('email', 255)->nullable()->unique();
+            $table->enum('gender', ['MALE', 'FEMALE']);
+            $table->enum('identification_document', ['MILITARY_ID', 'NATIONAL_ID', 'PASSPORT']);
+            $table->string('identification_number', 255);
             $table->unsignedBigInteger('primary_contact');
             $table->unsignedBigInteger('alternative_contact')->nullable();
             $table->text('address');
-            $table->string('relation');
-            $table->timestamp('date_of_birth');
-            $table->string('nationality');
+            $table->string('relation', 255);
+            $table->timestamp('date_of_birth')->useCurrent();
+            $table->string('nationality', 255);
             $table->timestamps();
+            $table->unsignedBigInteger('loan_applications_id');
         });
     }
 

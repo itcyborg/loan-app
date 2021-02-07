@@ -14,18 +14,20 @@ class CreateClientsTable extends Migration
     public function up()
     {
         Schema::create('clients', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique()->nullable();
-            $table->enum('gender',['MALE','FEMALE']);
-            $table->enum('identification_document',['MILITARY_ID','NATIONAL_ID','PASSPORT']);
-            $table->string('identification_number')->unique();
+            $table->bigIncrements('id');
+            $table->string('name', 255);
+            $table->string('email', 255)->nullable()->unique();
+            $table->enum('gender', ['MALE', 'FEMALE']);
+            $table->enum('identification_document', ['MILITARY_ID', 'NATIONAL_ID', 'PASSPORT']);
+            $table->string('identification_number', 255)->unique();
             $table->unsignedBigInteger('primary_contact');
             $table->unsignedBigInteger('alternative_contact')->nullable();
             $table->text('address');
-            $table->timestamp('date_of_birth');
-            $table->string('nationality');
+            $table->timestamp('date_of_birth')->useCurrent();
+            $table->string('nationality', 255);
             $table->timestamps();
+            $table->text('latitude')->nullable();
+            $table->text('longitude')->nullable();
         });
     }
 
