@@ -31,7 +31,7 @@ class CalculateChargesIncome implements ShouldQueue
      */
     public function handle()
     {
-        $applications=LoanApplication::whereIn('status',['DISBURSED','SETTLED','APPROVED'])->get();
+        $applications=LoanApplication::whereIn('status',['DISBURSED','SETTLED'])->get();
         $data=[];
 
         foreach ($applications as $application) {
