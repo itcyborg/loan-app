@@ -271,19 +271,19 @@ class LoanApplicationController extends Controller
                 'duration'=>'required'
             ]);
 
-//            if($loan_application->collaterals->count()<1){
-//                return response()->json(['message'=>'The loan application does not have a collateral on file.'],419);
-//            }
-//            if($loan_application->nextofkins->count()<1){
-//                return response()->json(['message'=>'The loan application does not have a next-of-kin on file.'],419);
-//            }
-//            if($loan_application->guarantors->count()<1){
-//                return response()->json(['message'=>'The loan application does not have a guarantor on file.'],419);
-//            }
-//            if($loan_application->amount_applied>=$request->approved_amount){
-//            }else{
-//                return response()->json('The approved amount cannot be more than the applied amount.',422);
-//            }
+            if($loan_application->collaterals->count()<1){
+                return response()->json(['message'=>'The loan application does not have a collateral on file.'],419);
+            }
+            if($loan_application->nextofkins->count()<1){
+                return response()->json(['message'=>'The loan application does not have a next-of-kin on file.'],419);
+            }
+            if($loan_application->guarantors->count()<1){
+                return response()->json(['message'=>'The loan application does not have a guarantor on file.'],419);
+            }
+            if($loan_application->amount_applied>=$request->approved_amount){
+            }else{
+                return response()->json('The approved amount cannot be more than the applied amount.',422);
+            }
 
             $loan_application->product_config=$loan_application->product()->get();
             $loan_application->charges_config=$loan_application->charges()->get();

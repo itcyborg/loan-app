@@ -100,6 +100,7 @@
                 $('#amount').val(res.data.amount).prop('readonly',true);
             })
             $('#submit').hide()
+            $('#update').hide();
             $('#addChargeV').addClass('show')
         }
 
@@ -108,10 +109,10 @@
             loader.classList.add("is-active")
             axios.get('/charges/'+id).then((res)=>{
                 loader.classList.remove("is-active")
-                $('#product_id').val(res.data.product_id);
-                $('#type').val(res.data.type);
-                $('#name').val(res.data.name);
-                $('#amount').val(res.data.amount);
+                $('#product_id').val(res.data.product_id).prop('readonly',false);
+                $('#type').val(res.data.type).prop('readonly',false);
+                $('#name').val(res.data.name).prop('readonly',false);
+                $('#amount').val(res.data.amount).prop('readonly',false);
             })
             $('#submit').hide()
             $('#update').show();

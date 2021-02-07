@@ -3,8 +3,10 @@
 namespace App\DataTables;
 
 use App\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Spatie\Permission\Models\Permission;
+use Yajra\DataTables\DataTableAbstract;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -17,7 +19,7 @@ class PermissionDataTable extends DataTable
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.
-     * @return \Yajra\DataTables\DataTableAbstract
+     * @return DataTableAbstract
      */
     public function dataTable($query)
     {
@@ -35,8 +37,8 @@ class PermissionDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \Spatie\Permission\Models\Permission $model
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Permission $model
+     * @return Builder
      */
     public function query(Permission $model)
     {
@@ -55,7 +57,7 @@ class PermissionDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(0,'asc')
                     ->buttons(
                         Button::make('create'),
                         Button::make('export'),
@@ -77,11 +79,6 @@ class PermissionDataTable extends DataTable
             Column::make('name'),
             Column::make('created_at'),
             Column::make('updated_at'),
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
         ];
     }
 

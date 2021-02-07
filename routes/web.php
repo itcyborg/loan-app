@@ -43,7 +43,6 @@
                 'permissions' => 'PermissionsController',
                 'charges'=>'ChargeController',
                 'reports'=>'ReportController',
-                'revenue'=>'RevenueController',
             ]);
             Route::post('products/activate','ProductController@activate');
         });
@@ -55,6 +54,7 @@
             'repayment'=>'RepaymentController',
             'payment'=>'PaymentController',
             'loan-applications' => 'LoanApplicationController',
+            'revenue'=>'RevenueController',
         ]);
         Route::post('loan-applications/actions','LoanApplicationController@actions')->name('loan-applications.action');
         Route::post('client-applications','RepaymentController@listApplications');

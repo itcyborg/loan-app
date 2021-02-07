@@ -28,8 +28,7 @@ class RoleDataTable extends DataTable
             })
             ->editColumn('updated_at',function (Role $role){
                 return Carbon::parse($role->updated_at)->toFormattedDateString();
-            })
-            ->addColumn('action', 'role.action');
+            });
     }
 
     /**
@@ -77,11 +76,6 @@ class RoleDataTable extends DataTable
             Column::make('name'),
             Column::make('created_at'),
             Column::make('updated_at'),
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
         ];
     }
 

@@ -57,7 +57,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header card-header-primary">
-                    <div class="card-title">Charges</div>
+                    <div class="card-title">Income & Expense</div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">

@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\LoanApplication;
 use App\Repayment;
+use Carbon\Carbon;
 use Yajra\DataTables\DataTableAbstract;
 use Yajra\DataTables\Html\Builder;
 use Yajra\DataTables\Html\Button;
@@ -29,10 +30,16 @@ class RepaymentDataTable extends DataTable
             })
             ->editColumn('status',function(Repayment $repayment){
                 if($repayment->status==1){
-                    return "<span class='badge badge-azure'>PAID</span>";
+                    return "<span class='badge badge-success'>PAID</span>";
                 }
-                if($repayment->status==0){
-                    return "<span class='badge badge-danger'>PENDING</span>";
+                if(Carbon::parse($repayment->due_date)->isPast()) {
+                    if ($repayment->status == 0) {
+                        return "<span class='badge badge-danger'>PENDING</span>";
+                    }
+                }else{
+                    if ($repayment->status == 0) {
+                        return "<span class='badge badge-info'>PENDING</span>";
+                    }
                 }
             })
             ->rawColumns(['action','status']);
