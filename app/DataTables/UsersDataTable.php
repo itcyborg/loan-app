@@ -24,15 +24,19 @@ class UsersDataTable extends DataTable
             ->eloquent($query)
             ->addColumn('action', 'actions.user_action')
             ->editColumn('role',function(User $user){
-                $role=json_decode($user->roles)[0]->name;
-                if($role=='superadministrator'){
-                    return "<span class='badge badge-success'>$role</span>";
-                }
-                if($role=='administrator'){
-                    return "<span class='badge badge-primary'>$role</span>";
-                }
-                if($role=='agent'){
-                    return "<span class='badge badge-secondary'>$role</span>";
+                if(isset(json_decode($user->roles)[0]->name)) {
+                    $role = json_decode($user->roles)[0]->name;
+                    if ($role == 'superadministrator') {
+                        return "<span class='badge badge-success'>$role</span>";
+                    }
+                    if ($role == 'administrator') {
+                        return "<span class='badge badge-primary'>$role</span>";
+                    }
+                    if ($role == 'agent') {
+                        return "<span class='badge badge-secondary'>$role</span>";
+                    }
+                }else{
+                    return '0';
                 }
             })
             ->editColumn('created_at',function (User $user){
